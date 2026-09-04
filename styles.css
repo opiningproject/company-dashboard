@@ -2434,26 +2434,34 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 }
 
 /* Drie standen naast elkaar, en tegelijk de knoppen waarmee je kiest welke
-   lijn eronder komt te staan. De actieve draagt hetzelfde grijs als een
-   actieve tab, zodat het patroon herkenbaar blijft. */
-.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+   lijn eronder komt te staan. Geen vlak achter de actieve: die staat er
+   voluit, de andere twee treden terug — kleiner en wat doorzichtig. Dat leest
+   in één blik als "hier kijk je naar", zonder een tweede grijstint. */
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; align-items: start; }
 .metric {
-  padding: 10px 12px 12px;
+  padding: 8px 12px 10px;
   border-radius: var(--r-md);
   text-align: left;
-  transition: background var(--dur) var(--ease);
+  transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease);
 }
-.metric:hover { background: var(--gray-50); }
-.metric.is-active { background: var(--gray-100); }
 .metric__label { display: block; font-size: var(--fs-sm); color: var(--text-muted); }
 .metric__row { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .metric__value {
-  font-size: 21px; font-weight: 600; letter-spacing: -.02em;
+  font-weight: 600; letter-spacing: -.02em;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  transition: font-size var(--dur) var(--ease);
 }
+
 .metric.is-active .metric__label { color: var(--text); }
+.metric.is-active .metric__value { font-size: 25px; }
+
+/* Teruggetreden, maar niet onleesbaar: 0,6 houdt de tekst nog boven de
+   contrastgrens op wit. */
+.metric:not(.is-active) { opacity: .6; }
+.metric:not(.is-active) .metric__value { font-size: 17px; }
+.metric:not(.is-active):hover { opacity: .85; background: var(--gray-50); }
 
 /* Eerstvolgende uitbetaling: leest als een knop, maar valt niets te bedienen,
    dus het blijft tekst in een omlijning. */
@@ -2503,7 +2511,7 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
     -webkit-overflow-scrolling: touch;
   }
   .metrics::-webkit-scrollbar { display: none; }
-  .metric { flex: 0 0 auto; min-width: 192px; scroll-snap-align: start; }
+  .metric { flex: 0 0 auto; min-width: 150px; scroll-snap-align: start; }
   /* Het verschil blijft naast het bedrag staan; daar is nu ruimte voor. */
   .metric__row { flex-wrap: nowrap; }
   .payout { margin-left: auto; }
