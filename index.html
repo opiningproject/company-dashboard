@@ -353,22 +353,71 @@
                     <span data-v="&euro; 2,3k" style="bottom:33.3%"></span>
                     <span data-v="&euro; 0" style="bottom:0"></span>
                   </div>
-                  <ol class="chart__bars">
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:54.7%"></span></span><span class="cbar__x">Oct</span><span class="cbar__tip"><b>Oct &middot; &euro; 3.828</b><span>132 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:58.4%"></span></span><span class="cbar__x">Nov</span><span class="cbar__tip"><b>Nov &middot; &euro; 4.089</b><span>141 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:61.3%"></span></span><span class="cbar__x">Dec</span><span class="cbar__tip"><b>Dec &middot; &euro; 4.292</b><span>148 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:65.9%"></span></span><span class="cbar__x">Jan</span><span class="cbar__tip"><b>Jan &middot; &euro; 4.611</b><span>159 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:68.8%"></span></span><span class="cbar__x">Feb</span><span class="cbar__tip"><b>Feb &middot; &euro; 4.814</b><span>166 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:72.5%"></span></span><span class="cbar__x">Mar</span><span class="cbar__tip"><b>Mar &middot; &euro; 5.075</b><span>175 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:75.4%"></span></span><span class="cbar__x">Apr</span><span class="cbar__tip"><b>Apr &middot; &euro; 5.278</b><span>182 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:78.7%"></span></span><span class="cbar__x">May</span><span class="cbar__tip"><b>May &middot; &euro; 5.510</b><span>190 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:81.2%"></span></span><span class="cbar__x">Jun</span><span class="cbar__tip"><b>Jun &middot; &euro; 5.684</b><span>196 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:83.7%"></span></span><span class="cbar__x">Jul</span><span class="cbar__tip"><b>Jul &middot; &euro; 5.858</b><span>202 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:86.6%"></span></span><span class="cbar__x">Aug</span><span class="cbar__tip"><b>Aug &middot; &euro; 6.061</b><span>209 accounts</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:89.5%"></span></span><span class="cbar__x">Sep</span><span class="cbar__tip"><b>Sep &middot; &euro; 6.264</b><span>216 accounts</span></span></li>
-                  </ol>
+
+                  <!-- Eén reeks, dus een lijn in plaats van staven: bij twaalf
+                       punten leest de richting beter dan de losse hoogtes. De
+                       coordinaten staan in procenten (0-100 in beide richtingen),
+                       zodat de SVG met het vak meeschaalt. -->
+                  <div class="line">
+                    <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                      <defs>
+                        <linearGradient id="mrr-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="var(--series-mrr)" stop-opacity=".16" />
+                          <stop offset="100%" stop-color="var(--series-mrr)" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <path class="line__area" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51 L100,100 L0,100 Z" />
+                      <path class="line__stroke" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51" />
+                    </svg>
+
+                    <!-- De punten liggen als losse elementen over de lijn: dat
+                         houdt ze rond terwijl de SVG uitgerekt wordt, en geeft
+                         elk punt een eigen tooltip en tabstop. -->
+                    <ol class="line__pts">
+                      <li class="lpt" style="--x:0%;--y:45.31%" tabindex="0"><span class="cbar__tip"><b>Oct &middot; &euro; 3.828</b><span>132 accounts</span></span></li>
+                      <li class="lpt" style="--x:9.09%;--y:41.59%" tabindex="0"><span class="cbar__tip"><b>Nov &middot; &euro; 4.089</b><span>141 accounts</span></span></li>
+                      <li class="lpt" style="--x:18.18%;--y:38.69%" tabindex="0"><span class="cbar__tip"><b>Dec &middot; &euro; 4.292</b><span>148 accounts</span></span></li>
+                      <li class="lpt" style="--x:27.27%;--y:34.13%" tabindex="0"><span class="cbar__tip"><b>Jan &middot; &euro; 4.611</b><span>159 accounts</span></span></li>
+                      <li class="lpt" style="--x:36.36%;--y:31.23%" tabindex="0"><span class="cbar__tip"><b>Feb &middot; &euro; 4.814</b><span>166 accounts</span></span></li>
+                      <li class="lpt" style="--x:45.45%;--y:27.5%" tabindex="0"><span class="cbar__tip"><b>Mar &middot; &euro; 5.075</b><span>175 accounts</span></span></li>
+                      <li class="lpt" style="--x:54.55%;--y:24.6%" tabindex="0"><span class="cbar__tip"><b>Apr &middot; &euro; 5.278</b><span>182 accounts</span></span></li>
+                      <li class="lpt" style="--x:63.64%;--y:21.29%" tabindex="0"><span class="cbar__tip"><b>May &middot; &euro; 5.510</b><span>190 accounts</span></span></li>
+                      <li class="lpt" style="--x:72.73%;--y:18.8%" tabindex="0"><span class="cbar__tip"><b>Jun &middot; &euro; 5.684</b><span>196 accounts</span></span></li>
+                      <li class="lpt" style="--x:81.82%;--y:16.31%" tabindex="0"><span class="cbar__tip"><b>Jul &middot; &euro; 5.858</b><span>202 accounts</span></span></li>
+                      <li class="lpt" style="--x:90.91%;--y:13.41%" tabindex="0"><span class="cbar__tip"><b>Aug &middot; &euro; 6.061</b><span>209 accounts</span></span></li>
+                      <li class="lpt lpt--last" style="--x:100%;--y:10.51%" tabindex="0"><span class="cbar__tip"><b>Sep &middot; &euro; 6.264</b><span>216 accounts</span></span></li>
+                    </ol>
+
+                    <ol class="line__x" aria-hidden="true">
+                      <li>Oct</li><li>Nov</li><li>Dec</li><li>Jan</li><li>Feb</li><li>Mar</li>
+                      <li>Apr</li><li>May</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li>
+                    </ol>
+                  </div>
                 </div>
               </div>
+
+              <details class="tableview">
+                <summary>Show as table</summary>
+                <div class="table-wrap">
+                  <table class="table">
+                    <thead><tr><th>Month</th><th>Accounts</th><th>MRR</th></tr></thead>
+                    <tbody>
+                      <tr><td>October 2025</td><td>132</td><td>&euro; 3.828</td></tr>
+                      <tr><td>November 2025</td><td>141</td><td>&euro; 4.089</td></tr>
+                      <tr><td>December 2025</td><td>148</td><td>&euro; 4.292</td></tr>
+                      <tr><td>January 2026</td><td>159</td><td>&euro; 4.611</td></tr>
+                      <tr><td>February 2026</td><td>166</td><td>&euro; 4.814</td></tr>
+                      <tr><td>March 2026</td><td>175</td><td>&euro; 5.075</td></tr>
+                      <tr><td>April 2026</td><td>182</td><td>&euro; 5.278</td></tr>
+                      <tr><td>May 2026</td><td>190</td><td>&euro; 5.510</td></tr>
+                      <tr><td>June 2026</td><td>196</td><td>&euro; 5.684</td></tr>
+                      <tr><td>July 2026</td><td>202</td><td>&euro; 5.858</td></tr>
+                      <tr><td>August 2026</td><td>209</td><td>&euro; 6.061</td></tr>
+                      <tr><td>September 2026</td><td>216</td><td>&euro; 6.264</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
             </div>
 
             <div class="card">

@@ -2367,3 +2367,63 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 @media (max-width: 900px) {
   .plans, .plans--single { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* --------------------------------------------------------------------------
+   Lijngrafiek — één reeks over de tijd
+   Staat in hetzelfde .chart-vak als de staafgrafiek, dus raster, labels en
+   hoogte komen daarvandaan. De SVG wordt uitgerekt (preserveAspectRatio=none)
+   zodat de coordinaten gewoon procenten kunnen zijn; de lijn houdt zijn dikte
+   met non-scaling-stroke, en de punten liggen er als losse elementen overheen
+   omdat cirkels in een uitgerekte SVG ovalen zouden worden.
+   -------------------------------------------------------------------------- */
+.line { position: absolute; inset: 0 0 24px 0; }
+.line__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.line__area { fill: url(#mrr-fill); }
+.line__stroke {
+  fill: none;
+  stroke: var(--series-mrr);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.line__pts { position: absolute; inset: 0; }
+/* Het raakvlak is groter dan de stip: aanwijzen moet lukken zonder te mikken. */
+.lpt {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  width: 24px; height: 24px;
+  margin: -12px 0 0 -12px;
+}
+.lpt::after {
+  content: "";
+  position: absolute; inset: 8px;
+  border-radius: var(--r-full);
+  background: var(--series-mrr);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.lpt:hover::after, .lpt:focus-visible::after { opacity: 1; }
+/* Het laatste punt staat altijd aan: dat is de stand van nu. */
+.lpt--last::after { opacity: 1; box-shadow: 0 0 0 3px var(--bg-surface); }
+.lpt:focus-visible { outline: none; }
+
+.lpt .cbar__tip { bottom: calc(100% + 2px); }
+.lpt:hover .cbar__tip, .lpt:focus-visible .cbar__tip { opacity: 1; }
+/* Aan de randen zou de tooltip buiten de kaart vallen. */
+.lpt:first-child .cbar__tip { left: 0; transform: none; }
+.lpt:nth-last-child(-n+2) .cbar__tip { left: auto; right: 0; transform: none; }
+
+.line__x {
+  position: absolute; top: 100%; left: 0; right: 0;
+  height: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: var(--fs-xs); color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  /* Twaalf maandnamen naast elkaar passen niet; om de maand is genoeg om te
+     zien welke kant de lijn op loopt. */
+  .line__x li:nth-child(even) { visibility: hidden; }
+}
