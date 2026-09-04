@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
 </head>
 <body>
 
@@ -268,15 +268,13 @@
 
             <!-- Paginagebonden bediening op de titelregel; app.js toont het
                  blok waarvan data-tools gelijk is aan de actieve pagina. -->
-            <!-- Het dashboard draagt geen titel: de periode links en de
-                 eerstvolgende uitbetaling rechts zeggen meer dan het woord
-                 "Dashboard" boven het scherm waar je toch al staat. app.js §2
-                 verbergt de titel op deze pagina, §10 vult de keuzelijst met
-                 de maanden waar cijfers voor zijn. -->
+            <!-- Het dashboard draagt geen titel: alleen de periode, want die
+                 zegt meer dan het woord "Dashboard" boven het scherm waar je
+                 toch al staat. app.js §2 verbergt de titel op deze pagina,
+                 §10 vult de keuzelijst met de maanden waar cijfers voor zijn. -->
             <div class="page-head__tools page-head__tools--breed" data-tools="dashboard" hidden>
               <label class="sr-only" for="dash-range">Period</label>
               <select class="input" id="dash-range"></select>
-              <p class="payout">Next payout <b>&euro; 2.030</b></p>
             </div>
             <div class="page-head__tools" data-tools="analytics" hidden>
               <label class="sr-only" for="ana-range">Date range</label>
@@ -2070,6 +2068,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>
