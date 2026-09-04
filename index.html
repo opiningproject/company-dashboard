@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <link rel="stylesheet" href="styles.css?v=18" />
 </head>
 <body>
 
@@ -58,6 +58,7 @@
     <symbol id="i-bell" viewBox="0 342 20 20"><path d="M11.8953 357.127C11.927 357.266 11.9436 357.411 11.9436 357.559C11.9436 358.631 11.0748 359.5 10.0031 359.5C8.93132 359.5 8.0625 358.631 8.0625 357.559C8.0625 357.425 8.07606 357.295 8.10193 357.168"/><path d="M8.61719 347.199V345.807C8.61719 345.088 9.20555 344.5 9.92465 344.5H10.0718C10.7909 344.5 11.3792 345.088 11.3792 345.807V347.199"/><path d="M14.0458 351.007V351.007C14.0455 348.772 12.2336 346.96 9.99856 346.96C7.76352 346.96 5.95165 348.772 5.95165 351.007C5.95165 356.213 4.16406 357.129 4.16406 357.129H15.8333C15.8333 357.129 14.0458 356.213 14.0458 351.007Z"/></symbol>
 
     <!-- Op het 20-raster, net als de sidebar- en settings-sets. -->
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2"/><path d="M3.4 9.8h17.2M8.2 3.4v3.6M15.8 3.4v3.6"/></symbol>
     <symbol id="i-plus" viewBox="0 0 20 20"><path d="M10 4.2v11.6M4.2 10h11.6"/></symbol>
     <symbol id="i-plus-circle" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.3"/><path d="M10 6.7v6.6M6.7 10h6.6"/></symbol>
     <symbol id="i-sort" viewBox="0 0 20 20"><path d="M6.3 4.6v10.8M3.7 12.8l2.6 2.6 2.6-2.6M13.7 15.4V4.6M11.1 7.2l2.6-2.6 2.6 2.6"/></symbol>
@@ -270,12 +271,81 @@
                  blok waarvan data-tools gelijk is aan de actieve pagina. -->
             <!-- Het dashboard draagt geen titel: alleen de periode, want die
                  zegt meer dan het woord "Dashboard" boven het scherm waar je
-                 toch al staat. app.js §2 verbergt de titel op deze pagina,
-                 §10 vult de keuzelijst met de maanden waar cijfers voor zijn. -->
+                 toch al staat. De knop opent een paneel met snelkeuzes en twee
+                 kalendermaanden; app.js §10 vult die en tekent de grafiek
+                 opnieuw zodra je Apply kiest. Op een telefoon worden de
+                 snelkeuzes één keuzelijst — dan kiest het toestel zelf. -->
             <div class="page-head__tools page-head__tools--breed" data-tools="dashboard" hidden>
-              <label class="sr-only" for="dash-range">Period</label>
-              <select class="input" id="dash-range"></select>
+              <div class="dpick" id="dash-range">
+                <button class="dpick__btn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                  <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                  <span class="dpick__label">Last 30 days</span>
+                  <svg class="icon dpick__caret" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+
+                <div class="dpick__panel" role="dialog" aria-label="Choose a period" hidden>
+                  <div class="dpick__presets">
+                    <button class="dpick__preset" type="button" data-preset="today">Today</button>
+                    <button class="dpick__preset" type="button" data-preset="yesterday">Yesterday</button>
+                    <span class="dpick__sep" aria-hidden="true"></span>
+                    <button class="dpick__preset" type="button" data-preset="7d">Last 7 days</button>
+                    <button class="dpick__preset is-active" type="button" data-preset="30d">Last 30 days</button>
+                    <button class="dpick__preset" type="button" data-preset="90d">Last 90 days</button>
+                    <button class="dpick__preset" type="button" data-preset="12m">Last 12 months</button>
+                    <span class="dpick__sep" aria-hidden="true"></span>
+                    <button class="dpick__preset" type="button" data-preset="wtd">Week to date</button>
+                    <button class="dpick__preset" type="button" data-preset="mtd">Month to date</button>
+                    <button class="dpick__preset" type="button" data-preset="qtd">Quarter to date</button>
+                    <button class="dpick__preset" type="button" data-preset="ytd">Year to date</button>
+                  </div>
+
+                  <div class="dpick__main">
+                    <!-- Dezelfde keuzes als hiernaast, maar als keuzelijst: op een
+                         telefoon is dat het wiel van het toestel zelf. -->
+                    <label class="sr-only" for="dpick-quick">Period</label>
+                    <select class="input dpick__native" id="dpick-quick">
+                      <option value="custom">Custom</option>
+                      <option value="today">Today</option>
+                      <option value="yesterday">Yesterday</option>
+                      <option value="7d">Last 7 days</option>
+                      <option value="30d" selected>Last 30 days</option>
+                      <option value="90d">Last 90 days</option>
+                      <option value="12m">Last 12 months</option>
+                      <option value="wtd">Week to date</option>
+                      <option value="mtd">Month to date</option>
+                      <option value="qtd">Quarter to date</option>
+                      <option value="ytd">Year to date</option>
+                    </select>
+
+                    <div class="dpick__fields">
+                      <label class="sr-only" for="dpick-from">From</label>
+                      <input class="input dpick__field" id="dpick-from" type="text" readonly />
+                      <svg class="icon dpick__arrow" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                      <label class="sr-only" for="dpick-to">To</label>
+                      <input class="input dpick__field" id="dpick-to" type="text" readonly />
+                    </div>
+
+                    <div class="dpick__cals">
+                      <button class="icon-btn dpick__nav" type="button" data-nav="-1" aria-label="Previous month">
+                        <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>
+                      </button>
+                      <div class="dpick__cal" data-cal="0"></div>
+                      <div class="dpick__cal" data-cal="1"></div>
+                      <button class="icon-btn dpick__nav dpick__nav--next" type="button" data-nav="1" aria-label="Next month">
+                        <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                      </button>
+                    </div>
+
+                    <div class="dpick__foot">
+                      <p class="dpick__sum"></p>
+                      <button class="btn btn--ghost" type="button" data-dpick="cancel">Cancel</button>
+                      <button class="btn btn--primary" type="button" data-dpick="apply">Apply</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="page-head__tools" data-tools="analytics" hidden>
               <label class="sr-only" for="ana-range">Date range</label>
               <select class="input" id="ana-range">
@@ -2059,6 +2129,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=17"></script>
+  <script src="app.js?v=18"></script>
 </body>
 </html>

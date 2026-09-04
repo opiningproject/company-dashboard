@@ -11,7 +11,7 @@
      7. Zoekpaneel                → <html data-search>
      8. Paginering                → <table data-page>
      9. Tabstreep                 → scrollindicator onder .tabs
-     10. Grafiek                → welke maand en welke inkomstenstroom
+     10. Grafiek en periode     → welk bereik en welke inkomstenstroom
      11. Toetsenbord
    In een SPA vervang je §2 en §3 door de router; de rest blijft 1-op-1.
    ========================================================================== */
@@ -1071,23 +1071,29 @@
     teken();
   });
   /* ========================================================================
-     10. GRAFIEK — welke maand, en welke inkomstenstroom
+     10. GRAFIEK EN PERIODE
      Eén reeks voor de hele kaart: per maand het aantal betalende accounts en
-     het aantal bestellingen. Daaruit komen drie lijnen, dag voor dag:
+     het aantal bestellingen. Daaruit komen drie lijnen:
 
        mrr    abonnementen. Een abonnement wordt afgeschreven op de dag dat het
               begon, dus binnen een maand komt dat geld verspreid binnen.
        fee    de vergoeding per bestelling; volgt de drukte van de week.
        total  allebei bij elkaar.
 
-     De maand komt van de keuzelijst in de paginakop, de lijn van de tabs op de
-     kaart. Alles wat je ziet — lijn, punten, aslabels, tabel en het bedrag in
-     de kop — wordt hier opgebouwd.
+     De periode kies je bovenaan de pagina, de lijn met de tabs op de kaart.
+     Tot ruim twee maanden staat er een punt per dag; daarboven per maand,
+     anders wordt het een haardos.
      ======================================================================== */
   var MAAND = ["January", "February", "March", "April", "May", "June",
                "July", "August", "September", "October", "November", "December"];
   var MAANDKORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var WEEKDAG = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var DAG = 86400000;
+
+  /* Het heden van dit prototype. In productie staat hier new Date(); nu een
+     vaste dag, zodat de voorbeeldcijfers en de kalender bij elkaar blijven. */
+  var VANDAAG = new Date(2026, 8, 4);
 
   function getal(n) {
     /* 6264 wordt 6.264 — dezelfde notatie als de rest van het dashboard. */
@@ -1097,10 +1103,11 @@
   /* Een ronde bovenkant voor de as, deelbaar door drie: dan krijgen ook de
      twee tussenlijnen een rond bedrag. */
   function asMax(top) {
-    var stappen = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000];
+    var stappen = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500,
+                   5000, 10000, 20000, 25000, 50000, 100000];
     var doel = top / 3;
     for (var i = 0; i < stappen.length; i++) if (stappen[i] >= doel) return stappen[i] * 3;
-    return Math.ceil(doel / 10000) * 30000;
+    return Math.ceil(doel / 100000) * 300000;
   }
 
   /* Let op: dit label gaat via setAttribute naar data-v, en daar wordt een
@@ -1111,6 +1118,27 @@
       return "€ " + (k % 1 ? k.toFixed(1).replace(".", ",") : k) + "k";
     }
     return "€ " + getal(v);
+  }
+
+  function zelfdeDag(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+  function plusDagen(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function datumTekst(d) { return MAANDKORT[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear(); }
+
+  /* "Aug 6–Sep 4, 2026" — het jaar en de maand alleen herhalen waar ze
+     verschillen, anders leest de knop als een kentekenplaat. */
+  function bereikTekst(van, tot) {
+    if (zelfdeDag(van, tot)) return datumTekst(van);
+    var zelfdeJaar = van.getFullYear() === tot.getFullYear();
+    if (zelfdeJaar && van.getMonth() === tot.getMonth()) {
+      return MAANDKORT[van.getMonth()] + " " + van.getDate() + "–" + tot.getDate() + ", " + tot.getFullYear();
+    }
+    if (zelfdeJaar) {
+      return MAANDKORT[van.getMonth()] + " " + van.getDate() + "–" +
+             MAANDKORT[tot.getMonth()] + " " + tot.getDate() + ", " + tot.getFullYear();
+    }
+    return datumTekst(van) + "–" + datumTekst(tot);
   }
 
   /* ---- Verdelen over de dagen -------------------------------------------
@@ -1128,145 +1156,196 @@
     return uit;
   }
 
-  /* Op welke dag welk account wordt afgeschreven weet dit prototype niet; deze
-     verdeling staat daarvoor in de plaats. Vast per maand, met een piek op de
-     eerste: de meeste ondernemers beginnen aan het begin van een maand. */
-  function accountsPerDag(jaar, maand, accounts) {
-    var dagen = new Date(jaar, maand, 0).getDate(), g = [];
-    for (var d = 1; d <= dagen; d++) {
-      var golf = (((d * 37 + maand * 17 + jaar) % 7) - 3) * 0.06;
-      g.push(1 + golf + (d === 1 ? 0.9 : (d === 15 ? 0.35 : 0)));
-    }
-    return verdeel(g, accounts);
-  }
-
   /* Bestellingen volgen de week: vrijdag en zaterdag zijn de drukke avonden,
      zondag is de rustigste. */
   var DAGDRUKTE = [0.60, 0.85, 0.85, 0.90, 1.00, 1.35, 1.45];   /* zo t/m za */
 
-  function bestellingenPerDag(jaar, maand, orders) {
-    var dagen = new Date(jaar, maand, 0).getDate(), g = [];
-    for (var d = 1; d <= dagen; d++) g.push(DAGDRUKTE[new Date(jaar, maand - 1, d).getDay()]);
-    return verdeel(g, orders);
-  }
-
-  /* ---- Tekenen ------------------------------------------------------------
-     punten: [{label, kort, waarde, sub}] van links naar rechts. */
-  function teken(lijn, punten) {
-    var n = punten.length;
-    if (!n) return;
-
-    var top = punten.reduce(function (m, p) { return Math.max(m, p.waarde); }, 0);
-    var max = asMax(top);
-
-    var x = function (i) { return n < 2 ? 0 : i * 100 / (n - 1); };
-    var y = function (v) { return 100 - v / max * 100; };
-
-    var d = punten.map(function (p, i) {
-      return (i ? "L" : "M") + x(i).toFixed(2) + "," + y(p.waarde).toFixed(2);
-    }).join(" ");
-
-    lijn.querySelector(".line__stroke").setAttribute("d", d);
-    lijn.querySelector(".line__area").setAttribute("d", d + " L100,100 L0,100 Z");
-
-    /* De as hoort bij de getoonde lijn: bij de fee staan er andere bedragen
-       dan bij de abonnementen. */
-    var raster = lijn.parentNode.querySelectorAll(".chart__grid span");
-    [max, max * 2 / 3, max / 3, 0].forEach(function (v, i) {
-      if (raster[i]) raster[i].setAttribute("data-v", asTekst(v));
-    });
-
-    var pts = lijn.querySelector(".line__pts");
-    var as  = lijn.querySelector(".line__x");
-    pts.innerHTML = "";
-    as.innerHTML = "";
-
-    /* Hoogstens zes labels onder de as; bij dertig dagen wordt dat er anders
-       een grijze streep. De laatste krijgt altijd zijn naam. */
-    var stap = Math.ceil(n / 6);
-
-    punten.forEach(function (p, i) {
-      /* Vlak bij de randen wordt de tooltip aan die kant vastgezet. Anders
-         steekt hij buiten de kaart uit, en dan kun je de pagina opzij slepen
-         over iets wat je niet eens ziet staan. */
-      var px = x(i);
-      var li = document.createElement("li");
-      li.className = "lpt" + (i === n - 1 ? " lpt--last" : "") +
-                     (px <= 12 ? " lpt--links" : "") + (px >= 88 ? " lpt--rechts" : "");
-      li.style.setProperty("--x", px.toFixed(2) + "%");
-      li.style.setProperty("--y", y(p.waarde).toFixed(2) + "%");
-      li.tabIndex = 0;
-      li.innerHTML = '<span class="cbar__tip"><b>' + p.label + " &middot; &euro; " + getal(p.waarde) +
-                     "</b><span>" + p.sub + "</span></span>";
-      pts.appendChild(li);
-
-      var label = document.createElement("li");
-      /* Modulo vanaf achteren, zodat het laatste label er altijd staat. */
-      if ((n - 1 - i) % stap === 0) label.textContent = p.kort || p.label;
-      as.appendChild(label);
-    });
-
-    var kaart = lijn.closest(".card");
-
-    /* De schatting hierboven werkt op de plek van het punt, maar hoe breed een
-       tooltip wordt hangt van zijn tekst af. Even narekenen dus, zolang de
-       kaart zichtbaar is: wat er dan nog buiten valt, gaat alsnog tegen die
-       rand aan staan. */
-    var kr = kaart.getBoundingClientRect();
-    if (kr.width) {
-      pts.querySelectorAll(".lpt").forEach(function (li) {
-        var t = li.querySelector(".cbar__tip").getBoundingClientRect();
-        if (t.right > kr.right - 4) li.classList.add("lpt--rechts");
-        else if (t.left < kr.left + 4) li.classList.add("lpt--links");
-      });
-    }
-
-  }
-
-  /* ---- Bediening ---------------------------------------------------------- */
   document.querySelectorAll(".line[data-series]").forEach(function (lijn) {
     var reeks = JSON.parse(lijn.dataset.series);
     var kaart = lijn.closest(".card");
     var tabs  = kaart.querySelector(".metrics");
-    var keuze = document.getElementById("dash-range");
-    if (!tabs || !keuze) return;
+    var dpick = document.getElementById("dash-range");
+    if (!tabs || !dpick) return;
 
     var prijs = Number(lijn.dataset.price);
     var fee   = Number(lijn.dataset.fee);
-    var laatste = reeks.length - 1;
-    var maand = laatste;
     var soort = "mrr";
 
-    /* Maandtotaal van een reeksrij, per soort. */
-    function totaal(rij, soort) {
-      var abo = rij[1] * prijs, vergoeding = rij[2] * fee;
-      return soort === "mrr" ? abo : (soort === "fee" ? vergoeding : abo + vergoeding);
+    /* Grenzen van de cijfers: buiten deze maanden valt niets te tonen. */
+    var eersteDag = new Date(Number(reeks[0][0].slice(0, 4)), Number(reeks[0][0].slice(5, 7)) - 1, 1);
+    var laatsteDag = VANDAAG;
+
+    /* ---- Cijfers per dag, per maand uitgerekend en onthouden -------------
+       Op welke dag welk account wordt afgeschreven weet dit prototype niet;
+       deze verdeling staat daarvoor in de plaats. Vast per maand, met een piek
+       op de eerste: de meeste ondernemers beginnen aan het begin van een
+       maand. */
+    var onthouden = {};
+
+    function maandCijfers(jaar, mnd) {
+      var sleutel = jaar + "-" + mnd;
+      if (onthouden[sleutel]) return onthouden[sleutel];
+
+      var iso = jaar + "-" + (mnd < 10 ? "0" : "") + mnd;
+      var rij = null;
+      for (var i = 0; i < reeks.length; i++) if (reeks[i][0] === iso) { rij = reeks[i]; break; }
+
+      var dagen = new Date(jaar, mnd, 0).getDate();
+      var leeg = [];
+      for (var d = 0; d < dagen; d++) leeg.push(0);
+      if (!rij) return (onthouden[sleutel] = { accounts: leeg, orders: leeg.slice() });
+
+      var gAcc = [], gOrd = [];
+      for (var dag = 1; dag <= dagen; dag++) {
+        var golf = (((dag * 37 + mnd * 17 + jaar) % 7) - 3) * 0.06;
+        gAcc.push(1 + golf + (dag === 1 ? 0.9 : (dag === 15 ? 0.35 : 0)));
+        gOrd.push(DAGDRUKTE[new Date(jaar, mnd - 1, dag).getDay()]);
+      }
+      return (onthouden[sleutel] = {
+        accounts: verdeel(gAcc, rij[1]),
+        orders: verdeel(gOrd, rij[2])
+      });
     }
 
-    function toon() {
-      var rij = reeks[maand];
-      var jaar = Number(rij[0].slice(0, 4));
-      var mnd  = Number(rij[0].slice(5, 7));
+    function dagCijfers(d) {
+      var c = maandCijfers(d.getFullYear(), d.getMonth() + 1);
+      var i = d.getDate() - 1;
+      return { accounts: c.accounts[i] || 0, orders: c.orders[i] || 0 };
+    }
 
-      var accounts = accountsPerDag(jaar, mnd, rij[1]);
-      var orders   = bestellingenPerDag(jaar, mnd, rij[2]);
+    function bedrag(c) {
+      var abo = c.accounts * prijs, verg = c.orders * fee;
+      return soort === "mrr" ? abo : (soort === "fee" ? verg : abo + verg);
+    }
 
-      var punten = accounts.map(function (aantal, i) {
-        var abo = aantal * prijs, vergoeding = orders[i] * fee;
-        var waarde = soort === "mrr" ? abo : (soort === "fee" ? vergoeding : abo + vergoeding);
-        var sub = soort === "mrr" ? getal(aantal) + " accounts"
-                : soort === "fee" ? getal(orders[i]) + " orders"
-                : getal(aantal) + " accounts &middot; " + getal(orders[i]) + " orders";
-        return { label: (i + 1) + " " + MAANDKORT[mnd - 1], kort: String(i + 1), waarde: waarde, sub: sub };
+    /* ---- Van een bereik naar punten -------------------------------------
+       Tot 62 dagen een punt per dag; daarboven per maand, met alleen de dagen
+       die binnen het bereik vallen. */
+    function punten(van, tot) {
+      var uit = [], perMaand = Math.round((tot - van) / DAG) > 62;
+      var lopend = null;
+
+      for (var d = new Date(van); d <= tot; d = plusDagen(d, 1)) {
+        var c = dagCijfers(d);
+        if (!perMaand) {
+          uit.push({
+            label: d.getDate() + " " + MAANDKORT[d.getMonth()],
+            kort: String(d.getDate()),
+            waarde: bedrag(c),
+            accounts: c.accounts, orders: c.orders
+          });
+          continue;
+        }
+        var sleutel = d.getFullYear() + "-" + d.getMonth();
+        if (!lopend || lopend.sleutel !== sleutel) {
+          lopend = {
+            sleutel: sleutel,
+            label: MAANDKORT[d.getMonth()] + " " + d.getFullYear(),
+            kort: MAANDKORT[d.getMonth()],
+            waarde: 0, accounts: 0, orders: 0
+          };
+          uit.push(lopend);
+        }
+        lopend.waarde += bedrag(c);
+        lopend.accounts += c.accounts;
+        lopend.orders += c.orders;
+      }
+      return uit;
+    }
+
+    function som(van, tot) {
+      var t = 0;
+      for (var d = new Date(van); d <= tot; d = plusDagen(d, 1)) t += bedrag(dagCijfers(d));
+      return t;
+    }
+
+    /* ---- Tekenen --------------------------------------------------------- */
+    function teken(reeksPunten) {
+      var n = reeksPunten.length;
+      if (!n) return;
+
+      var top = reeksPunten.reduce(function (m, p) { return Math.max(m, p.waarde); }, 0);
+      var max = asMax(top);
+      var x = function (i) { return n < 2 ? 0 : i * 100 / (n - 1); };
+      var y = function (v) { return 100 - v / max * 100; };
+
+      var d = reeksPunten.map(function (p, i) {
+        return (i ? "L" : "M") + x(i).toFixed(2) + "," + y(p.waarde).toFixed(2);
+      }).join(" ");
+
+      lijn.querySelector(".line__stroke").setAttribute("d", d);
+      lijn.querySelector(".line__area").setAttribute("d", d + " L100,100 L0,100 Z");
+
+      /* De as hoort bij de getoonde lijn: bij de fee staan er andere bedragen
+         dan bij de abonnementen, en bij een jaar andere dan bij een week. */
+      var raster = lijn.parentNode.querySelectorAll(".chart__grid span");
+      [max, max * 2 / 3, max / 3, 0].forEach(function (v, i) {
+        if (raster[i]) raster[i].setAttribute("data-v", asTekst(v));
       });
 
+      var pts = lijn.querySelector(".line__pts");
+      var as  = lijn.querySelector(".line__x");
+      pts.innerHTML = "";
+      as.innerHTML = "";
+
+      /* Hoogstens zes labels onder de as; bij dertig dagen wordt dat er anders
+         een grijze streep. De laatste krijgt altijd zijn naam. */
+      var stap = Math.ceil(n / 6);
+
+      reeksPunten.forEach(function (p, i) {
+        /* Vlak bij de randen wordt de tooltip aan die kant vastgezet. Anders
+           steekt hij buiten de kaart uit, en dan kun je de pagina opzij slepen
+           over iets wat je niet eens ziet staan. */
+        var px = x(i);
+        var li = document.createElement("li");
+        li.className = "lpt" + (i === n - 1 ? " lpt--last" : "") +
+                       (px <= 12 ? " lpt--links" : "") + (px >= 88 ? " lpt--rechts" : "");
+        li.style.setProperty("--x", px.toFixed(2) + "%");
+        li.style.setProperty("--y", y(p.waarde).toFixed(2) + "%");
+        li.tabIndex = 0;
+
+        var sub = soort === "mrr" ? getal(p.accounts) + " accounts"
+                : soort === "fee" ? getal(p.orders) + " orders"
+                : getal(p.accounts) + " accounts &middot; " + getal(p.orders) + " orders";
+        li.innerHTML = '<span class="cbar__tip"><b>' + p.label + " &middot; &euro; " + getal(p.waarde) +
+                       "</b><span>" + sub + "</span></span>";
+        pts.appendChild(li);
+
+        var label = document.createElement("li");
+        /* Modulo vanaf achteren, zodat het laatste label er altijd staat. */
+        if ((n - 1 - i) % stap === 0) label.textContent = p.kort;
+        as.appendChild(label);
+      });
+
+      /* De schatting hierboven werkt op de plek van het punt, maar hoe breed
+         een tooltip wordt hangt van zijn tekst af. Even narekenen dus, zolang
+         de kaart zichtbaar is. */
+      var kr = kaart.getBoundingClientRect();
+      if (kr.width) {
+        pts.querySelectorAll(".lpt").forEach(function (li) {
+          var t = li.querySelector(".cbar__tip").getBoundingClientRect();
+          if (t.right > kr.right - 4) li.classList.add("lpt--rechts");
+          else if (t.left < kr.left + 4) li.classList.add("lpt--links");
+        });
+      }
+    }
+
+    /* ---- Alles bijwerken voor het gekozen bereik ------------------------- */
+    var bereik = { van: plusDagen(VANDAAG, -29), tot: VANDAAG };
+
+    function toon() {
+      var lengte = Math.round((bereik.tot - bereik.van) / DAG) + 1;
+      var vorigeTot = plusDagen(bereik.van, -1);
+      var vorigeVan = plusDagen(vorigeTot, -(lengte - 1));
+
       /* Alle drie de tabs bijwerken, niet alleen de actieve: ze staan naast
-         elkaar en horen alle drie bij dezelfde maand. */
+         elkaar en horen alle drie bij dezelfde periode. */
+      var bewaard = soort;
       tabs.querySelectorAll(".metric").forEach(function (knop) {
-        var m = knop.dataset.metric;
-        var nu = totaal(rij, m);
-        var vorige = reeks[maand - 1] ? totaal(reeks[maand - 1], m) : 0;
-        var pct = vorige ? (nu / vorige - 1) * 100 : 0;
+        soort = knop.dataset.metric;
+        var nu = som(bereik.van, bereik.tot);
+        var toen = som(vorigeVan, vorigeTot);
+        var pct = toen ? (nu / toen - 1) * 100 : 0;
         var omhoog = pct >= 0;
 
         knop.querySelector(".metric__value").innerHTML = "&euro; " + getal(nu);
@@ -1276,44 +1355,15 @@
                         (omhoog ? "up" : "down") + '"/></svg>' +
                         Math.abs(pct).toFixed(1).replace(".", ",") + "%";
 
-        var actief = m === soort;
+        var actief = soort === bewaard;
         knop.classList.toggle("is-active", actief);
         knop.setAttribute("aria-pressed", String(actief));
       });
+      soort = bewaard;
 
-      teken(lijn, punten);
+      teken(punten(bereik.van, bereik.tot));
+      dpick.querySelector(".dpick__label").textContent = knopTekst();
     }
-
-    /* De keuzelijst in de paginakop wordt uit de reeks gevuld, zodat je nooit
-       een maand kunt kiezen waar geen cijfers bij horen. Op een telefoon opent
-       dit als het wiel van het toestel zelf. */
-    function naam(i) {
-      var r = reeks[i];
-      return MAAND[Number(r[0].slice(5, 7)) - 1] + " " + r[0].slice(0, 4);
-    }
-
-    var opties = [["This month", laatste], ["Last month", laatste - 1]];
-    opties.forEach(function (o) {
-      var opt = document.createElement("option");
-      opt.value = String(o[1]);
-      opt.textContent = o[0];
-      keuze.appendChild(opt);
-    });
-
-    var groep = document.createElement("optgroup");
-    groep.label = "Earlier";
-    for (var i = laatste - 2; i >= 0; i--) {
-      var opt = document.createElement("option");
-      opt.value = String(i);
-      opt.textContent = naam(i);
-      groep.appendChild(opt);
-    }
-    keuze.appendChild(groep);
-
-    keuze.addEventListener("change", function () {
-      maand = Number(keuze.value);
-      toon();
-    });
 
     tabs.addEventListener("click", function (e) {
       var knop = e.target.closest(".metric[data-metric]");
@@ -1322,6 +1372,177 @@
       toon();
     });
 
+    /* ====================================================================
+       Periodekiezer
+       ==================================================================== */
+    var knop     = dpick.querySelector(".dpick__btn");
+    var paneel   = dpick.querySelector(".dpick__panel");
+    var vanVeld  = dpick.querySelector("#dpick-from");
+    var totVeld  = dpick.querySelector("#dpick-to");
+    var samenvat = dpick.querySelector(".dpick__sum");
+    var native   = dpick.querySelector("#dpick-quick");
+    var cals     = dpick.querySelectorAll(".dpick__cal");
+
+    /* Wat er in het paneel staat zolang je nog niet op Apply hebt gedrukt. */
+    var kies = { van: bereik.van, tot: bereik.tot, snel: "30d" };
+    var toon1 = new Date(VANDAAG.getFullYear(), VANDAAG.getMonth() - 1, 1);
+
+    function knopTekst() {
+      var p = SNEL[kies.snel];
+      return p && kies.snel !== "custom" ? p.naam : bereikTekst(bereik.van, bereik.tot);
+    }
+
+    /* De snelkeuzes. Elke rekent zijn eigen bereik uit, zodat er nergens een
+       tweede lijst met datums hoeft te bestaan. */
+    var SNEL = {
+      today:     { naam: "Today",          maak: function () { return [VANDAAG, VANDAAG]; } },
+      yesterday: { naam: "Yesterday",      maak: function () { var d = plusDagen(VANDAAG, -1); return [d, d]; } },
+      "7d":      { naam: "Last 7 days",    maak: function () { return [plusDagen(VANDAAG, -6), VANDAAG]; } },
+      "30d":     { naam: "Last 30 days",   maak: function () { return [plusDagen(VANDAAG, -29), VANDAAG]; } },
+      "90d":     { naam: "Last 90 days",   maak: function () { return [plusDagen(VANDAAG, -89), VANDAAG]; } },
+      "12m":     { naam: "Last 12 months", maak: function () {
+                     return [new Date(VANDAAG.getFullYear() - 1, VANDAAG.getMonth(), VANDAAG.getDate() + 1), VANDAAG]; } },
+      wtd:       { naam: "Week to date",   maak: function () { return [plusDagen(VANDAAG, -VANDAAG.getDay()), VANDAAG]; } },
+      mtd:       { naam: "Month to date",  maak: function () {
+                     return [new Date(VANDAAG.getFullYear(), VANDAAG.getMonth(), 1), VANDAAG]; } },
+      qtd:       { naam: "Quarter to date", maak: function () {
+                     return [new Date(VANDAAG.getFullYear(), Math.floor(VANDAAG.getMonth() / 3) * 3, 1), VANDAAG]; } },
+      ytd:       { naam: "Year to date",   maak: function () { return [new Date(VANDAAG.getFullYear(), 0, 1), VANDAAG]; } },
+      custom:    { naam: "Custom", maak: null }
+    };
+
+    function tekenKalender(vak, eersteVanMaand) {
+      var jaar = eersteVanMaand.getFullYear(), mnd = eersteVanMaand.getMonth();
+      var kop = document.createElement("p");
+      kop.className = "dcal__head";
+      kop.textContent = MAAND[mnd] + " " + jaar;
+
+      var raster = document.createElement("div");
+      raster.className = "dcal__grid";
+      WEEKDAG.forEach(function (w) {
+        var cel = document.createElement("span");
+        cel.className = "dcal__wd";
+        cel.textContent = w;
+        raster.appendChild(cel);
+      });
+
+      var start = new Date(jaar, mnd, 1).getDay();
+      for (var leeg = 0; leeg < start; leeg++) raster.appendChild(document.createElement("span"));
+
+      var dagen = new Date(jaar, mnd + 1, 0).getDate();
+      for (var d = 1; d <= dagen; d++) {
+        var datum = new Date(jaar, mnd, d);
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "dcal__day";
+        b.textContent = String(d);
+        b.dataset.datum = jaar + "-" + (mnd + 1) + "-" + d;
+
+        if (datum > laatsteDag || datum < eersteDag) b.disabled = true;
+        if (kies.van && kies.tot && datum > kies.van && datum < kies.tot) b.classList.add("is-in");
+        if (kies.van && zelfdeDag(datum, kies.van)) b.classList.add("is-end");
+        if (kies.tot && zelfdeDag(datum, kies.tot)) b.classList.add("is-end");
+        raster.appendChild(b);
+      }
+
+      vak.innerHTML = "";
+      vak.appendChild(kop);
+      vak.appendChild(raster);
+    }
+
+    function vulPaneel() {
+      tekenKalender(cals[0], toon1);
+      tekenKalender(cals[1], new Date(toon1.getFullYear(), toon1.getMonth() + 1, 1));
+      vanVeld.value = kies.van ? datumTekst(kies.van) : "";
+      totVeld.value = kies.tot ? datumTekst(kies.tot) : "";
+      var compleet = !!(kies.van && kies.tot);
+      samenvat.textContent = compleet ? bereikTekst(kies.van, kies.tot) : "Pick an end date";
+      /* Zolang er geen einddatum staat valt er niets toe te passen. */
+      paneel.querySelector('[data-dpick="apply"]').disabled = !compleet;
+
+      dpick.querySelectorAll(".dpick__preset").forEach(function (p) {
+        p.classList.toggle("is-active", p.dataset.preset === kies.snel);
+      });
+      native.value = kies.snel;
+    }
+
+    function zetSnel(sleutel) {
+      var p = SNEL[sleutel];
+      if (!p || !p.maak) { kies.snel = "custom"; vulPaneel(); return; }
+      var r = p.maak();
+      kies.van = r[0] < eersteDag ? eersteDag : r[0];
+      kies.tot = r[1];
+      kies.snel = sleutel;
+      /* De kalender springt naar het einde van het bereik: daar kijk je naar. */
+      toon1 = new Date(kies.tot.getFullYear(), kies.tot.getMonth() - 1, 1);
+      vulPaneel();
+    }
+
+    function openPaneel(open) {
+      paneel.hidden = !open;
+      knop.setAttribute("aria-expanded", String(open));
+      dpick.classList.toggle("is-open", open);
+      if (open) {
+        kies = { van: bereik.van, tot: bereik.tot, snel: kies.snel };
+        toon1 = new Date(bereik.tot.getFullYear(), bereik.tot.getMonth() - 1, 1);
+        vulPaneel();
+      }
+    }
+
+    knop.addEventListener("click", function () { openPaneel(paneel.hidden); });
+
+    paneel.addEventListener("click", function (e) {
+      var preset = e.target.closest(".dpick__preset");
+      if (preset) { zetSnel(preset.dataset.preset); return; }
+
+      var nav = e.target.closest(".dpick__nav");
+      if (nav) {
+        toon1 = new Date(toon1.getFullYear(), toon1.getMonth() + Number(nav.dataset.nav), 1);
+        vulPaneel();
+        return;
+      }
+
+      var dag = e.target.closest(".dcal__day");
+      if (dag && !dag.disabled) {
+        var deel = dag.dataset.datum.split("-");
+        var datum = new Date(Number(deel[0]), Number(deel[1]) - 1, Number(deel[2]));
+        /* Eerste tik zet het begin, tweede het einde. Tik je vóór het begin,
+           dan wordt dat het nieuwe begin — dat is wat je bedoelde. */
+        if (!kies.van || kies.tot) { kies.van = datum; kies.tot = null; }
+        else if (datum < kies.van) { kies.van = datum; }
+        else { kies.tot = datum; }
+        kies.snel = "custom";
+        vulPaneel();
+        return;
+      }
+
+      var actie = e.target.closest("[data-dpick]");
+      if (!actie) return;
+      if (actie.dataset.dpick === "apply" && kies.van && kies.tot) {
+        bereik = { van: kies.van, tot: kies.tot };
+        toon();
+      }
+      openPaneel(false);
+    });
+
+    native.addEventListener("change", function () { zetSnel(native.value); });
+
+    document.addEventListener("click", function (e) {
+      if (!paneel.hidden && !dpick.contains(e.target)) openPaneel(false);
+    });
+
+    /* Escape sluit eerst dit paneel; §11 zou anders meteen de hele overlay
+       dichtdoen terwijl je alleen de kalender wilde wegklikken. */
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !paneel.hidden) {
+        e.stopPropagation();
+        openPaneel(false);
+        knop.focus();
+      }
+    }, true);
+
+    zetSnel("30d");
+    bereik = { van: kies.van, tot: kies.tot };
     toon();
   });
 
