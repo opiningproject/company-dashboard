@@ -2603,17 +2603,21 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
   margin-top: 14px; padding-top: 12px;
   border-top: 1px solid var(--border);
 }
-.dpick__sum { margin-right: auto; font-size: var(--fs-sm); color: var(--text-muted); }
+.dpick__sum { margin-right: auto; font-size: var(--fs-sm); color: var(--text-muted); white-space: nowrap; }
 
 @media (max-width: 900px) {
   /* Op een telefoon hangt het paneel net zo goed onder de knop; alleen past
      de kolom met snelkeuzes er niet naast, dus die wordt één keuzelijst — en
      die opent als het wiel van het toestel zelf. */
+  /* De kiezer is een flexitem in de kop en zou anders net zo breed zijn als
+     zijn knop; hij moet de hele kolom beslaan zodat het paneel dat ook kan. */
+  .dpick { flex: 1 1 auto; }
   .dpick__panel {
     flex-direction: column;
-    width: 312px;
-    /* Nooit breder dan het scherm, ook niet op de smalste telefoon. */
-    max-width: calc(100vw - 32px);
+    /* Even breed als de kaarten eronder: de kiezer hangt aan de kolom, dus
+       links en rechts uitrekken geeft vanzelf dezelfde marge als de rest. */
+    left: 0; right: 0;
+    width: auto;
   }
   .dpick__presets { display: none; }
   .dpick__native { display: block; width: 100%; margin-bottom: 12px; }
@@ -2630,11 +2634,4 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 
   /* De periode staat linksonder, naast de knoppen. */
   .dpick__foot { padding-bottom: 4px; }
-}
-
-@media (max-width: 900px) {
-  /* Op 312px past de periode net naast de knoppen, mits hij een maat kleiner
-     is; anders breekt hij over twee regels. */
-  .dpick__foot { gap: 8px; }
-  .dpick__sum { font-size: var(--fs-xs); white-space: nowrap; }
 }
