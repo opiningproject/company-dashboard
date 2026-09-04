@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=7" />
+  <link rel="stylesheet" href="styles.css?v=8" />
 </head>
 <body>
 
@@ -331,15 +331,23 @@
                ==================================================== -->
           <section class="view" data-view="dashboard">
             <div class="card">
-              <!-- Periodekiezer: dezelfde tabs als boven een lijst, maar hier
-                   bepalen ze hoeveel maanden de grafiek laat zien. De keuze
-                   staat boven het bedrag, want het bedrag hangt ervan af:
-                   app.js §10 tekent de lijn opnieuw en rekent het verschil
-                   over de gekozen periode uit. -->
+              <!-- Een abonnement wordt afgeschreven op de dag dat het begon,
+                   dus deze grafiek toont dagen binnen één maand; de tabs kiezen
+                   wélke maand. Achter "Other" komen twee keuzelijsten tevoorschijn
+                   in plaats van een eigen kalender: op een telefoon opent dat de
+                   wieltjes van het toestel zelf, en die kiezen prettiger dan wat
+                   wij ervoor in de plaats zouden bouwen. -->
               <div class="tabs tabs--card">
-                <button class="tab" type="button" data-months="3">3 months</button>
-                <button class="tab" type="button" data-months="6">6 months</button>
-                <button class="tab is-active" type="button" data-months="12">12 months</button>
+                <button class="tab is-active" type="button" data-month="0">This month</button>
+                <button class="tab" type="button" data-month="1">Last month</button>
+                <button class="tab" type="button" data-month="other">Other</button>
+              </div>
+
+              <div class="mpick" hidden>
+                <label class="sr-only" for="mrr-month">Month</label>
+                <select class="input" id="mrr-month"></select>
+                <label class="sr-only" for="mrr-year">Year</label>
+                <select class="input" id="mrr-year"></select>
               </div>
 
               <p class="card__label">Subscription revenue</p>
@@ -361,8 +369,8 @@
                        punten leest de richting beter dan de losse hoogtes. De
                        coordinaten staan in procenten (0-100 in beide richtingen),
                        zodat de SVG met het vak meeschaalt. -->
-                  <div class="line" data-max="7000" data-unit="accounts"
-                       data-series='[["Oct",3828,132],["Nov",4089,141],["Dec",4292,148],["Jan",4611,159],["Feb",4814,166],["Mar",5075,175],["Apr",5278,182],["May",5510,190],["Jun",5684,196],["Jul",5858,202],["Aug",6061,209],["Sep",6264,216]]'>
+                  <div class="line" data-mode="days" data-max="auto" data-price="29" data-unit="accounts"
+                       data-series='[["2024-10",64],["2024-11",69],["2024-12",74],["2025-01",80],["2025-02",85],["2025-03",90],["2025-04",96],["2025-05",102],["2025-06",108],["2025-07",113],["2025-08",119],["2025-09",125],["2025-10",132],["2025-11",141],["2025-12",148],["2026-01",159],["2026-02",166],["2026-03",175],["2026-04",182],["2026-05",190],["2026-06",196],["2026-07",202],["2026-08",209],["2026-09",216]]'>
                     <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
                         <linearGradient id="mrr-fill" x1="0" y1="0" x2="0" y2="1">
@@ -404,21 +412,8 @@
                 <summary>Show as table</summary>
                 <div class="table-wrap">
                   <table class="table">
-                    <thead><tr><th>Month</th><th>Accounts</th><th>Subscription revenue</th></tr></thead>
-                    <tbody>
-                      <tr><td>October 2025</td><td>132</td><td>&euro; 3.828</td></tr>
-                      <tr><td>November 2025</td><td>141</td><td>&euro; 4.089</td></tr>
-                      <tr><td>December 2025</td><td>148</td><td>&euro; 4.292</td></tr>
-                      <tr><td>January 2026</td><td>159</td><td>&euro; 4.611</td></tr>
-                      <tr><td>February 2026</td><td>166</td><td>&euro; 4.814</td></tr>
-                      <tr><td>March 2026</td><td>175</td><td>&euro; 5.075</td></tr>
-                      <tr><td>April 2026</td><td>182</td><td>&euro; 5.278</td></tr>
-                      <tr><td>May 2026</td><td>190</td><td>&euro; 5.510</td></tr>
-                      <tr><td>June 2026</td><td>196</td><td>&euro; 5.684</td></tr>
-                      <tr><td>July 2026</td><td>202</td><td>&euro; 5.858</td></tr>
-                      <tr><td>August 2026</td><td>209</td><td>&euro; 6.061</td></tr>
-                      <tr><td>September 2026</td><td>216</td><td>&euro; 6.264</td></tr>
-                    </tbody>
+                    <thead><tr><th>Day</th><th>Accounts billed</th><th>Revenue</th></tr></thead>
+                    <tbody></tbody>
                   </table>
                 </div>
               </details>
@@ -449,7 +444,7 @@
                     <span data-v="&euro; 0" style="bottom:0"></span>
                   </div>
 
-                  <div class="line" data-max="14000" data-unit="orders"
+                  <div class="line" data-mode="months" data-max="14000" data-unit="orders"
                        data-series='[["Oct",7392,36960],["Nov",8236,41180],["Dec",9324,46620],["Jan",9064,45320],["Feb",9296,46480],["Mar",10010,50050],["Apr",10374,51870],["May",10640,53200],["Jun",10584,52920],["Jul",10504,52520],["Aug",11766,58830],["Sep",12836,64180]]'>
                     <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
@@ -489,21 +484,8 @@
                 <summary>Show as table</summary>
                 <div class="table-wrap">
                   <table class="table">
-                    <thead><tr><th>Month</th><th>Orders</th><th>Per order</th><th>Revenue</th></tr></thead>
-                    <tbody>
-                      <tr><td>October 2025</td><td>36.960</td><td>&euro; 0,20</td><td>&euro; 7.392</td></tr>
-                      <tr><td>November 2025</td><td>41.180</td><td>&euro; 0,20</td><td>&euro; 8.236</td></tr>
-                      <tr><td>December 2025</td><td>46.620</td><td>&euro; 0,20</td><td>&euro; 9.324</td></tr>
-                      <tr><td>January 2026</td><td>45.320</td><td>&euro; 0,20</td><td>&euro; 9.064</td></tr>
-                      <tr><td>February 2026</td><td>46.480</td><td>&euro; 0,20</td><td>&euro; 9.296</td></tr>
-                      <tr><td>March 2026</td><td>50.050</td><td>&euro; 0,20</td><td>&euro; 10.010</td></tr>
-                      <tr><td>April 2026</td><td>51.870</td><td>&euro; 0,20</td><td>&euro; 10.374</td></tr>
-                      <tr><td>May 2026</td><td>53.200</td><td>&euro; 0,20</td><td>&euro; 10.640</td></tr>
-                      <tr><td>June 2026</td><td>52.920</td><td>&euro; 0,20</td><td>&euro; 10.584</td></tr>
-                      <tr><td>July 2026</td><td>52.520</td><td>&euro; 0,20</td><td>&euro; 10.504</td></tr>
-                      <tr><td>August 2026</td><td>58.830</td><td>&euro; 0,20</td><td>&euro; 11.766</td></tr>
-                      <tr><td>September 2026</td><td>64.180</td><td>&euro; 0,20</td><td>&euro; 12.836</td></tr>
-                    </tbody>
+                    <thead><tr><th>Month</th><th>Orders</th><th>Revenue</th></tr></thead>
+                    <tbody></tbody>
                   </table>
                 </div>
               </details>
@@ -2182,6 +2164,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>

@@ -2466,3 +2466,9 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 /* Periodekiezer boven een grafiek: dezelfde tabs als boven een lijst, alleen
    met wat lucht eromheen omdat er hier geen paneelkop omheen zit. */
 .tabs--card { margin: 0 0 2px; }
+
+/* Maandkiezer achter "Other". Twee gewone keuzelijsten: op een telefoon opent
+   het toestel daar zijn eigen wieltjes voor, wat prettiger kiest dan een
+   nagebouwde kalender. */
+.mpick { display: flex; gap: 8px; margin-top: 10px; }
+.mpick .input { width: auto; min-width: 132px; height: 40px; }

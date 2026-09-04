@@ -11,7 +11,7 @@
      7. Zoekpaneel                → <html data-search>
      8. Paginering                → <table data-page>
      9. Tabstreep                 → scrollindicator onder .tabs
-     10. Periodekiezer          → hoeveel maanden de grafiek toont
+     10. Grafieken              → welke periode staat er
      11. Toetsenbord
    In een SPA vervang je §2 en §3 door de router; de rest blijft 1-op-1.
    ========================================================================== */
@@ -1058,87 +1058,271 @@
     teken();
   });
   /* ========================================================================
-     10. PERIODEKIEZER — hoeveel maanden laat de grafiek zien
-     De reeks staat als JSON op het .line-element; de tabs erboven snijden er
-     de laatste n maanden uit. De lijn, de punten, de aslabels en het bedrag
-     in de kop worden daaruit opnieuw opgebouwd. De y-as blijft staan: een
-     vaste schaal maakt de twee grafieken onderling vergelijkbaar, en een
-     kortere periode hoort niet ineens steiler te lijken.
+     10. GRAFIEKEN — welke periode staat er, en wat staat er op de as
+     De reeks staat als JSON op het .line-element; alles wat je ziet wordt
+     daaruit opgebouwd: de lijn, de punten, de aslabels, de tabel eronder en
+     het bedrag in de kop. Twee standen:
+
+       data-mode="months"  de reeks is [label, bedrag, aantal] per maand en de
+                           tabs kiezen hoeveel maanden je ziet.
+       data-mode="days"    de reeks is [jaar-maand, accounts] en je ziet één
+                           maand, dag voor dag. Een abonnement wordt namelijk
+                           afgeschreven op de dag dat het begon, dus binnen een
+                           maand komt het geld verspreid binnen.
      ======================================================================== */
+  var MAAND = ["January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December"];
+  var MAANDKORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
   function getal(n) {
     /* 6264 wordt 6.264 — dezelfde notatie als de rest van het dashboard. */
     return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
-  function tekenLijn(lijn, maanden) {
-    var reeks = JSON.parse(lijn.dataset.series);
-    var max   = Number(lijn.dataset.max);
-    var punten = reeks.slice(-maanden);
+  /* Een ronde bovenkant voor de as, deelbaar door drie: dan krijgen ook de
+     twee tussenlijnen een rond bedrag. */
+  function asMax(top) {
+    var stappen = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000];
+    var doel = top / 3;
+    for (var i = 0; i < stappen.length; i++) if (stappen[i] >= doel) return stappen[i] * 3;
+    return Math.ceil(doel / 10000) * 30000;
+  }
+
+  /* Let op: dit label gaat via setAttribute naar data-v, en daar wordt een
+     HTML-entiteit niet vertaald. Vandaar het euroteken zelf. */
+  function asTekst(v) {
+    if (v >= 1000) {
+      var k = v / 1000;
+      return "€ " + (k % 1 ? k.toFixed(1).replace(".", ",") : k) + "k";
+    }
+    return "€ " + getal(Math.round(v));
+  }
+
+  /* ---- Tekenen ------------------------------------------------------------
+     punten: [{label, waarde, sub}] van links naar rechts.
+     kop:    {bedrag, pct} voor de regel boven de grafiek. */
+  function teken(lijn, punten, kop) {
     var n = punten.length;
+    if (!n) return;
+
+    var top = punten.reduce(function (m, p) { return Math.max(m, p.waarde); }, 0);
+    var max = lijn.dataset.max === "auto" ? asMax(top) : Number(lijn.dataset.max);
 
     var x = function (i) { return n < 2 ? 0 : i * 100 / (n - 1); };
     var y = function (v) { return 100 - v / max * 100; };
 
     var d = punten.map(function (p, i) {
-      return (i ? "L" : "M") + x(i).toFixed(2) + "," + y(p[1]).toFixed(2);
+      return (i ? "L" : "M") + x(i).toFixed(2) + "," + y(p.waarde).toFixed(2);
     }).join(" ");
 
     lijn.querySelector(".line__stroke").setAttribute("d", d);
     lijn.querySelector(".line__area").setAttribute("d", d + " L100,100 L0,100 Z");
 
-    /* Punten en labels opnieuw opbouwen; de laatste blijft altijd zichtbaar. */
-    var eenheid = lijn.dataset.unit;
+    /* De as hoort bij de getoonde reeks; bij dagen zijn de bedragen honderd
+       keer kleiner dan bij maanden. */
+    var raster = lijn.parentNode.querySelectorAll(".chart__grid span");
+    [max, max * 2 / 3, max / 3, 0].forEach(function (v, i) {
+      if (raster[i]) raster[i].setAttribute("data-v", asTekst(v));
+    });
+
     var pts = lijn.querySelector(".line__pts");
     var as  = lijn.querySelector(".line__x");
     pts.innerHTML = "";
     as.innerHTML = "";
 
+    /* Hoogstens zes labels onder de as; bij dertig dagen wordt dat er anders
+       een grijze streep. De laatste krijgt altijd zijn naam. */
+    var stap = Math.ceil(n / 6);
+
     punten.forEach(function (p, i) {
       var li = document.createElement("li");
       li.className = "lpt" + (i === n - 1 ? " lpt--last" : "");
       li.style.setProperty("--x", x(i).toFixed(2) + "%");
-      li.style.setProperty("--y", y(p[1]).toFixed(2) + "%");
+      li.style.setProperty("--y", y(p.waarde).toFixed(2) + "%");
       li.tabIndex = 0;
-      li.innerHTML = '<span class="cbar__tip"><b>' + p[0] + " &middot; &euro; " + getal(p[1]) +
-                     "</b><span>" + getal(p[2]) + " " + eenheid + "</span></span>";
+      li.innerHTML = '<span class="cbar__tip"><b>' + p.label + " &middot; &euro; " + getal(p.waarde) +
+                     "</b><span>" + p.sub + "</span></span>";
       pts.appendChild(li);
 
       var label = document.createElement("li");
-      label.textContent = p[0];
+      /* Modulo vanaf achteren, zodat het laatste label er altijd staat. */
+      if ((n - 1 - i) % stap === 0) label.textContent = p.kort || p.label;
       as.appendChild(label);
     });
 
-    /* De kop hoort bij wat je ziet: het bedrag is het laatste punt, het
-       verschil loopt over de hele getoonde periode. */
+    /* Dezelfde reeks nog eens, als tabel: een lijn laat de richting zien, de
+       tabel de getallen. */
     var kaart = lijn.closest(".card");
-    var eerste = punten[0][1];
-    var laatste = punten[n - 1][1];
-    var pct = eerste ? (laatste / eerste - 1) * 100 : 0;
-    var omhoog = pct >= 0;
+    var body = kaart.querySelector(".tableview tbody");
+    if (body) {
+      body.innerHTML = "";
+      punten.forEach(function (p) {
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + p.label + "</td><td>" + p.sub + "</td><td>&euro; " + getal(p.waarde) + "</td>";
+        body.appendChild(tr);
+      });
+    }
 
-    kaart.querySelector(".card__now b").innerHTML = "&euro; " + getal(laatste);
+    kaart.querySelector(".card__now b").innerHTML = "&euro; " + getal(kop.bedrag);
 
     var pil = kaart.querySelector(".delta");
+    var omhoog = kop.pct >= 0;
     pil.className = "delta " + (omhoog ? "delta--up" : "delta--down");
     pil.innerHTML = '<svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-' +
                     (omhoog ? "up" : "down") + '"/></svg>' +
-                    Math.abs(pct).toFixed(1).replace(".", ",") + "%";
+                    Math.abs(kop.pct).toFixed(1).replace(".", ",") + "%";
   }
 
-  document.querySelectorAll(".line[data-series]").forEach(function (lijn) {
-    var kaart = lijn.closest(".card");
-    var tabs = kaart.querySelector(".tabs--card");
-    if (!tabs) return;
+  /* ---- Stand per maand: de reeks in stukken van een maand ----------------- */
+  function toonMaanden(lijn, reeks, maanden) {
+    var deel = reeks.slice(-maanden);
+    var punten = deel.map(function (r) {
+      return { label: r[0], waarde: r[1], sub: getal(r[2]) + " " + lijn.dataset.unit };
+    });
+    var eerste = deel[0][1], laatste = deel[deel.length - 1][1];
+    teken(lijn, punten, { bedrag: laatste, pct: eerste ? (laatste / eerste - 1) * 100 : 0 });
+  }
 
-    tabs.addEventListener("click", function (e) {
-      var tab = e.target.closest(".tab[data-months]");
-      if (tab) tekenLijn(lijn, Number(tab.dataset.months));
+  /* ---- Stand per dag: één maand, verdeeld over zijn afschrijfdagen --------
+     Welk account op welke dag wordt afgeschreven weet dit prototype niet; deze
+     verdeling staat daarvoor in de plaats. Hij ligt vast per maand (dezelfde
+     maand geeft altijd hetzelfde beeld) en heeft een piek op de eerste: de
+     meeste ondernemers beginnen aan het begin van een maand. */
+  function dagVerdeling(jaar, maand, accounts) {
+    var dagen = new Date(jaar, maand, 0).getDate();
+    var gewicht = [], totaal = 0, d;
+
+    for (d = 1; d <= dagen; d++) {
+      var golf = (((d * 37 + maand * 17 + jaar) % 7) - 3) * 0.06;
+      var piek = d === 1 ? 0.9 : (d === 15 ? 0.35 : 0);
+      var g = 1 + golf + piek;
+      gewicht.push(g);
+      totaal += g;
+    }
+
+    /* Naar beneden afronden en de rest daarna één voor één uitdelen aan de
+       zwaarste dagen: zo blijft de som precies het aantal accounts, zonder dat
+       de eerste dag de hele afrondingsfout opvangt. */
+    var uit = gewicht.map(function (g) { return Math.floor(accounts * g / totaal); });
+    var rest = accounts - uit.reduce(function (a, b) { return a + b; }, 0);
+    var volgorde = gewicht.map(function (g, i) { return i; })
+                          .sort(function (a, b) { return gewicht[b] - gewicht[a]; });
+    for (var r = 0; r < rest; r++) uit[volgorde[r % dagen]]++;
+    return uit;
+  }
+
+  function toonMaand(lijn, reeks, index) {
+    var rij = reeks[index];
+    if (!rij) return;
+    var jaar = Number(rij[0].slice(0, 4));
+    var maand = Number(rij[0].slice(5, 7));
+    var prijs = Number(lijn.dataset.price);
+
+    var punten = dagVerdeling(jaar, maand, rij[1]).map(function (aantal, i) {
+      return {
+        label: (i + 1) + " " + MAANDKORT[maand - 1],
+        kort: String(i + 1),
+        waarde: aantal * prijs,
+        sub: getal(aantal) + " " + lijn.dataset.unit
+      };
     });
 
-    /* Bij het laden meteen tekenen vanuit de reeks: de d-attributen in de HTML
-       zijn er alleen voor als dit script niet draait. */
-    var actief = tabs.querySelector(".tab.is-active") || tabs.querySelector(".tab");
-    tekenLijn(lijn, Number(actief.dataset.months));
+    var totaal = rij[1] * prijs;
+    var vorige = reeks[index - 1] ? reeks[index - 1][1] * prijs : 0;
+    teken(lijn, punten, { bedrag: totaal, pct: vorige ? (totaal / vorige - 1) * 100 : 0 });
+    lijn.dataset.actief = String(index);
+  }
+
+  /* ---- Bediening ---------------------------------------------------------- */
+  document.querySelectorAll(".line[data-series]").forEach(function (lijn) {
+    var reeks = JSON.parse(lijn.dataset.series);
+    var kaart = lijn.closest(".card");
+    var tabs  = kaart.querySelector(".tabs--card");
+    if (!tabs) return;
+
+    /* --- per maand (bestellingen) --- */
+    if (lijn.dataset.mode !== "days") {
+      tabs.addEventListener("click", function (e) {
+        var tab = e.target.closest(".tab[data-months]");
+        if (tab) toonMaanden(lijn, reeks, Number(tab.dataset.months));
+      });
+      var actief = tabs.querySelector(".tab.is-active") || tabs.querySelector(".tab");
+      toonMaanden(lijn, reeks, Number(actief.dataset.months));
+      return;
+    }
+
+    /* --- per dag (abonnementen) --- */
+    var kiezer = kaart.querySelector(".mpick");
+    var selMaand = kiezer.querySelector("#mrr-month");
+    var selJaar  = kiezer.querySelector("#mrr-year");
+    var laatste = reeks.length - 1;
+
+    /* De keuzelijsten komen uit de reeks zelf, zodat je nooit een maand kunt
+       kiezen waar geen cijfers bij horen. */
+    var jaren = [];
+    reeks.forEach(function (r) {
+      var j = r[0].slice(0, 4);
+      if (jaren.indexOf(j) < 0) jaren.push(j);
+    });
+    jaren.reverse().forEach(function (j) {
+      var opt = document.createElement("option");
+      opt.value = j;
+      opt.textContent = j;
+      selJaar.appendChild(opt);
+    });
+
+    function vulMaanden(jaar) {
+      selMaand.innerHTML = "";
+      reeks.forEach(function (r, i) {
+        if (r[0].slice(0, 4) !== jaar) return;
+        var opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = MAAND[Number(r[0].slice(5, 7)) - 1];
+        selMaand.appendChild(opt);
+      });
+    }
+
+    /* Op de tab past de korte maandnaam beter; in de keuzelijst staat de
+       hele naam, daar is ruimte zat. */
+    function naam(index) {
+      var r = reeks[index];
+      return MAANDKORT[Number(r[0].slice(5, 7)) - 1] + " " + r[0].slice(0, 4);
+    }
+
+    var knopOther = tabs.querySelector('.tab[data-month="other"]');
+
+    function kies(index, viaOther) {
+      toonMaand(lijn, reeks, index);
+      knopOther.textContent = viaOther ? naam(index) : "Other";
+      kiezer.hidden = !viaOther;
+    }
+
+    tabs.addEventListener("click", function (e) {
+      var tab = e.target.closest(".tab[data-month]");
+      if (!tab) return;
+
+      if (tab.dataset.month === "other") {
+        /* Openen laat meteen zien wat er onder de keuzelijsten ligt; anders
+           staat "Other" wel aan maar zie je nog de vorige maand. */
+        var index = Number(selMaand.value);
+        kies(isNaN(index) ? laatste : index, true);
+        return;
+      }
+      kies(laatste - Number(tab.dataset.month), false);
+    });
+
+    selJaar.addEventListener("change", function () {
+      vulMaanden(selJaar.value);
+      kies(Number(selMaand.value), true);
+    });
+    selMaand.addEventListener("change", function () {
+      kies(Number(selMaand.value), true);
+    });
+
+    vulMaanden(jaren[0]);
+    selMaand.value = String(laatste);
+    kies(laatste, false);
   });
 
   /* ========================================================================
