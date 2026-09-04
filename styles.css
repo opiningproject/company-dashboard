@@ -2490,14 +2490,24 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 @media (max-width: 900px) {
   /* De kop breekt hier af; het bedrag komt onder de titel te staan, met de
      stand van vorige maand en de pil er nog steeds naast. */
-  /* Drie tegels op een telefoonbreedte: het bedrag krimpt mee en het verschil
-     zakt eronder in plaats van ernaast. */
-  .metrics { gap: 2px; }
-  .metric { padding: 8px 8px 10px; }
-  .metric__value { font-size: 16px; }
-  .metric__row { gap: 4px; }
-  .delta { padding: 2px 7px 2px 5px; font-size: var(--fs-xs); }
-  .delta__icon { width: 12px; height: 12px; }
+  /* Op een telefoon hoeven de drie tegels niet te passen: liever op ware
+     grootte en opzij te vegen dan drie geknepen bedragen naast elkaar. De
+     negatieve marge trekt de rij tot de rand van de kaart, zodat de volgende
+     tegel er zichtbaar half naast staat — dat wijst de weg. */
+  .metrics {
+    display: flex;
+    gap: 6px;
+    margin: 0 -24px;
+    padding: 0 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .metrics::-webkit-scrollbar { display: none; }
+  .metric { flex: 0 0 auto; min-width: 192px; scroll-snap-align: start; }
+  /* Het verschil blijft naast het bedrag staan; daar is nu ruimte voor. */
+  .metric__row { flex-wrap: nowrap; }
   .payout { margin-left: auto; }
 }
 
