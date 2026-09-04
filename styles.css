@@ -2564,7 +2564,7 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 .dpick__native { display: none; }
 
 .dpick__fields { display: flex; align-items: center; gap: 10px; }
-.dpick__field { width: 190px; height: 38px; }
+.dpick .dpick__field { width: 190px; height: 38px; }
 .dpick__arrow { width: 16px; height: 16px; color: var(--text-muted); flex: 0 0 auto; }
 
 .dpick__cals { display: flex; align-items: flex-start; gap: 6px; margin-top: 14px; }
@@ -2620,11 +2620,13 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
     width: auto;
   }
   .dpick__presets { display: none; }
-  .dpick__native { display: block; width: 100%; margin-bottom: 12px; }
+  /* De keuzelijst is de kop van het paneel en loopt dus over de volle
+     breedte, net als in de app waar dit vandaan komt. */
+  .dpick .dpick__native { display: block; width: 100%; margin-bottom: 12px; }
   .dpick__main { padding: 16px; }
 
   .dpick__fields { gap: 8px; }
-  .dpick__field { width: auto; flex: 1 1 0; min-width: 0; }
+  .dpick .dpick__field { width: auto; flex: 1 1 0; min-width: 0; }
 
   /* Eén maand, over de volle breedte; de tweede haal je met de pijltjes. */
   .dpick__cals { gap: 4px; }
