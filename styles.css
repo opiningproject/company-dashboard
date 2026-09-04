@@ -2427,3 +2427,21 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
      zien welke kant de lijn op loopt. */
   .line__x li:nth-child(even) { visibility: hidden; }
 }
+
+/* Het bedrag van nu staat naast de titel van zijn eigen grafiek, niet in een
+   losse tegel erboven: zo hoort het cijfer bij de lijn waar het uit komt. */
+.card__now { flex: 0 0 auto; text-align: right; }
+.card__now b {
+  display: block;
+  font-size: 22px; font-weight: 600; letter-spacing: -.02em;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.card__now .stat__delta { display: block; margin-top: 2px; }
+
+@media (max-width: 900px) {
+  /* De kop breekt hier af; het bedrag komt onder de titel te staan en lijnt
+     dan mee met de rest in plaats van tegen de rechterrand. */
+  .card__now { text-align: left; }
+}

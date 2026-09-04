@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
 
@@ -330,19 +330,13 @@
                draait, daarna wat er vandaag aandacht vraagt.
                ==================================================== -->
           <section class="view" data-view="dashboard">
-            <ul class="stats">
-              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 6.264</p><p class="stat__delta is-up">+3,4% vs. last month</p></li>
-              <li class="stat"><p class="stat__label">Net new MRR</p><p class="stat__value">+ &euro; 203</p><p class="stat__delta is-up">11 new &middot; 4 churned</p></li>
-              <li class="stat"><p class="stat__label">Paying accounts</p><p class="stat__value">216</p><p class="stat__delta is-up">+7 this month</p></li>
-              <li class="stat"><p class="stat__label">Logo churn</p><p class="stat__value">1,9%</p><p class="stat__delta is-down">+0,2pp</p></li>
-            </ul>
-
             <div class="card">
               <div class="card__headrow">
                 <div>
-                  <h2 class="card__title">Recurring revenue</h2>
+                  <h2 class="card__title">Subscription revenue</h2>
                   <p class="card__sub">Last 12 months. One price, so the line is simply the account count &times; &euro; 29.</p>
                 </div>
+                <p class="card__now"><b>&euro; 6.264</b><span class="stat__delta is-up">+3,4% vs. last month</span></p>
               </div>
 
               <div class="chart">
@@ -400,7 +394,7 @@
                 <summary>Show as table</summary>
                 <div class="table-wrap">
                   <table class="table">
-                    <thead><tr><th>Month</th><th>Accounts</th><th>MRR</th></tr></thead>
+                    <thead><tr><th>Month</th><th>Accounts</th><th>Subscription revenue</th></tr></thead>
                     <tbody>
                       <tr><td>October 2025</td><td>132</td><td>&euro; 3.828</td></tr>
                       <tr><td>November 2025</td><td>141</td><td>&euro; 4.089</td></tr>
@@ -419,6 +413,88 @@
                 </div>
               </details>
             </div>
+
+            <!-- Tweede inkomstenstroom: &euro; 0,20 per bestelling. Zelfde opzet als
+                 hierboven, eigen schaal (tot &euro; 14k) en een eigen verloop-id,
+                 want twee gradients met dezelfde id vullen elkaars vlak. -->
+            <div class="card">
+              <div class="card__headrow">
+                <div>
+                  <h2 class="card__title">Revenue from orders</h2>
+                  <p class="card__sub">Last 12 months. &euro; 0,20 per order processed through Opining.</p>
+                </div>
+                <p class="card__now"><b>&euro; 12.836</b><span class="stat__delta is-up">+9,1% vs. last month</span></p>
+              </div>
+
+              <div class="chart">
+                <div class="chart__plot">
+                  <div class="chart__grid" aria-hidden="true">
+                    <span data-v="&euro; 14k" style="bottom:100%"></span>
+                    <span data-v="&euro; 9,3k" style="bottom:66.7%"></span>
+                    <span data-v="&euro; 4,7k" style="bottom:33.3%"></span>
+                    <span data-v="&euro; 0" style="bottom:0"></span>
+                  </div>
+
+                  <div class="line">
+                    <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
+                      <defs>
+                        <linearGradient id="orders-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#0172af" stop-opacity=".16" />
+                          <stop offset="100%" stop-color="#0172af" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <path class="line__area" fill="url(#orders-fill)" d="M0,47.2 L9.09,41.17 L18.18,33.4 L27.27,35.26 L36.36,33.6 L45.45,28.5 L54.55,25.9 L63.64,24 L72.73,24.4 L81.82,24.97 L90.91,15.96 L100,8.31 L100,100 L0,100 Z" />
+                      <path class="line__stroke" fill="none" stroke="#0172af" stroke-width="2" d="M0,47.2 L9.09,41.17 L18.18,33.4 L27.27,35.26 L36.36,33.6 L45.45,28.5 L54.55,25.9 L63.64,24 L72.73,24.4 L81.82,24.97 L90.91,15.96 L100,8.31" />
+                    </svg>
+
+                    <ol class="line__pts">
+                      <li class="lpt" style="--x:0%;--y:47.2%" tabindex="0"><span class="cbar__tip"><b>Oct &middot; &euro; 7.392</b><span>36.960 orders</span></span></li>
+                      <li class="lpt" style="--x:9.09%;--y:41.17%" tabindex="0"><span class="cbar__tip"><b>Nov &middot; &euro; 8.236</b><span>41.180 orders</span></span></li>
+                      <li class="lpt" style="--x:18.18%;--y:33.4%" tabindex="0"><span class="cbar__tip"><b>Dec &middot; &euro; 9.324</b><span>46.620 orders</span></span></li>
+                      <li class="lpt" style="--x:27.27%;--y:35.26%" tabindex="0"><span class="cbar__tip"><b>Jan &middot; &euro; 9.064</b><span>45.320 orders</span></span></li>
+                      <li class="lpt" style="--x:36.36%;--y:33.6%" tabindex="0"><span class="cbar__tip"><b>Feb &middot; &euro; 9.296</b><span>46.480 orders</span></span></li>
+                      <li class="lpt" style="--x:45.45%;--y:28.5%" tabindex="0"><span class="cbar__tip"><b>Mar &middot; &euro; 10.010</b><span>50.050 orders</span></span></li>
+                      <li class="lpt" style="--x:54.55%;--y:25.9%" tabindex="0"><span class="cbar__tip"><b>Apr &middot; &euro; 10.374</b><span>51.870 orders</span></span></li>
+                      <li class="lpt" style="--x:63.64%;--y:24%" tabindex="0"><span class="cbar__tip"><b>May &middot; &euro; 10.640</b><span>53.200 orders</span></span></li>
+                      <li class="lpt" style="--x:72.73%;--y:24.4%" tabindex="0"><span class="cbar__tip"><b>Jun &middot; &euro; 10.584</b><span>52.920 orders</span></span></li>
+                      <li class="lpt" style="--x:81.82%;--y:24.97%" tabindex="0"><span class="cbar__tip"><b>Jul &middot; &euro; 10.504</b><span>52.520 orders</span></span></li>
+                      <li class="lpt" style="--x:90.91%;--y:15.96%" tabindex="0"><span class="cbar__tip"><b>Aug &middot; &euro; 11.766</b><span>58.830 orders</span></span></li>
+                      <li class="lpt lpt--last" style="--x:100%;--y:8.31%" tabindex="0"><span class="cbar__tip"><b>Sep &middot; &euro; 12.836</b><span>64.180 orders</span></span></li>
+                    </ol>
+
+                    <ol class="line__x" aria-hidden="true">
+                      <li>Oct</li><li>Nov</li><li>Dec</li><li>Jan</li><li>Feb</li><li>Mar</li>
+                      <li>Apr</li><li>May</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+              <details class="tableview">
+                <summary>Show as table</summary>
+                <div class="table-wrap">
+                  <table class="table">
+                    <thead><tr><th>Month</th><th>Orders</th><th>Per order</th><th>Revenue</th></tr></thead>
+                    <tbody>
+                      <tr><td>October 2025</td><td>36.960</td><td>&euro; 0,20</td><td>&euro; 7.392</td></tr>
+                      <tr><td>November 2025</td><td>41.180</td><td>&euro; 0,20</td><td>&euro; 8.236</td></tr>
+                      <tr><td>December 2025</td><td>46.620</td><td>&euro; 0,20</td><td>&euro; 9.324</td></tr>
+                      <tr><td>January 2026</td><td>45.320</td><td>&euro; 0,20</td><td>&euro; 9.064</td></tr>
+                      <tr><td>February 2026</td><td>46.480</td><td>&euro; 0,20</td><td>&euro; 9.296</td></tr>
+                      <tr><td>March 2026</td><td>50.050</td><td>&euro; 0,20</td><td>&euro; 10.010</td></tr>
+                      <tr><td>April 2026</td><td>51.870</td><td>&euro; 0,20</td><td>&euro; 10.374</td></tr>
+                      <tr><td>May 2026</td><td>53.200</td><td>&euro; 0,20</td><td>&euro; 10.640</td></tr>
+                      <tr><td>June 2026</td><td>52.920</td><td>&euro; 0,20</td><td>&euro; 10.584</td></tr>
+                      <tr><td>July 2026</td><td>52.520</td><td>&euro; 0,20</td><td>&euro; 10.504</td></tr>
+                      <tr><td>August 2026</td><td>58.830</td><td>&euro; 0,20</td><td>&euro; 11.766</td></tr>
+                      <tr><td>September 2026</td><td>64.180</td><td>&euro; 0,20</td><td>&euro; 12.836</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+
+            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Together <b>&euro; 19.100</b> this month. Two thirds of it comes from orders, and that part grows with how busy your customers are &mdash; not with how many you have.</p>
 
             <div class="card">
               <p class="tasks"><span class="tasks__ring" aria-hidden="true"></span>2 of 5 tasks completed</p>
@@ -2091,6 +2167,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
