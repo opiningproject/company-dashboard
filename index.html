@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
 
@@ -331,23 +331,23 @@
                ==================================================== -->
           <section class="view" data-view="dashboard">
             <div class="card">
-              <div class="card__headrow">
-                <h2 class="card__title">Subscription revenue</h2>
-                <p class="card__now">
-                  <b>&euro; 6.264</b>
-                  <span class="card__from">from &euro; 3.828</span>
-                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>63,6%</span>
-                </p>
-              </div>
+              <h2 class="card__title">Subscription revenue</h2>
 
               <!-- Periodekiezer: dezelfde tabs als boven een lijst, maar hier
-                   bepalen ze hoeveel maanden de grafiek laat zien. app.js §10
-                   tekent de lijn opnieuw en rekent het verschil erbij uit. -->
+                   bepalen ze hoeveel maanden de grafiek laat zien. De keuze
+                   staat boven het bedrag, want het bedrag hangt ervan af:
+                   app.js §10 tekent de lijn opnieuw en rekent het verschil
+                   over de gekozen periode uit. -->
               <div class="tabs tabs--card">
                 <button class="tab" type="button" data-months="3">3 months</button>
                 <button class="tab" type="button" data-months="6">6 months</button>
                 <button class="tab is-active" type="button" data-months="12">12 months</button>
               </div>
+
+              <p class="card__now">
+                <b>&euro; 6.264</b>
+                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>63,6%</span>
+              </p>
 
               <div class="chart">
                 <div class="chart__plot">
@@ -429,20 +429,18 @@
                  hierboven, eigen schaal (tot &euro; 14k) en een eigen verloop-id,
                  want twee gradients met dezelfde id vullen elkaars vlak. -->
             <div class="card">
-              <div class="card__headrow">
-                <h2 class="card__title">Revenue from orders</h2>
-                <p class="card__now">
-                  <b>&euro; 12.836</b>
-                  <span class="card__from">from &euro; 7.392</span>
-                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>73,6%</span>
-                </p>
-              </div>
+              <h2 class="card__title">Revenue from orders</h2>
 
               <div class="tabs tabs--card">
                 <button class="tab" type="button" data-months="3">3 months</button>
                 <button class="tab" type="button" data-months="6">6 months</button>
                 <button class="tab is-active" type="button" data-months="12">12 months</button>
               </div>
+
+              <p class="card__now">
+                <b>&euro; 12.836</b>
+                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>73,6%</span>
+              </p>
 
               <div class="chart">
                 <div class="chart__plot">
@@ -2186,6 +2184,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

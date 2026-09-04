@@ -1108,8 +1108,8 @@
       as.appendChild(label);
     });
 
-    /* De kop hoort bij wat je ziet: het verschil loopt over de getoonde
-       periode, en het bedrag ervoor is het beginpunt daarvan. */
+    /* De kop hoort bij wat je ziet: het bedrag is het laatste punt, het
+       verschil loopt over de hele getoonde periode. */
     var kaart = lijn.closest(".card");
     var eerste = punten[0][1];
     var laatste = punten[n - 1][1];
@@ -1117,7 +1117,6 @@
     var omhoog = pct >= 0;
 
     kaart.querySelector(".card__now b").innerHTML = "&euro; " + getal(laatste);
-    kaart.querySelector(".card__from").innerHTML = "from &euro; " + getal(eerste);
 
     var pil = kaart.querySelector(".delta");
     pil.className = "delta " + (omhoog ? "delta--up" : "delta--down");
