@@ -546,14 +546,13 @@
   var PAGINA_ACTIES = {
     accounts:    { label: "Add account",    icon: "i-plus", zacht: false, opent: "account-new" },
     trials:      { label: "Invite to trial", icon: "i-plus", zacht: false },
-    plans:       { label: "Create plan",    icon: "i-plus", zacht: false, opent: "plan-new" },
     changelog:   { label: "Draft release",  icon: "i-plus", zacht: true },
     support:     { label: "New ticket",     icon: "i-plus", zacht: false },
     team:        { label: "Invite member",  icon: "i-plus", zacht: false }
   };
 
-  /* Sommige pagina's hebben meer nodig dan één knop (Orders: een filter plus
-     een hoofdactie). Die blokken staan in de page-head en dragen data-tools. */
+  /* Sommige pagina's hebben meer nodig dan één knop (Analytics: een periode
+     plus een export). Die blokken staan in de page-head en dragen data-tools. */
   var pageTools = document.querySelectorAll("[data-tools]");
 
   function syncPageTools(page) {

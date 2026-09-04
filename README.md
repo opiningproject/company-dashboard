@@ -13,14 +13,14 @@ Open `index.html` in a browser, or serve the folder.
 | Page | What it answers |
 | --- | --- |
 | Dashboard | MRR, net new MRR, paying accounts, churn, and what needs attention today |
-| Accounts | Every paying account with plan, MRR, seats and health score |
+| Accounts | Every paying account with orders, last activity and health score |
 | Trials | Who is trialing, how long they have left, and whether they activated |
 | Churn risk | Accounts to call this week, and why customers leave |
-| MRR movement | New, expansion, reactivation, contraction and churn, month by month |
+| MRR movement | New, reactivation and churn, month by month — with one price there is no expansion line |
 | Invoices | What was billed and collected, with a downloadable invoice per row |
 | Failed payments | Declined cards, retry schedule and the money still open |
 | Analytics | Signups, funnel, unit economics and cohort retention |
-| Plans | The three plans, their share of MRR and their churn |
+| Pricing | The one price of € 29 excl. VAT, what an account is worth at it, and what a second tier would answer |
 | Acquisition | Where accounts come from, and what each channel costs |
 | Campaigns | Onboarding, dunning and expansion emails |
 | Referrals | The referral programme and who brings in accounts |
@@ -29,8 +29,15 @@ Open `index.html` in a browser, or serve the folder.
 | Support | Open tickets, first reply time and satisfaction |
 | Team | Who has access, and what each role may do |
 
-Settings sits behind the gear in the sidebar: company details, billing, pricing,
-API keys, webhooks, emails, notifications, security and your own account.
+Settings sits behind the gear in the sidebar: company details, billing, API keys,
+webhooks, emails, notifications, security and your own account.
+
+## Pricing
+
+One plan: **€ 29 per month, excluding VAT** (€ 35,09 including 21%). Every number in
+the dashboard follows from it — MRR is simply the account count × € 29, revenue churn
+equals logo churn, and net revenue retention cannot pass 100% until there is a second
+price to upgrade to.
 
 ## Files
 

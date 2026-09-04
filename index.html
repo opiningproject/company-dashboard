@@ -204,8 +204,8 @@
             <li><a class="nav__item" href="#" data-page="analytics" data-title="Analytics" data-icon="i-analytics">
               <svg class="icon" aria-hidden="true"><use href="#i-analytics"/></svg><span>Analytics</span></a></li>
 
-            <li><a class="nav__item" href="#" data-page="plans" data-title="Plans" data-icon="i-plan">
-              <svg class="icon" aria-hidden="true"><use href="#i-plan"/></svg><span>Plans</span></a></li>
+            <li><a class="nav__item" href="#" data-page="pricing" data-title="Pricing" data-icon="i-plan">
+              <svg class="icon" aria-hidden="true"><use href="#i-plan"/></svg><span>Pricing</span></a></li>
 
             <li class="nav__group" data-toggle id="growth-group">
               <button class="nav__item nav__parent" type="button" id="growth-toggle"
@@ -331,94 +331,41 @@
                ==================================================== -->
           <section class="view" data-view="dashboard">
             <ul class="stats">
-              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 18.640</p><p class="stat__delta is-up">+7,2% vs. last month</p></li>
-              <li class="stat"><p class="stat__label">Net new MRR</p><p class="stat__value">+ &euro; 1.245</p><p class="stat__delta is-up">18 new &middot; 4 churned</p></li>
-              <li class="stat"><p class="stat__label">Paying accounts</p><p class="stat__value">216</p><p class="stat__delta is-up">+14 this month</p></li>
-              <li class="stat"><p class="stat__label">Logo churn</p><p class="stat__value">2,1%</p><p class="stat__delta is-down">+0,3pp</p></li>
+              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 6.264</p><p class="stat__delta is-up">+3,4% vs. last month</p></li>
+              <li class="stat"><p class="stat__label">Net new MRR</p><p class="stat__value">+ &euro; 203</p><p class="stat__delta is-up">11 new &middot; 4 churned</p></li>
+              <li class="stat"><p class="stat__label">Paying accounts</p><p class="stat__value">216</p><p class="stat__delta is-up">+7 this month</p></li>
+              <li class="stat"><p class="stat__label">Logo churn</p><p class="stat__value">1,9%</p><p class="stat__delta is-down">+0,2pp</p></li>
             </ul>
 
             <div class="card">
               <div class="card__headrow">
                 <div>
                   <h2 class="card__title">Recurring revenue</h2>
-                  <p class="card__sub">Last 12 months, split by plan.</p>
+                  <p class="card__sub">Last 12 months. One price, so the line is simply the account count &times; &euro; 29.</p>
                 </div>
-                <ul class="legend">
-                  <li class="legend__item"><span class="legend__dot legend__dot--starter" aria-hidden="true"></span>Starter</li>
-                  <li class="legend__item"><span class="legend__dot legend__dot--pro" aria-hidden="true"></span>Pro</li>
-                  <li class="legend__item"><span class="legend__dot legend__dot--scale" aria-hidden="true"></span>Scale</li>
-                </ul>
               </div>
 
               <div class="chart">
                 <div class="chart__plot">
                   <div class="chart__grid" aria-hidden="true">
-                    <span data-v="&euro; 20k" style="bottom:100%"></span>
-                    <span data-v="&euro; 13,3k" style="bottom:66.7%"></span>
-                    <span data-v="&euro; 6,7k" style="bottom:33.3%"></span>
+                    <span data-v="&euro; 7k" style="bottom:100%"></span>
+                    <span data-v="&euro; 4,7k" style="bottom:66.7%"></span>
+                    <span data-v="&euro; 2,3k" style="bottom:33.3%"></span>
                     <span data-v="&euro; 0" style="bottom:0"></span>
                   </div>
                   <ol class="chart__bars">
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:14%"></span><span class="cbar__seg cbar__seg--pro" style="height:24.5%"></span><span class="cbar__seg cbar__seg--scale" style="height:9%"></span></span>
-                      <span class="cbar__x">Oct</span>
-                      <span class="cbar__tip"><b>Oct &middot; &euro; 9.500</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 2.800</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 4.900</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 1.800</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:14.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:26%"></span><span class="cbar__seg cbar__seg--scale" style="height:10%"></span></span>
-                      <span class="cbar__x">Nov</span>
-                      <span class="cbar__tip"><b>Nov &middot; &euro; 10.100</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 2.900</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 5.200</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 2.000</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:15%"></span><span class="cbar__seg cbar__seg--pro" style="height:27.5%"></span><span class="cbar__seg cbar__seg--scale" style="height:11%"></span></span>
-                      <span class="cbar__x">Dec</span>
-                      <span class="cbar__tip"><b>Dec &middot; &euro; 10.700</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.000</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 5.500</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 2.200</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:16%"></span><span class="cbar__seg cbar__seg--pro" style="height:30%"></span><span class="cbar__seg cbar__seg--scale" style="height:12.5%"></span></span>
-                      <span class="cbar__x">Jan</span>
-                      <span class="cbar__tip"><b>Jan &middot; &euro; 11.700</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.200</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 6.000</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 2.500</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:16.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:31.5%"></span><span class="cbar__seg cbar__seg--scale" style="height:13.5%"></span></span>
-                      <span class="cbar__x">Feb</span>
-                      <span class="cbar__tip"><b>Feb &middot; &euro; 12.300</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.300</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 6.300</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 2.700</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:17%"></span><span class="cbar__seg cbar__seg--pro" style="height:33.5%"></span><span class="cbar__seg cbar__seg--scale" style="height:15%"></span></span>
-                      <span class="cbar__x">Mar</span>
-                      <span class="cbar__tip"><b>Mar &middot; &euro; 13.100</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.400</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 6.700</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 3.000</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:17.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:35%"></span><span class="cbar__seg cbar__seg--scale" style="height:16.5%"></span></span>
-                      <span class="cbar__x">Apr</span>
-                      <span class="cbar__tip"><b>Apr &middot; &euro; 13.800</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.500</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 7.000</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 3.300</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:18%"></span><span class="cbar__seg cbar__seg--pro" style="height:37%"></span><span class="cbar__seg cbar__seg--scale" style="height:18%"></span></span>
-                      <span class="cbar__x">May</span>
-                      <span class="cbar__tip"><b>May &middot; &euro; 14.600</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.600</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 7.400</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 3.600</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:18.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:38.5%"></span><span class="cbar__seg cbar__seg--scale" style="height:19.5%"></span></span>
-                      <span class="cbar__x">Jun</span>
-                      <span class="cbar__tip"><b>Jun &middot; &euro; 15.300</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.700</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 7.700</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 3.900</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:19%"></span><span class="cbar__seg cbar__seg--pro" style="height:40%"></span><span class="cbar__seg cbar__seg--scale" style="height:21.5%"></span></span>
-                      <span class="cbar__x">Jul</span>
-                      <span class="cbar__tip"><b>Jul &middot; &euro; 16.100</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.800</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 8.000</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 4.300</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:19.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:42%"></span><span class="cbar__seg cbar__seg--scale" style="height:23%"></span></span>
-                      <span class="cbar__x">Aug</span>
-                      <span class="cbar__tip"><b>Aug &middot; &euro; 17.100</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 3.900</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 8.400</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 4.600</span></span>
-                    </li>
-                    <li class="cbar" tabindex="0">
-                      <span class="cbar__stack"><span class="cbar__seg cbar__seg--starter" style="height:20.5%"></span><span class="cbar__seg cbar__seg--pro" style="height:45%"></span><span class="cbar__seg cbar__seg--scale" style="height:27%"></span></span>
-                      <span class="cbar__x">Sep</span>
-                      <span class="cbar__tip"><b>Sep &middot; &euro; 18.640</b><span><i class="legend__dot legend__dot--starter"></i>Starter &euro; 4.100</span><span><i class="legend__dot legend__dot--pro"></i>Pro &euro; 9.000</span><span><i class="legend__dot legend__dot--scale"></i>Scale &euro; 5.540</span></span>
-                    </li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:54.7%"></span></span><span class="cbar__x">Oct</span><span class="cbar__tip"><b>Oct &middot; &euro; 3.828</b><span>132 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:58.4%"></span></span><span class="cbar__x">Nov</span><span class="cbar__tip"><b>Nov &middot; &euro; 4.089</b><span>141 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:61.3%"></span></span><span class="cbar__x">Dec</span><span class="cbar__tip"><b>Dec &middot; &euro; 4.292</b><span>148 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:65.9%"></span></span><span class="cbar__x">Jan</span><span class="cbar__tip"><b>Jan &middot; &euro; 4.611</b><span>159 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:68.8%"></span></span><span class="cbar__x">Feb</span><span class="cbar__tip"><b>Feb &middot; &euro; 4.814</b><span>166 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:72.5%"></span></span><span class="cbar__x">Mar</span><span class="cbar__tip"><b>Mar &middot; &euro; 5.075</b><span>175 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:75.4%"></span></span><span class="cbar__x">Apr</span><span class="cbar__tip"><b>Apr &middot; &euro; 5.278</b><span>182 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:78.7%"></span></span><span class="cbar__x">May</span><span class="cbar__tip"><b>May &middot; &euro; 5.510</b><span>190 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:81.2%"></span></span><span class="cbar__x">Jun</span><span class="cbar__tip"><b>Jun &middot; &euro; 5.684</b><span>196 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:83.7%"></span></span><span class="cbar__x">Jul</span><span class="cbar__tip"><b>Jul &middot; &euro; 5.858</b><span>202 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:86.6%"></span></span><span class="cbar__x">Aug</span><span class="cbar__tip"><b>Aug &middot; &euro; 6.061</b><span>209 accounts</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--mrr" style="height:89.5%"></span></span><span class="cbar__x">Sep</span><span class="cbar__tip"><b>Sep &middot; &euro; 6.264</b><span>216 accounts</span></span></li>
                   </ol>
                 </div>
               </div>
@@ -444,10 +391,10 @@
                 <li class="step">
                   <span class="step__dot step__dot--done" aria-hidden="true"><svg class="icon"><use href="#i-check"/></svg></span>
                   <div class="step__body">
-                    <button class="step__title" type="button" aria-expanded="false">Publish your pricing page</button>
+                    <button class="step__title" type="button" aria-expanded="false">Publish your price</button>
                     <div class="step__panel"><div class="step__panel-inner">
-                      <p class="step__meta">Three plans live since 12 March 2026</p>
-                      <button class="btn btn--primary" type="button" data-goto-page="plans">Review plans</button>
+                      <p class="step__meta">&euro; 29 per month, excluding VAT &middot; live since 12 March 2024</p>
+                      <button class="btn btn--primary" type="button" data-goto-page="pricing">Review pricing</button>
                     </div></div>
                   </div>
                 </li>
@@ -492,18 +439,18 @@
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-chargeback"/></svg>
                   <span class="row__text">
                     <span class="row__title">5 payments failed this week</span>
-                    <span class="row__meta">&euro; 445 of MRR at risk &middot; oldest is 9 days old</span>
+                    <span class="row__meta">&euro; 145 of MRR at risk &middot; oldest is 9 days old</span>
                   </span>
-                  <span class="badge badge--danger">&euro; 445</span>
+                  <span class="badge badge--danger">&euro; 145</span>
                   <svg class="icon row__caret" aria-hidden="true"><use href="#i-chevron-right"/></svg>
                 </button>
                 <button class="row" type="button" data-goto-page="churn">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-warning"/></svg>
                   <span class="row__text">
                     <span class="row__title">7 accounts stopped logging in</span>
-                    <span class="row__meta">No session for 21 days &middot; all on Pro or Scale</span>
+                    <span class="row__meta">No session for 21 days &middot; &euro; 203 a month between them</span>
                   </span>
-                  <span class="badge badge--pending">&euro; 812</span>
+                  <span class="badge badge--pending">&euro; 203</span>
                   <svg class="icon row__caret" aria-hidden="true"><use href="#i-chevron-right"/></svg>
                 </button>
                 <button class="row" type="button" data-goto-page="trials">
@@ -519,7 +466,7 @@
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-faq"/></svg>
                   <span class="row__text">
                     <span class="row__title">2 tickets older than 24 hours</span>
-                    <span class="row__meta">Both from Scale accounts &middot; first reply still open</span>
+                    <span class="row__meta">Both from accounts of over a year &middot; first reply still open</span>
                   </span>
                   <span class="badge badge--pending">2 open</span>
                   <svg class="icon row__caret" aria-hidden="true"><use href="#i-chevron-right"/></svg>
@@ -533,9 +480,9 @@
           <!-- ---------- VIEW: accounts ---------- -->
           <section class="view" data-view="accounts" hidden>
             <ul class="stats">
-              <li class="stat"><p class="stat__label">Paying accounts</p><p class="stat__value">216</p><p class="stat__delta is-up">+14 this month</p></li>
-              <li class="stat"><p class="stat__label">Average revenue per account</p><p class="stat__value">&euro; 86,30</p><p class="stat__delta is-up">+2,4%</p></li>
-              <li class="stat"><p class="stat__label">Net revenue retention</p><p class="stat__value">104%</p><p class="stat__delta is-up">+3pp</p></li>
+              <li class="stat"><p class="stat__label">Paying accounts</p><p class="stat__value">216</p><p class="stat__delta is-up">+7 this month</p></li>
+              <li class="stat"><p class="stat__label">They all pay</p><p class="stat__value">&euro; 29</p><p class="stat__delta">per month, excl. VAT</p></li>
+              <li class="stat"><p class="stat__label">Net revenue retention</p><p class="stat__value">98%</p><p class="stat__delta">No upgrades to sell, so 100% is the ceiling</p></li>
               <li class="stat"><p class="stat__label">Median account age</p><p class="stat__value">11 mo</p><p class="stat__delta">38 accounts over 2 years</p></li>
             </ul>
 
@@ -551,7 +498,7 @@
                   <svg class="icon icon--wide" aria-hidden="true"><use href="#i-search-filter"/></svg>
                 </button>
                 <!-- Zoekstand: vervangt de tabs zolang hij openstaat. -->
-                <div class="psearch" data-filters="Plan:Starter|Pro|Scale;Status:Active|Past due|Paused;Signed up:This month|This quarter|Older">
+                <div class="psearch" data-filters="Status:Active|Past due|Paused;Health:Good|At risk;Signed up:This month|This quarter|Older">
                   <div class="psearch__top">
                     <span class="psearch__field">
                       <svg class="icon psearch__icon" aria-hidden="true"><use href="#i-search"/></svg>
@@ -574,90 +521,90 @@
               <div class="table-wrap">
                 <table class="table table--customers" data-page="7">
                   <thead>
-                    <tr><th>Account</th><th>Plan</th><th>MRR</th><th>Seats</th><th>Health</th><th>Status</th><th>Since</th></tr>
+                    <tr><th>Account</th><th>Orders / month</th><th>Last active</th><th>Health</th><th>Status</th><th>Since</th></tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Pizzeria Napoli</span><span class="cell__meta">napoli.myopining.com</span></span></td>
-                      <td>Scale</td><td>&euro; 149</td><td>6</td>
+                      <td>1.240</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>92</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Mar 2024</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Sushi Lab</span><span class="cell__meta">sushilab.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>3</td>
+                      <td>870</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>88</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Jul 2024</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Burger Bros</span><span class="cell__meta">burgerbros.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>4</td>
+                      <td>410</td><td>6 days ago</td>
                       <td><span class="health"><span class="health__dot health__dot--warn"></span>54</span></td>
                       <td><span class="badge badge--pending">Past due</span></td><td>Jan 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Bakkerij Vermeer</span><span class="cell__meta">vermeer.myopining.com</span></span></td>
-                      <td>Starter</td><td>&euro; 49</td><td>1</td>
+                      <td>520</td><td>Yesterday</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>77</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Sep 2024</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Green Bowl</span><span class="cell__meta">greenbowl.myopining.com</span></span></td>
-                      <td>Scale</td><td>&euro; 149</td><td>8</td>
+                      <td>1.610</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>95</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Nov 2023</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Shoarma Palace</span><span class="cell__meta">palace.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>2</td>
+                      <td>90</td><td>34 days ago</td>
                       <td><span class="health"><span class="health__dot health__dot--bad"></span>31</span></td>
                       <td><span class="badge badge--muted">Paused</span></td><td>Feb 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Trattoria Rossi</span><span class="cell__meta">rossi.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>3</td>
+                      <td>640</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>81</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>May 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Poke Corner</span><span class="cell__meta">pokecorner.myopining.com</span></span></td>
-                      <td>Starter</td><td>&euro; 49</td><td>1</td>
+                      <td>180</td><td>22 days ago</td>
                       <td><span class="health"><span class="health__dot health__dot--warn"></span>48</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Aug 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Grillhuis Ankara</span><span class="cell__meta">ankara.myopining.com</span></span></td>
-                      <td>Scale</td><td>&euro; 149</td><td>7</td>
+                      <td>1.380</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>90</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Jun 2024</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Wok to Go</span><span class="cell__meta">woktogo.myopining.com</span></span></td>
-                      <td>Starter</td><td>&euro; 49</td><td>2</td>
+                      <td>460</td><td>2 days ago</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>73</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Oct 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Cafe Zeezicht</span><span class="cell__meta">zeezicht.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>3</td>
+                      <td>230</td><td>9 days ago</td>
                       <td><span class="health"><span class="health__dot health__dot--warn"></span>58</span></td>
                       <td><span class="badge badge--pending">Past due</span></td><td>Apr 2025</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">De Broodzaak</span><span class="cell__meta">broodzaak.myopining.com</span></span></td>
-                      <td>Starter</td><td>&euro; 49</td><td>1</td>
+                      <td>390</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>69</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Jan 2026</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Tapas Sevilla</span><span class="cell__meta">sevilla.myopining.com</span></span></td>
-                      <td>Pro</td><td>&euro; 89</td><td>4</td>
+                      <td>710</td><td>Yesterday</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>84</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Dec 2024</td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Noodle Bar 88</span><span class="cell__meta">noodle88.myopining.com</span></span></td>
-                      <td>Scale</td><td>&euro; 149</td><td>5</td>
+                      <td>980</td><td>Today</td>
                       <td><span class="health"><span class="health__dot health__dot--good"></span>87</span></td>
                       <td><span class="badge badge--active">Active</span></td><td>Feb 2024</td>
                     </tr>
@@ -697,31 +644,9 @@
             </div>
 
             <div class="card">
-              <h2 class="card__title">Plan</h2>
-              <fieldset class="choices choices--rich">
-                <legend class="sr-only">Choose a plan</legend>
-                <label class="choice choice--rich">
-                  <input type="radio" name="new-plan" checked />
-                  <span class="choice__body">
-                    <span class="choice__title">Starter &mdash; &euro; 49 / month</span>
-                    <span class="choice__desc">One location, one seat, orders and menu.</span>
-                  </span>
-                </label>
-                <label class="choice choice--rich">
-                  <input type="radio" name="new-plan" />
-                  <span class="choice__body">
-                    <span class="choice__title">Pro &mdash; &euro; 89 / month</span>
-                    <span class="choice__desc">Up to four seats, marketing tools and analytics.</span>
-                  </span>
-                </label>
-                <label class="choice choice--rich">
-                  <input type="radio" name="new-plan" />
-                  <span class="choice__body">
-                    <span class="choice__title">Scale &mdash; &euro; 149 / month</span>
-                    <span class="choice__desc">Multiple locations, API access and priority support.</span>
-                  </span>
-                </label>
-              </fieldset>
+              <h2 class="card__title">Billing</h2>
+              <p class="card__sub">Everyone pays the same &euro; 29 per month. Only the start of billing differs.</p>
+              <div class="pricepreview"><b>&euro; 29,00</b> per month excl. VAT &middot; &euro; 35,09 incl. 21%</div>
               <div class="field">
                 <label class="label" for="acc-trial">Trial length</label>
                 <select class="input" id="acc-trial">
@@ -729,6 +654,11 @@
                   <option>30 days</option>
                   <option>No trial &mdash; bill immediately</option>
                 </select>
+              </div>
+              <div class="field">
+                <label class="label" for="acc-vat">VAT number</label>
+                <input class="input" id="acc-vat" type="text" placeholder="NL123456789B01" />
+                <p class="hint">Businesses in another EU country are billed with VAT reverse-charged.</p>
               </div>
             </div>
 
@@ -744,7 +674,7 @@
               <li class="stat"><p class="stat__label">Active trials</p><p class="stat__value">24</p><p class="stat__delta is-up">+6 this week</p></li>
               <li class="stat"><p class="stat__label">Trial to paid</p><p class="stat__value">38%</p><p class="stat__delta is-up">+4pp</p></li>
               <li class="stat"><p class="stat__label">Ends within 3 days</p><p class="stat__value">6</p><p class="stat__delta is-down">4 not activated</p></li>
-              <li class="stat"><p class="stat__label">Median time to activate</p><p class="stat__value">2,4 d</p><p class="stat__delta">Menu added</p></li>
+              <li class="stat"><p class="stat__label">Worth if they all convert</p><p class="stat__value">&euro; 696</p><p class="stat__delta">24 &times; &euro; 29 a month</p></li>
             </ul>
 
             <p class="alert alert--info">
@@ -785,67 +715,67 @@
               <div class="table-wrap">
                 <table class="table table--customers" data-page="6">
                   <thead>
-                    <tr><th>Account</th><th>Source</th><th>Days left</th><th>Activated</th><th>Plan picked</th><th>Action</th></tr>
+                    <tr><th>Account</th><th>Source</th><th>Days left</th><th>Activated</th><th>Last active</th><th>Action</th></tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Doner Deluxe</span><span class="cell__meta">Rotterdam</span></span></td>
                       <td>Google Ads</td><td><span class="when when--late"><b>1 day</b></span></td>
-                      <td><span class="badge badge--muted">No menu</span></td><td>&mdash;</td>
+                      <td><span class="badge badge--muted">No menu</span></td><td>8 days ago</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Bagel Street</span><span class="cell__meta">Utrecht</span></span></td>
                       <td>Referral</td><td><span class="when when--soon"><b>2 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Pro</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Today</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Casa Miguel</span><span class="cell__meta">Den Haag</span></span></td>
                       <td>Direct</td><td><span class="when when--soon"><b>3 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Starter</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Today</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Sushi Point</span><span class="cell__meta">Amsterdam</span></span></td>
                       <td>Google</td><td><span class="when"><b>5 days</b></span></td>
-                      <td><span class="badge badge--muted">No menu</span></td><td>&mdash;</td>
+                      <td><span class="badge badge--muted">No menu</span></td><td>4 days ago</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Broodje Bert</span><span class="cell__meta">Eindhoven</span></span></td>
                       <td>Referral</td><td><span class="when"><b>6 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Starter</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Yesterday</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Pasta Fresca</span><span class="cell__meta">Groningen</span></span></td>
                       <td>Instagram</td><td><span class="when"><b>8 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Pro</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Today</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Kapsalon King</span><span class="cell__meta">Tilburg</span></span></td>
                       <td>Direct</td><td><span class="when"><b>9 days</b></span></td>
-                      <td><span class="badge badge--muted">No menu</span></td><td>&mdash;</td>
+                      <td><span class="badge badge--muted">No menu</span></td><td>5 days ago</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Vegan Villa</span><span class="cell__meta">Haarlem</span></span></td>
                       <td>Google</td><td><span class="when"><b>11 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Scale</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Today</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Tandoori House</span><span class="cell__meta">Almere</span></span></td>
                       <td>Referral</td><td><span class="when"><b>12 days</b></span></td>
-                      <td><span class="badge badge--muted">No menu</span></td><td>&mdash;</td>
+                      <td><span class="badge badge--muted">No menu</span></td><td>2 days ago</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                     <tr>
                       <td><span class="cell"><span class="cell__title">Coffee &amp; Co</span><span class="cell__meta">Delft</span></span></td>
                       <td>Direct</td><td><span class="when"><b>13 days</b></span></td>
-                      <td><span class="badge badge--active">Activated</span></td><td>Starter</td>
+                      <td><span class="badge badge--active">Activated</span></td><td>Today</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Reminder sent">Send reminder</button></td>
                     </tr>
                   </tbody>
@@ -866,9 +796,9 @@
           <section class="view" data-view="churn" hidden>
             <ul class="stats">
               <li class="stat"><p class="stat__label">At risk</p><p class="stat__value">7</p><p class="stat__delta is-down">+2 vs. last week</p></li>
-              <li class="stat"><p class="stat__label">MRR at risk</p><p class="stat__value">&euro; 812</p><p class="stat__delta">4,4% of total</p></li>
-              <li class="stat"><p class="stat__label">Saved this quarter</p><p class="stat__value">9</p><p class="stat__delta is-up">&euro; 894 kept</p></li>
-              <li class="stat"><p class="stat__label">Revenue churn</p><p class="stat__value">1,4%</p><p class="stat__delta is-up">&minus;0,2pp</p></li>
+              <li class="stat"><p class="stat__label">MRR at risk</p><p class="stat__value">&euro; 203</p><p class="stat__delta">3,2% of total</p></li>
+              <li class="stat"><p class="stat__label">Saved this quarter</p><p class="stat__value">9</p><p class="stat__delta is-up">&euro; 261 kept</p></li>
+              <li class="stat"><p class="stat__label">Revenue churn</p><p class="stat__value">1,9%</p><p class="stat__delta">Same as logo churn: one price</p></li>
             </ul>
 
             <div class="card">
@@ -878,7 +808,7 @@
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
                   <span class="row__text">
-                    <span class="row__title">Shoarma Palace &middot; &euro; 89</span>
+                    <span class="row__title">Shoarma Palace</span>
                     <span class="row__meta">No login for 34 days &middot; orders down 71% &middot; ticket open 6 days</span>
                   </span>
                   <span class="health"><span class="health__dot health__dot--bad"></span>31</span>
@@ -887,34 +817,16 @@
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
                   <span class="row__text">
-                    <span class="row__title">Poke Corner &middot; &euro; 49</span>
-                    <span class="row__meta">No login for 22 days &middot; orders down 40%</span>
+                    <span class="row__title">Lunchroom Anna</span>
+                    <span class="row__meta">No orders for 18 days &middot; owner unreachable</span>
                   </span>
-                  <span class="health"><span class="health__dot health__dot--warn"></span>48</span>
+                  <span class="health"><span class="health__dot health__dot--bad"></span>29</span>
                   <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
                 </div>
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
                   <span class="row__text">
-                    <span class="row__title">Burger Bros &middot; &euro; 89</span>
-                    <span class="row__meta">Payment failed twice &middot; card expired</span>
-                  </span>
-                  <span class="health"><span class="health__dot health__dot--warn"></span>54</span>
-                  <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
-                </div>
-                <div class="row row--static">
-                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
-                  <span class="row__text">
-                    <span class="row__title">Cafe Zeezicht &middot; &euro; 89</span>
-                    <span class="row__meta">Seasonal closure &middot; asked about pausing</span>
-                  </span>
-                  <span class="health"><span class="health__dot health__dot--warn"></span>58</span>
-                  <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
-                </div>
-                <div class="row row--static">
-                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
-                  <span class="row__text">
-                    <span class="row__title">Pita Express &middot; &euro; 149</span>
+                    <span class="row__title">Pita Express</span>
                     <span class="row__meta">Switched to a competitor for delivery &middot; renewal in 12 days</span>
                   </span>
                   <span class="health"><span class="health__dot health__dot--bad"></span>36</span>
@@ -923,8 +835,17 @@
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
                   <span class="row__text">
-                    <span class="row__title">Sultan Grill &middot; &euro; 89</span>
-                    <span class="row__meta">Seats dropped from 4 to 1 &middot; downgrade requested</span>
+                    <span class="row__title">Poke Corner</span>
+                    <span class="row__meta">No login for 22 days &middot; orders down 40%</span>
+                  </span>
+                  <span class="health"><span class="health__dot health__dot--warn"></span>48</span>
+                  <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
+                </div>
+                <div class="row row--static">
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
+                  <span class="row__text">
+                    <span class="row__title">Sultan Grill</span>
+                    <span class="row__meta">Asked twice what the price covers &middot; second location elsewhere</span>
                   </span>
                   <span class="health"><span class="health__dot health__dot--warn"></span>52</span>
                   <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
@@ -932,10 +853,19 @@
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
                   <span class="row__text">
-                    <span class="row__title">Lunchroom Anna &middot; &euro; 49</span>
-                    <span class="row__meta">No orders for 18 days &middot; owner unreachable</span>
+                    <span class="row__title">Burger Bros</span>
+                    <span class="row__meta">Payment failed twice &middot; card expired</span>
                   </span>
-                  <span class="health"><span class="health__dot health__dot--bad"></span>29</span>
+                  <span class="health"><span class="health__dot health__dot--warn"></span>54</span>
+                  <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
+                </div>
+                <div class="row row--static">
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-store-online"/></svg>
+                  <span class="row__text">
+                    <span class="row__title">Cafe Zeezicht</span>
+                    <span class="row__meta">Seasonal closure &middot; asked about pausing</span>
+                  </span>
+                  <span class="health"><span class="health__dot health__dot--warn"></span>58</span>
                   <button class="btn btn--ghost btn--sm" type="button" data-toast="Call scheduled">Schedule call</button>
                 </div>
               </div>
@@ -955,61 +885,59 @@
                 <div class="hbar"><span class="hbar__name">Competitor</span><span class="hbar__track"><span class="hbar__fill" style="width:14%"></span></span><span class="hbar__val">14%</span></div>
                 <div class="hbar"><span class="hbar__name">Never used it</span><span class="hbar__track"><span class="hbar__fill" style="width:11%"></span></span><span class="hbar__val">11%</span></div>
               </div>
+              <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Nearly a quarter say &euro; 29 is too much, and a fifth leaves over a missing feature. A cheaper tier would answer the first group, a more expensive one the second.</p>
             </div>
           </section>
 
           <!-- ---------- VIEW: mrr movement ---------- -->
           <section class="view" data-view="mrr" hidden>
             <ul class="stats">
-              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 18.640</p><p class="stat__delta is-up">+7,2%</p></li>
-              <li class="stat"><p class="stat__label">ARR</p><p class="stat__value">&euro; 223.680</p><p class="stat__delta is-up">+&euro; 14.940 YTD</p></li>
-              <li class="stat"><p class="stat__label">Net new MRR</p><p class="stat__value">+ &euro; 1.245</p><p class="stat__delta is-up">Quick ratio 3,1</p></li>
-              <li class="stat"><p class="stat__label">Net revenue retention</p><p class="stat__value">104%</p><p class="stat__delta is-up">+3pp</p></li>
+              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 6.264</p><p class="stat__delta is-up">+3,4%</p></li>
+              <li class="stat"><p class="stat__label">ARR</p><p class="stat__value">&euro; 75.168</p><p class="stat__delta is-up">+&euro; 19.836 YTD</p></li>
+              <li class="stat"><p class="stat__label">Net new MRR</p><p class="stat__value">+ &euro; 203</p><p class="stat__delta is-up">Quick ratio 2,8</p></li>
+              <li class="stat"><p class="stat__label">Net revenue retention</p><p class="stat__value">98%</p><p class="stat__delta">No expansion possible</p></li>
             </ul>
 
             <div class="card">
               <div class="card__headrow">
                 <div>
                   <h2 class="card__title">Where this month&rsquo;s MRR came from</h2>
-                  <p class="card__sub">Everything that moved between 1 and 30 September.</p>
+                  <p class="card__sub">Everything that moved between 1 and 30 September. One price means every move is a whole &euro; 29.</p>
                 </div>
               </div>
               <div class="hbars">
-                <div class="hbar"><span class="hbar__name">New</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:78%"></span></span><span class="hbar__val">+1.246</span></div>
-                <div class="hbar"><span class="hbar__name">Expansion</span><span class="hbar__track"><span class="hbar__fill hbar__fill--exp" style="width:38%"></span></span><span class="hbar__val">+604</span></div>
-                <div class="hbar"><span class="hbar__name">Reactivation</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:11%"></span></span><span class="hbar__val">+178</span></div>
-                <div class="hbar"><span class="hbar__name">Contraction</span><span class="hbar__track"><span class="hbar__fill hbar__fill--con" style="width:23%"></span></span><span class="hbar__val">&minus;365</span></div>
-                <div class="hbar"><span class="hbar__name">Churn</span><span class="hbar__track"><span class="hbar__fill hbar__fill--churn" style="width:26%"></span></span><span class="hbar__val">&minus;418</span></div>
+                <div class="hbar"><span class="hbar__name">New</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:79%"></span></span><span class="hbar__val">+319</span></div>
+                <div class="hbar"><span class="hbar__name">Reactivation</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:15%"></span></span><span class="hbar__val">+58</span></div>
+                <div class="hbar"><span class="hbar__name">Churn</span><span class="hbar__track"><span class="hbar__fill hbar__fill--churn" style="width:43%"></span></span><span class="hbar__val">&minus;174</span></div>
               </div>
-              <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Quick ratio 3,1: for every euro you lose you add three. Under 1 the business shrinks.</p>
+              <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Quick ratio 2,8: for every euro you lose you add nearly three. There is no expansion or contraction line here &mdash; with a single price an account can only start or stop.</p>
             </div>
 
             <div class="panel panel--scroll">
               <div class="panel__head">
                 <div class="tabs">
                   <button class="tab is-active" type="button">Monthly</button>
-                  <button class="tab" type="button">Per plan</button>
                   <button class="tab" type="button">Per account</button>
                 </div>
               </div>
               <div class="table-wrap">
                 <table class="table" data-page="6">
                   <thead>
-                    <tr><th>Month</th><th>New</th><th>Expansion</th><th>Contraction</th><th>Churn</th><th>Net new</th><th>MRR</th></tr>
+                    <tr><th>Month</th><th>New</th><th>Reactivated</th><th>Churned</th><th>Net accounts</th><th>Net new MRR</th><th>MRR</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>September 2026</td><td>+1.246</td><td>+604</td><td>&minus;365</td><td>&minus;418</td><td>+1.245</td><td>&euro; 18.640</td></tr>
-                    <tr><td>August 2026</td><td>+1.104</td><td>+512</td><td>&minus;298</td><td>&minus;518</td><td>+1.000</td><td>&euro; 17.100</td></tr>
-                    <tr><td>July 2026</td><td>+986</td><td>+430</td><td>&minus;204</td><td>&minus;412</td><td>+800</td><td>&euro; 16.100</td></tr>
-                    <tr><td>June 2026</td><td>+912</td><td>+388</td><td>&minus;186</td><td>&minus;414</td><td>+700</td><td>&euro; 15.300</td></tr>
-                    <tr><td>May 2026</td><td>+1.020</td><td>+352</td><td>&minus;242</td><td>&minus;330</td><td>+800</td><td>&euro; 14.600</td></tr>
-                    <tr><td>April 2026</td><td>+880</td><td>+306</td><td>&minus;176</td><td>&minus;310</td><td>+700</td><td>&euro; 13.800</td></tr>
-                    <tr><td>March 2026</td><td>+842</td><td>+284</td><td>&minus;150</td><td>&minus;276</td><td>+700</td><td>&euro; 13.100</td></tr>
-                    <tr><td>February 2026</td><td>+764</td><td>+248</td><td>&minus;136</td><td>&minus;276</td><td>+600</td><td>&euro; 12.300</td></tr>
-                    <tr><td>January 2026</td><td>+1.180</td><td>+266</td><td>&minus;198</td><td>&minus;248</td><td>+1.000</td><td>&euro; 11.700</td></tr>
-                    <tr><td>December 2025</td><td>+706</td><td>+212</td><td>&minus;124</td><td>&minus;194</td><td>+600</td><td>&euro; 10.700</td></tr>
-                    <tr><td>November 2025</td><td>+688</td><td>+204</td><td>&minus;118</td><td>&minus;174</td><td>+600</td><td>&euro; 10.100</td></tr>
-                    <tr><td>October 2025</td><td>+652</td><td>+186</td><td>&minus;106</td><td>&minus;172</td><td>+560</td><td>&euro; 9.500</td></tr>
+                    <tr><td>September 2026</td><td>11</td><td>2</td><td>6</td><td>+7</td><td>+&euro; 203</td><td>&euro; 6.264</td></tr>
+                    <tr><td>August 2026</td><td>11</td><td>0</td><td>4</td><td>+7</td><td>+&euro; 203</td><td>&euro; 6.061</td></tr>
+                    <tr><td>July 2026</td><td>10</td><td>0</td><td>4</td><td>+6</td><td>+&euro; 174</td><td>&euro; 5.858</td></tr>
+                    <tr><td>June 2026</td><td>10</td><td>1</td><td>5</td><td>+6</td><td>+&euro; 174</td><td>&euro; 5.684</td></tr>
+                    <tr><td>May 2026</td><td>12</td><td>0</td><td>4</td><td>+8</td><td>+&euro; 232</td><td>&euro; 5.510</td></tr>
+                    <tr><td>April 2026</td><td>11</td><td>0</td><td>4</td><td>+7</td><td>+&euro; 203</td><td>&euro; 5.278</td></tr>
+                    <tr><td>March 2026</td><td>13</td><td>1</td><td>5</td><td>+9</td><td>+&euro; 261</td><td>&euro; 5.075</td></tr>
+                    <tr><td>February 2026</td><td>11</td><td>0</td><td>4</td><td>+7</td><td>+&euro; 203</td><td>&euro; 4.814</td></tr>
+                    <tr><td>January 2026</td><td>15</td><td>0</td><td>4</td><td>+11</td><td>+&euro; 319</td><td>&euro; 4.611</td></tr>
+                    <tr><td>December 2025</td><td>10</td><td>0</td><td>3</td><td>+7</td><td>+&euro; 203</td><td>&euro; 4.292</td></tr>
+                    <tr><td>November 2025</td><td>12</td><td>0</td><td>3</td><td>+9</td><td>+&euro; 261</td><td>&euro; 4.089</td></tr>
+                    <tr><td>October 2025</td><td>10</td><td>0</td><td>3</td><td>+7</td><td>+&euro; 203</td><td>&euro; 3.828</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1026,11 +954,16 @@
           <!-- ---------- VIEW: invoices ---------- -->
           <section class="view" data-view="invoices" hidden>
             <ul class="stats">
-              <li class="stat"><p class="stat__label">Collected this month</p><p class="stat__value">&euro; 18.195</p><p class="stat__delta is-up">97,6% of billed</p></li>
-              <li class="stat"><p class="stat__label">Outstanding</p><p class="stat__value">&euro; 445</p><p class="stat__delta is-down">5 invoices</p></li>
-              <li class="stat"><p class="stat__label">Refunded</p><p class="stat__value">&euro; 89</p><p class="stat__delta">1 invoice</p></li>
-              <li class="stat"><p class="stat__label">Next payout</p><p class="stat__value">&euro; 4.310</p><p class="stat__delta">Monday 7 September</p></li>
+              <li class="stat"><p class="stat__label">Collected this month</p><p class="stat__value">&euro; 6.119</p><p class="stat__delta is-up">97,7% of billed</p></li>
+              <li class="stat"><p class="stat__label">Outstanding</p><p class="stat__value">&euro; 145</p><p class="stat__delta is-down">5 invoices</p></li>
+              <li class="stat"><p class="stat__label">Refunded</p><p class="stat__value">&euro; 29</p><p class="stat__delta">1 invoice</p></li>
+              <li class="stat"><p class="stat__label">Next payout</p><p class="stat__value">&euro; 2.030</p><p class="stat__delta">Monday 7 September</p></li>
             </ul>
+
+            <p class="alert alert--info">
+              <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+              Amounts here are excluding VAT. Every invoice is &euro; 29,00, so &euro; 35,09 lands on a Dutch customer&rsquo;s card.
+            </p>
 
             <div class="panel panel--scroll">
               <div class="panel__head">
@@ -1043,7 +976,7 @@
                 <button class="icon-btn panel__tool" type="button" aria-label="Search and filter invoices">
                   <svg class="icon icon--wide" aria-hidden="true"><use href="#i-search-filter"/></svg>
                 </button>
-                <div class="psearch" data-filters="Status:Paid|Open|Refunded;Plan:Starter|Pro|Scale;Method:Card|SEPA|iDEAL">
+                <div class="psearch" data-filters="Status:Paid|Open|Refunded;Method:Card|SEPA|iDEAL;VAT:21%|Reverse charged">
                   <div class="psearch__top">
                     <span class="psearch__field">
                       <svg class="icon psearch__icon" aria-hidden="true"><use href="#i-search"/></svg>
@@ -1066,21 +999,21 @@
               <div class="table-wrap">
                 <table class="table table--customers" data-page="7">
                   <thead>
-                    <tr><th>Invoice</th><th>Account</th><th>Date</th><th>Method</th><th>Status</th><th>Amount</th><th>Document</th></tr>
+                    <tr><th>Invoice</th><th>Account</th><th>Date</th><th>Method</th><th>Status</th><th>Excl. VAT</th><th>Incl. VAT</th><th>Document</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>2026-0912</td><td>Pizzeria Napoli</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 4242</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 149,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0912" data-account="Pizzeria Napoli" data-date="1 Sep 2026" data-amount="&euro; 149,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0911</td><td>Green Bowl</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL91 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 149,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0911" data-account="Green Bowl" data-date="1 Sep 2026" data-amount="&euro; 149,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0910</td><td>Burger Bros</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 8891</span></span></td><td><span class="badge badge--danger">Failed</span></td><td>&euro; 89,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0910" data-account="Burger Bros" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Failed"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0909</td><td>Sushi Lab</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">iDEAL</span><span class="pm__name">ING</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 89,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0909" data-account="Sushi Lab" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0908</td><td>Grillhuis Ankara</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 1120</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 149,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0908" data-account="Grillhuis Ankara" data-date="1 Sep 2026" data-amount="&euro; 149,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0907</td><td>Trattoria Rossi</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 3310</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 89,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0907" data-account="Trattoria Rossi" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0906</td><td>Bakkerij Vermeer</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL22 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 49,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0906" data-account="Bakkerij Vermeer" data-date="1 Sep 2026" data-amount="&euro; 49,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0905</td><td>Cafe Zeezicht</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 7702</span></span></td><td><span class="badge badge--danger">Failed</span></td><td>&euro; 89,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0905" data-account="Cafe Zeezicht" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Failed"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0904</td><td>Noodle Bar 88</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 5514</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 149,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0904" data-account="Noodle Bar 88" data-date="1 Sep 2026" data-amount="&euro; 149,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0903</td><td>Tapas Sevilla</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">iDEAL</span><span class="pm__name">Rabobank</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 89,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0903" data-account="Tapas Sevilla" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0902</td><td>Wok to Go</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 9087</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 49,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0902" data-account="Wok to Go" data-date="1 Sep 2026" data-amount="&euro; 49,00" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
-                    <tr><td>2026-0901</td><td>De Broodzaak</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL84 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--muted">Refunded</span></td><td>&euro; 49,00</td><td><a class="link link--invoice" href="#" data-invoice="2026-0901" data-account="De Broodzaak" data-date="1 Sep 2026" data-amount="&euro; 49,00" data-status="Refunded"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0912</td><td>Pizzeria Napoli</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 4242</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0912" data-account="Pizzeria Napoli" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0911</td><td>Green Bowl</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL91 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0911" data-account="Green Bowl" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0910</td><td>Burger Bros</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 8891</span></span></td><td><span class="badge badge--danger">Failed</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0910" data-account="Burger Bros" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0909</td><td>Sushi Lab</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">iDEAL</span><span class="pm__name">ING</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0909" data-account="Sushi Lab" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0908</td><td>Grillhuis Ankara</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 1120</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0908" data-account="Grillhuis Ankara" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0907</td><td>Trattoria Rossi</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 3310</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0907" data-account="Trattoria Rossi" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0906</td><td>Bakkerij Vermeer</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL22 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0906" data-account="Bakkerij Vermeer" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0905</td><td>Cafe Zeezicht</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 7702</span></span></td><td><span class="badge badge--danger">Failed</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0905" data-account="Cafe Zeezicht" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0904</td><td>Noodle Bar 88</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">MC</span><span class="pm__name">&bull;&bull;&bull;&bull; 5514</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0904" data-account="Noodle Bar 88" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0903</td><td>Tapas Sevilla</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">iDEAL</span><span class="pm__name">Rabobank</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0903" data-account="Tapas Sevilla" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0902</td><td>Wok to Go</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">VISA</span><span class="pm__name">&bull;&bull;&bull;&bull; 9087</span></span></td><td><span class="badge badge--active">Paid</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0902" data-account="Wok to Go" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Paid"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
+                    <tr><td>2026-0901</td><td>De Broodzaak</td><td>1 Sep 2026</td><td><span class="pm"><span class="pm__mark">SEPA</span><span class="pm__name">NL84 &bull;&bull;&bull;&bull;</span></span></td><td><span class="badge badge--muted">Refunded</span></td><td>&euro; 29,00</td><td>&euro; 35,09</td><td><a class="link link--invoice" href="#" data-invoice="2026-0901" data-account="De Broodzaak" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Refunded"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>PDF</a></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1100,7 +1033,7 @@
             <div class="notice notice--danger" id="dunning-notice">
               <span class="notice__bar" aria-hidden="true"></span>
               <div class="notice__body">
-                <b>&euro; 445 has not been collected.</b> Five cards were declined this week. Cards fail most often because they expired, not because there is no money.
+                <b>&euro; 145 has not been collected.</b> Five cards were declined this week. Cards fail most often because they expired, not because there is no money.
               </div>
               <button class="notice__close" type="button" data-dismiss="dunning-notice" aria-label="Dismiss">
                 <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
@@ -1122,38 +1055,38 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><span class="cell"><span class="cell__title">Burger Bros</span><span class="cell__meta">Pro</span></span></td>
-                      <td><a class="link link--invoice" href="#" data-invoice="2026-0910" data-account="Burger Bros" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Failed">2026-0910</a></td>
+                      <td><span class="cell"><span class="cell__title">Burger Bros</span><span class="cell__meta">Since Jan 2025</span></span></td>
+                      <td><a class="link link--invoice" href="#" data-invoice="2026-0910" data-account="Burger Bros" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed">2026-0910</a></td>
                       <td><span class="when when--late"><b>9 days ago</b></span></td>
-                      <td>Card expired</td><td>Tomorrow 09:00</td><td>&euro; 89,00</td>
+                      <td>Card expired</td><td>Tomorrow 09:00</td><td>&euro; 29,00</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Retry queued">Retry now</button></td>
                     </tr>
                     <tr>
-                      <td><span class="cell"><span class="cell__title">Cafe Zeezicht</span><span class="cell__meta">Pro</span></span></td>
-                      <td><a class="link link--invoice" href="#" data-invoice="2026-0905" data-account="Cafe Zeezicht" data-date="1 Sep 2026" data-amount="&euro; 89,00" data-status="Failed">2026-0905</a></td>
+                      <td><span class="cell"><span class="cell__title">Cafe Zeezicht</span><span class="cell__meta">Since Apr 2025</span></span></td>
+                      <td><a class="link link--invoice" href="#" data-invoice="2026-0905" data-account="Cafe Zeezicht" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed">2026-0905</a></td>
                       <td><span class="when when--late"><b>7 days ago</b></span></td>
-                      <td>Insufficient funds</td><td>In 2 days</td><td>&euro; 89,00</td>
+                      <td>Insufficient funds</td><td>In 2 days</td><td>&euro; 29,00</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Retry queued">Retry now</button></td>
                     </tr>
                     <tr>
-                      <td><span class="cell"><span class="cell__title">Pita Express</span><span class="cell__meta">Scale</span></span></td>
-                      <td><a class="link link--invoice" href="#" data-invoice="2026-0898" data-account="Pita Express" data-date="1 Sep 2026" data-amount="&euro; 149,00" data-status="Failed">2026-0898</a></td>
+                      <td><span class="cell"><span class="cell__title">Pita Express</span><span class="cell__meta">Since Sep 2024</span></span></td>
+                      <td><a class="link link--invoice" href="#" data-invoice="2026-0898" data-account="Pita Express" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed">2026-0898</a></td>
                       <td><span class="when when--soon"><b>4 days ago</b></span></td>
-                      <td>Card declined</td><td>Tomorrow 09:00</td><td>&euro; 149,00</td>
+                      <td>Card declined</td><td>Tomorrow 09:00</td><td>&euro; 29,00</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Retry queued">Retry now</button></td>
                     </tr>
                     <tr>
-                      <td><span class="cell"><span class="cell__title">Lunchroom Anna</span><span class="cell__meta">Starter</span></span></td>
-                      <td><a class="link link--invoice" href="#" data-invoice="2026-0894" data-account="Lunchroom Anna" data-date="1 Sep 2026" data-amount="&euro; 49,00" data-status="Failed">2026-0894</a></td>
+                      <td><span class="cell"><span class="cell__title">Lunchroom Anna</span><span class="cell__meta">Since Mar 2025</span></span></td>
+                      <td><a class="link link--invoice" href="#" data-invoice="2026-0894" data-account="Lunchroom Anna" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed">2026-0894</a></td>
                       <td><span class="when when--soon"><b>3 days ago</b></span></td>
-                      <td>SEPA mandate revoked</td><td>Manual</td><td>&euro; 49,00</td>
+                      <td>SEPA mandate revoked</td><td>Manual</td><td>&euro; 29,00</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Email sent">Email owner</button></td>
                     </tr>
                     <tr>
-                      <td><span class="cell"><span class="cell__title">Sultan Grill</span><span class="cell__meta">Pro</span></span></td>
-                      <td><a class="link link--invoice" href="#" data-invoice="2026-0890" data-account="Sultan Grill" data-date="1 Sep 2026" data-amount="&euro; 69,00" data-status="Failed">2026-0890</a></td>
+                      <td><span class="cell"><span class="cell__title">Sultan Grill</span><span class="cell__meta">Since Nov 2024</span></span></td>
+                      <td><a class="link link--invoice" href="#" data-invoice="2026-0890" data-account="Sultan Grill" data-date="1 Sep 2026" data-amount="&euro; 29,00 excl. VAT" data-status="Failed">2026-0890</a></td>
                       <td><span class="when"><b>2 days ago</b></span></td>
-                      <td>Card expired</td><td>In 3 days</td><td>&euro; 69,00</td>
+                      <td>Card expired</td><td>In 3 days</td><td>&euro; 29,00</td>
                       <td><button class="btn btn--ghost btn--sm" type="button" data-toast="Retry queued">Retry now</button></td>
                     </tr>
                   </tbody>
@@ -1189,8 +1122,8 @@
             <ul class="stats">
               <li class="stat"><p class="stat__label">Signups</p><p class="stat__value">142</p><p class="stat__delta is-up">+11,8% vs. previous 12 weeks</p></li>
               <li class="stat"><p class="stat__label">Trial to paid</p><p class="stat__value">38%</p><p class="stat__delta is-up">+4pp</p></li>
-              <li class="stat"><p class="stat__label">Customer lifetime value</p><p class="stat__value">&euro; 4.110</p><p class="stat__delta is-up">+&euro; 240</p></li>
-              <li class="stat"><p class="stat__label">CAC payback</p><p class="stat__value">3,6 mo</p><p class="stat__delta is-up">&minus;0,4 mo</p></li>
+              <li class="stat"><p class="stat__label">Customer lifetime value</p><p class="stat__value">&euro; 1.240</p><p class="stat__delta is-up">+&euro; 70</p></li>
+              <li class="stat"><p class="stat__label">CAC payback</p><p class="stat__value">2,5 mo</p><p class="stat__delta is-up">&minus;0,3 mo</p></li>
             </ul>
 
             <div class="card">
@@ -1200,8 +1133,8 @@
                   <p class="card__sub">Last 12 weeks, split by what the signup became.</p>
                 </div>
                 <ul class="legend">
-                  <li class="legend__item"><span class="legend__dot legend__dot--pro" aria-hidden="true"></span>Became paying</li>
-                  <li class="legend__item"><span class="legend__dot legend__dot--starter" aria-hidden="true"></span>Still trialing</li>
+                  <li class="legend__item"><span class="legend__dot legend__dot--paid" aria-hidden="true"></span>Became paying</li>
+                  <li class="legend__item"><span class="legend__dot legend__dot--trial" aria-hidden="true"></span>Still trialing</li>
                 </ul>
               </div>
 
@@ -1214,18 +1147,18 @@
                     <span data-v="0" style="bottom:0"></span>
                   </div>
                   <ol class="chart__bars">
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:20%"></span><span class="cbar__seg cbar__seg--starter" style="height:30%"></span></span><span class="cbar__x">W1</span><span class="cbar__tip"><b>Week 1 &middot; 10 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 4</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 6</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:25%"></span><span class="cbar__seg cbar__seg--starter" style="height:35%"></span></span><span class="cbar__x">W2</span><span class="cbar__tip"><b>Week 2 &middot; 12 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 5</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 7</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:20%"></span><span class="cbar__seg cbar__seg--starter" style="height:25%"></span></span><span class="cbar__x">W3</span><span class="cbar__tip"><b>Week 3 &middot; 9 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 4</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 5</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:30%"></span><span class="cbar__seg cbar__seg--starter" style="height:40%"></span></span><span class="cbar__x">W4</span><span class="cbar__tip"><b>Week 4 &middot; 14 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 6</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 8</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:25%"></span><span class="cbar__seg cbar__seg--starter" style="height:30%"></span></span><span class="cbar__x">W5</span><span class="cbar__tip"><b>Week 5 &middot; 11 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 5</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 6</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:35%"></span><span class="cbar__seg cbar__seg--starter" style="height:40%"></span></span><span class="cbar__x">W6</span><span class="cbar__tip"><b>Week 6 &middot; 15 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 7</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 8</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:30%"></span><span class="cbar__seg cbar__seg--starter" style="height:35%"></span></span><span class="cbar__x">W7</span><span class="cbar__tip"><b>Week 7 &middot; 13 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 6</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 7</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:40%"></span><span class="cbar__seg cbar__seg--starter" style="height:35%"></span></span><span class="cbar__x">W8</span><span class="cbar__tip"><b>Week 8 &middot; 15 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 8</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 7</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:35%"></span><span class="cbar__seg cbar__seg--starter" style="height:30%"></span></span><span class="cbar__x">W9</span><span class="cbar__tip"><b>Week 9 &middot; 13 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 7</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 6</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:45%"></span><span class="cbar__seg cbar__seg--starter" style="height:35%"></span></span><span class="cbar__x">W10</span><span class="cbar__tip"><b>Week 10 &middot; 16 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 9</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 7</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:40%"></span><span class="cbar__seg cbar__seg--starter" style="height:30%"></span></span><span class="cbar__x">W11</span><span class="cbar__tip"><b>Week 11 &middot; 14 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 8</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 6</span></span></li>
-                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--pro" style="height:50%"></span><span class="cbar__seg cbar__seg--starter" style="height:30%"></span></span><span class="cbar__x">W12</span><span class="cbar__tip"><b>Week 12 &middot; 16 signups</b><span><i class="legend__dot legend__dot--pro"></i>Paying 10</span><span><i class="legend__dot legend__dot--starter"></i>Trialing 6</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:20%"></span><span class="cbar__seg cbar__seg--trial" style="height:30%"></span></span><span class="cbar__x">W1</span><span class="cbar__tip"><b>Week 1 &middot; 10 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 4</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 6</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:25%"></span><span class="cbar__seg cbar__seg--trial" style="height:35%"></span></span><span class="cbar__x">W2</span><span class="cbar__tip"><b>Week 2 &middot; 12 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 5</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 7</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:20%"></span><span class="cbar__seg cbar__seg--trial" style="height:25%"></span></span><span class="cbar__x">W3</span><span class="cbar__tip"><b>Week 3 &middot; 9 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 4</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 5</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:30%"></span><span class="cbar__seg cbar__seg--trial" style="height:40%"></span></span><span class="cbar__x">W4</span><span class="cbar__tip"><b>Week 4 &middot; 14 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 6</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 8</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:25%"></span><span class="cbar__seg cbar__seg--trial" style="height:30%"></span></span><span class="cbar__x">W5</span><span class="cbar__tip"><b>Week 5 &middot; 11 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 5</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 6</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:35%"></span><span class="cbar__seg cbar__seg--trial" style="height:40%"></span></span><span class="cbar__x">W6</span><span class="cbar__tip"><b>Week 6 &middot; 15 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 7</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 8</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:30%"></span><span class="cbar__seg cbar__seg--trial" style="height:35%"></span></span><span class="cbar__x">W7</span><span class="cbar__tip"><b>Week 7 &middot; 13 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 6</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 7</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:40%"></span><span class="cbar__seg cbar__seg--trial" style="height:35%"></span></span><span class="cbar__x">W8</span><span class="cbar__tip"><b>Week 8 &middot; 15 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 8</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 7</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:35%"></span><span class="cbar__seg cbar__seg--trial" style="height:30%"></span></span><span class="cbar__x">W9</span><span class="cbar__tip"><b>Week 9 &middot; 13 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 7</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 6</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:45%"></span><span class="cbar__seg cbar__seg--trial" style="height:35%"></span></span><span class="cbar__x">W10</span><span class="cbar__tip"><b>Week 10 &middot; 16 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 9</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 7</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:40%"></span><span class="cbar__seg cbar__seg--trial" style="height:30%"></span></span><span class="cbar__x">W11</span><span class="cbar__tip"><b>Week 11 &middot; 14 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 8</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 6</span></span></li>
+                    <li class="cbar" tabindex="0"><span class="cbar__stack"><span class="cbar__seg cbar__seg--paid" style="height:50%"></span><span class="cbar__seg cbar__seg--trial" style="height:30%"></span></span><span class="cbar__x">W12</span><span class="cbar__tip"><b>Week 12 &middot; 16 signups</b><span><i class="legend__dot legend__dot--paid"></i>Paying 10</span><span><i class="legend__dot legend__dot--trial"></i>Trialing 6</span></span></li>
                   </ol>
                 </div>
               </div>
@@ -1246,11 +1179,11 @@
 
               <div class="card">
                 <h2 class="card__title">Unit economics</h2>
-                <p class="card__sub">What one customer costs and what they bring back.</p>
+                <p class="card__sub">What one customer costs and what they bring back, at &euro; 29 a month.</p>
                 <ul class="facts">
-                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-coin"/></svg>CAC &euro; 310</li>
-                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-finance"/></svg>LTV &euro; 4.110</li>
-                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-analytics"/></svg>LTV / CAC 13,3</li>
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-coin"/></svg>CAC &euro; 59</li>
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-finance"/></svg>LTV &euro; 1.240</li>
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-analytics"/></svg>LTV / CAC 21,0</li>
                 </ul>
                 <div class="hbars">
                   <div class="hbar"><span class="hbar__name">Gross margin</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:82%"></span></span><span class="hbar__val">82%</span></div>
@@ -1284,140 +1217,100 @@
             </div>
           </section>
 
-          <!-- ---------- VIEW: plans ---------- -->
-          <section class="view" data-view="plans" hidden>
-            <div class="plans">
-              <article class="plan">
-                <h2 class="plan__name">Starter</h2>
-                <p class="plan__price"><b>&euro; 49</b> / month</p>
-                <p class="plan__meta">84 accounts &middot; &euro; 4.116 MRR</p>
-                <ul class="feats">
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>One location</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Orders and menu</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Email support</li>
-                </ul>
-                <span class="plan__share"><span class="plan__share-fill" style="width:22%"></span></span>
-                <p class="plan__sharetext">22% of MRR</p>
-              </article>
+          <!-- ---------- VIEW: pricing ---------- -->
+          <section class="view" data-view="pricing" hidden>
+            <ul class="stats">
+              <li class="stat"><p class="stat__label">Price</p><p class="stat__value">&euro; 29</p><p class="stat__delta">per month, excl. VAT</p></li>
+              <li class="stat"><p class="stat__label">Accounts paying it</p><p class="stat__value">216</p><p class="stat__delta is-up">+7 this month</p></li>
+              <li class="stat"><p class="stat__label">MRR</p><p class="stat__value">&euro; 6.264</p><p class="stat__delta is-up">+3,4%</p></li>
+              <li class="stat"><p class="stat__label">Gross margin per account</p><p class="stat__value">&euro; 23,78</p><p class="stat__delta">82% after hosting and fees</p></li>
+            </ul>
+
+            <div class="plans plans--single">
               <article class="plan plan--main">
-                <h2 class="plan__name">Pro <span class="badge badge--active">Most chosen</span></h2>
-                <p class="plan__price"><b>&euro; 89</b> / month</p>
-                <p class="plan__meta">95 accounts &middot; &euro; 8.455 MRR</p>
+                <h2 class="plan__name">Opining <span class="badge badge--active">Live</span></h2>
+                <p class="plan__price"><b>&euro; 29</b> per month, excl. 21% VAT</p>
+                <p class="plan__meta">&euro; 35,09 incl. VAT &middot; 216 accounts &middot; live since 12 March 2024</p>
                 <ul class="feats">
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Up to four seats</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Marketing and discounts</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Analytics</li>
+                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Orders, menu and your own ordering page</li>
+                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Discounts, vouchers and loyalty</li>
+                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Analytics and customer list</li>
+                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Unlimited orders, no commission per order</li>
+                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Email support, cancel monthly</li>
                 </ul>
-                <span class="plan__share"><span class="plan__share-fill" style="width:45%"></span></span>
-                <p class="plan__sharetext">45% of MRR</p>
+                <span class="plan__share"><span class="plan__share-fill" style="width:100%"></span></span>
+                <p class="plan__sharetext">100% of MRR &mdash; there is nothing else to sell</p>
               </article>
-              <article class="plan">
-                <h2 class="plan__name">Scale</h2>
-                <p class="plan__price"><b>&euro; 149</b> / month</p>
-                <p class="plan__meta">37 accounts &middot; &euro; 5.513 MRR</p>
-                <ul class="feats">
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Multiple locations</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>API access</li>
-                  <li class="feat"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Priority support</li>
+
+              <div class="card">
+                <h2 class="card__title">What one account is worth</h2>
+                <p class="card__sub">At &euro; 29 and 1,9% monthly churn.</p>
+                <ul class="facts">
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Stays 52 months</li>
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-finance"/></svg>Brings in &euro; 1.240</li>
+                  <li class="fact"><svg class="icon" aria-hidden="true"><use href="#i-coin"/></svg>Costs &euro; 59 to win</li>
                 </ul>
-                <span class="plan__share"><span class="plan__share-fill" style="width:33%"></span></span>
-                <p class="plan__sharetext">33% of MRR</p>
-              </article>
-            </div>
-
-            <div class="panel">
-              <div class="panel__head">
-                <div class="tabs">
-                  <button class="tab is-active" type="button">All plans <span class="tab__count">4</span></button>
-                  <button class="tab" type="button">Live <span class="tab__count">3</span></button>
-                  <button class="tab" type="button">Retired <span class="tab__count">1</span></button>
+                <div class="hbars">
+                  <div class="hbar"><span class="hbar__name">Gross margin</span><span class="hbar__track"><span class="hbar__fill hbar__fill--new" style="width:82%"></span></span><span class="hbar__val">&euro; 23,78</span></div>
+                  <div class="hbar"><span class="hbar__name">Hosting</span><span class="hbar__track"><span class="hbar__fill hbar__fill--con" style="width:9%"></span></span><span class="hbar__val">&euro; 2,61</span></div>
+                  <div class="hbar"><span class="hbar__name">Payment fees</span><span class="hbar__track"><span class="hbar__fill hbar__fill--con" style="width:5%"></span></span><span class="hbar__val">&euro; 1,45</span></div>
+                  <div class="hbar"><span class="hbar__name">Support</span><span class="hbar__track"><span class="hbar__fill hbar__fill--con" style="width:4%"></span></span><span class="hbar__val">&euro; 1,16</span></div>
                 </div>
-              </div>
-              <div class="table-wrap">
-                <table class="table table--list">
-                  <thead>
-                    <tr><th>Plan</th><th>Price</th><th>Accounts</th><th>MRR</th><th>Churn</th><th>Status</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td><span class="cell"><span class="cell__title">Starter</span><span class="cell__meta">Monthly, per location</span></span></td><td>&euro; 49</td><td>84</td><td>&euro; 4.116</td><td>3,1%</td><td><span class="badge badge--active">Live</span></td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Pro</span><span class="cell__meta">Monthly, per location</span></span></td><td>&euro; 89</td><td>95</td><td>&euro; 8.455</td><td>1,8%</td><td><span class="badge badge--active">Live</span></td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Scale</span><span class="cell__meta">Monthly, per location</span></span></td><td>&euro; 149</td><td>37</td><td>&euro; 5.513</td><td>0,9%</td><td><span class="badge badge--active">Live</span></td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Basic (2024)</span><span class="cell__meta">Grandfathered, no new signups</span></span></td><td>&euro; 39</td><td>12</td><td>&euro; 468</td><td>4,4%</td><td><span class="badge badge--muted">Retired</span></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Scale churns least and earns most. Twelve accounts are still on the retired Basic plan &mdash; moving them to Starter adds &euro; 120 MRR.</p>
-          </section>
-
-          <!-- ---------- VIEW: plan-new (aanmaakscherm) ---------- -->
-          <section class="view" data-view="plan-new" hidden>
-            <div class="card">
-              <h2 class="card__title">Plan</h2>
-              <div class="field">
-                <label class="label" for="plan-name">Name</label>
-                <input class="input" id="plan-name" type="text" placeholder="Scale" />
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label class="label" for="plan-price">Price per month</label>
-                  <span class="affix affix--pre"><span class="affix__sym">&euro;</span><input class="input" id="plan-price" type="text" placeholder="149" /></span>
-                </div>
-                <div class="field">
-                  <label class="label" for="plan-cycle">Billing cycle</label>
-                  <select class="input" id="plan-cycle">
-                    <option>Monthly</option>
-                    <option>Yearly (two months free)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field">
-                <label class="label" for="plan-desc">What the customer gets</label>
-                <textarea class="input" id="plan-desc" rows="3" placeholder="Multiple locations, API access and priority support."></textarea>
               </div>
             </div>
 
             <div class="card">
-              <h2 class="card__title">Limits</h2>
-              <div class="field-row">
-                <div class="field">
-                  <label class="label" for="plan-seats">Seats included</label>
-                  <input class="input" id="plan-seats" type="number" value="4" min="1" />
-                </div>
-                <div class="field">
-                  <label class="label" for="plan-locations">Locations included</label>
-                  <input class="input" id="plan-locations" type="number" value="1" min="1" />
-                </div>
-              </div>
+              <h2 class="card__title">Price history</h2>
+              <p class="card__sub">Accounts keep the price they signed up at until you move them.</p>
               <div class="rows">
                 <div class="row row--static">
-                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-code"/></svg>
-                  <span class="row__text"><span class="row__title">API access</span><span class="row__meta">Read and write orders from another system</span></span>
-                  <span class="row__switch"><label class="switch"><input type="checkbox" /><span class="switch__track"></span></label></span>
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-plan"/></svg>
+                  <span class="row__text"><span class="row__title">&euro; 29 per month</span><span class="row__meta">Since 12 March 2024 &middot; 204 accounts</span></span>
+                  <span class="badge badge--active">Current</span>
                 </div>
                 <div class="row row--static">
-                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-marketing"/></svg>
-                  <span class="row__text"><span class="row__title">Marketing tools</span><span class="row__meta">Discounts, vouchers and campaigns</span></span>
-                  <span class="row__switch"><label class="switch"><input type="checkbox" checked /><span class="switch__track"></span></label></span>
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-plan"/></svg>
+                  <span class="row__text"><span class="row__title">&euro; 19 per month</span><span class="row__meta">Launch price, Nov 2023 &ndash; Mar 2024 &middot; 12 accounts still on it</span></span>
+                  <span class="badge badge--muted">Grandfathered</span>
+                </div>
+              </div>
+              <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Those 12 accounts pay &euro; 228 a month instead of &euro; 348. Moving them to &euro; 29 adds &euro; 120 MRR &mdash; and is the kind of email that costs you a few of them.</p>
+            </div>
+
+            <div class="card">
+              <h2 class="card__title">Worth considering</h2>
+              <p class="card__sub">One price is simple to sell, but it leaves two groups unserved.</p>
+              <div class="rows">
+                <div class="row row--static">
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-minus-circle"/></svg>
+                  <span class="row__text"><span class="row__title">23% who leave say &euro; 29 is too much</span><span class="row__meta">Mostly small takeaways with under 200 orders a month</span></span>
+                </div>
+                <div class="row row--static">
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-plus-circle"/></svg>
+                  <span class="row__text"><span class="row__title">9 accounts asked for multiple locations</span><span class="row__meta">They would pay more; today there is nothing to charge them for</span></span>
+                </div>
+                <div class="row row--static">
+                  <svg class="icon row__icon" aria-hidden="true"><use href="#i-finance"/></svg>
+                  <span class="row__text"><span class="row__title">A yearly option at &euro; 290</span><span class="row__meta">Two months free, a year of cash up front, and churn drops</span></span>
                 </div>
               </div>
             </div>
-
-            <div class="formfoot">
-              <button class="btn btn--ghost" type="button" data-back-view>Cancel</button>
-              <button class="btn btn--primary" type="button" data-created="Plan created">Create plan</button>
-            </div>
           </section>
+
 
           <!-- ---------- VIEW: acquisition ---------- -->
           <section class="view" data-view="acquisition" hidden>
             <ul class="stats">
               <li class="stat"><p class="stat__label">Signups</p><p class="stat__value">142</p><p class="stat__delta is-up">+11,8%</p></li>
-              <li class="stat"><p class="stat__label">Blended CAC</p><p class="stat__value">&euro; 310</p><p class="stat__delta is-up">&minus;&euro; 24</p></li>
-              <li class="stat"><p class="stat__label">Best channel</p><p class="stat__value">Referral</p><p class="stat__delta is-up">CAC &euro; 96</p></li>
-              <li class="stat"><p class="stat__label">Marketing spend</p><p class="stat__value">&euro; 4.400</p><p class="stat__delta">Last 12 weeks</p></li>
+              <li class="stat"><p class="stat__label">Blended CAC</p><p class="stat__value">&euro; 59</p><p class="stat__delta is-up">&minus;&euro; 8</p></li>
+              <li class="stat"><p class="stat__label">Best channel</p><p class="stat__value">Organic</p><p class="stat__delta is-up">CAC &euro; 27</p></li>
+              <li class="stat"><p class="stat__label">Marketing spend</p><p class="stat__value">&euro; 2.480</p><p class="stat__delta">Last 12 weeks</p></li>
             </ul>
+
+            <p class="alert alert--info">
+              <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+              At &euro; 29 a month you earn &euro; 23,78 gross per account. Anything above roughly &euro; 285 in CAC never pays itself back before the average account leaves.
+            </p>
 
             <div class="card">
               <h2 class="card__title">Where accounts come from</h2>
@@ -1444,10 +1337,10 @@
                     <tr><th>Channel</th><th>Spend</th><th>Signups</th><th>Paying</th><th>CAC</th><th>Payback</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td><span class="cell"><span class="cell__title">Referral</span><span class="cell__meta">One free month per referral</span></span></td><td>&euro; 1.150</td><td>44</td><td>12</td><td>&euro; 96</td><td>1,2 mo</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Google Ads</span><span class="cell__meta">Search, restaurant keywords</span></span></td><td>&euro; 2.400</td><td>36</td><td>9</td><td>&euro; 267</td><td>3,1 mo</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Organic search</span><span class="cell__meta">Guides and comparisons</span></span></td><td>&euro; 300</td><td>28</td><td>11</td><td>&euro; 27</td><td>0,4 mo</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Instagram</span><span class="cell__meta">Local restaurant accounts</span></span></td><td>&euro; 550</td><td>19</td><td>4</td><td>&euro; 138</td><td>1,7 mo</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Organic search</span><span class="cell__meta">Guides and comparisons</span></span></td><td>&euro; 300</td><td>28</td><td>11</td><td>&euro; 27</td><td>1,2 mo</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Referral</span><span class="cell__meta">One free month per referral</span></span></td><td>&euro; 580</td><td>44</td><td>12</td><td>&euro; 48</td><td>2,1 mo</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Instagram</span><span class="cell__meta">Local restaurant accounts</span></span></td><td>&euro; 400</td><td>19</td><td>4</td><td>&euro; 100</td><td>4,3 mo</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Google Ads</span><span class="cell__meta">Search, restaurant keywords</span></span></td><td>&euro; 1.200</td><td>36</td><td>9</td><td>&euro; 133</td><td>5,7 mo</td></tr>
                     <tr><td><span class="cell"><span class="cell__title">Direct</span><span class="cell__meta">Typed the address</span></span></td><td>&euro; 0</td><td>15</td><td>6</td><td>&euro; 0</td><td>&mdash;</td></tr>
                   </tbody>
                 </table>
@@ -1501,7 +1394,7 @@
                     <tr><td><span class="cell"><span class="cell__title">Day 1: add your menu</span><span class="cell__meta">Onboarding series</span></span></td><td>Trials</td><td>142</td><td>68%</td><td>41</td><td><span class="badge badge--active">Running</span></td></tr>
                     <tr><td><span class="cell"><span class="cell__title">Day 10: your trial ends soon</span><span class="cell__meta">Onboarding series</span></span></td><td>Trials</td><td>118</td><td>59%</td><td>27</td><td><span class="badge badge--active">Running</span></td></tr>
                     <tr><td><span class="cell"><span class="cell__title">Card expired</span><span class="cell__meta">Dunning</span></span></td><td>Paying</td><td>34</td><td>81%</td><td>22</td><td><span class="badge badge--active">Running</span></td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Upgrade to Pro</span><span class="cell__meta">Expansion</span></span></td><td>Starter accounts</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td><span class="badge badge--draft">Draft</span></td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Switch to yearly billing</span><span class="cell__meta">&euro; 290 for twelve months</span></span></td><td>Paying accounts</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td><span class="badge badge--draft">Draft</span></td></tr>
                     <tr><td><span class="cell"><span class="cell__title">Win back</span><span class="cell__meta">Two months free</span></span></td><td>Churned</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td><span class="badge badge--draft">Draft</span></td></tr>
                     <tr><td><span class="cell"><span class="cell__title">Summer launch</span><span class="cell__meta">Announcement</span></span></td><td>All accounts</td><td>203</td><td>52%</td><td>9</td><td><span class="badge badge--muted">Ended</span></td></tr>
                   </tbody>
@@ -1516,7 +1409,7 @@
               <li class="stat"><p class="stat__label">Weekly active accounts</p><p class="stat__value">187</p><p class="stat__delta is-up">87% of paying</p></li>
               <li class="stat"><p class="stat__label">Sessions per account</p><p class="stat__value">24</p><p class="stat__delta is-up">+3 vs. last month</p></li>
               <li class="stat"><p class="stat__label">Orders processed</p><p class="stat__value">64.180</p><p class="stat__delta is-up">+9,1%</p></li>
-              <li class="stat"><p class="stat__label">Never logged in</p><p class="stat__value">4</p><p class="stat__delta is-down">All on Starter</p></li>
+              <li class="stat"><p class="stat__label">Never logged in</p><p class="stat__value">4</p><p class="stat__delta is-down">All under two months old</p></li>
             </ul>
 
             <div class="card">
@@ -1559,7 +1452,7 @@
                 </div>
                 <div class="row row--static">
                   <svg class="icon row__icon" aria-hidden="true"><use href="#i-code"/></svg>
-                  <span class="row__text"><span class="row__title">2.15 &mdash; Multi-location switching</span><span class="row__meta">Planned for October &middot; asked for by 9 Scale accounts</span></span>
+                  <span class="row__text"><span class="row__title">2.15 &mdash; Multi-location switching</span><span class="row__meta">Planned for October &middot; asked for by 9 accounts, and the first thing worth charging extra for</span></span>
                   <span class="badge badge--draft">Draft</span>
                 </div>
               </div>
@@ -1583,7 +1476,7 @@
               <li class="stat"><p class="stat__label">Open tickets</p><p class="stat__value">7</p><p class="stat__delta is-down">2 older than a day</p></li>
               <li class="stat"><p class="stat__label">First reply</p><p class="stat__value">3,2 h</p><p class="stat__delta is-up">&minus;0,8 h</p></li>
               <li class="stat"><p class="stat__label">Solved this week</p><p class="stat__value">31</p><p class="stat__delta is-up">+6</p></li>
-              <li class="stat"><p class="stat__label">Satisfaction</p><p class="stat__value">4,7 / 5</p><p class="stat__delta is-up">62 ratings</p></li>
+              <li class="stat"><p class="stat__label">Cost per account</p><p class="stat__value">&euro; 1,16</p><p class="stat__delta">4% of the &euro; 29</p></li>
             </ul>
 
             <div class="panel panel--scroll">
@@ -1596,7 +1489,7 @@
                 <button class="icon-btn panel__tool" type="button" aria-label="Search and filter tickets">
                   <svg class="icon icon--wide" aria-hidden="true"><use href="#i-search-filter"/></svg>
                 </button>
-                <div class="psearch" data-filters="Priority:High|Normal|Low;Plan:Starter|Pro|Scale">
+                <div class="psearch" data-filters="Priority:High|Normal|Low;Waiting:Under a day|Over a day">
                   <div class="psearch__top">
                     <span class="psearch__field">
                       <svg class="icon psearch__icon" aria-hidden="true"><use href="#i-search"/></svg>
@@ -1618,16 +1511,16 @@
               <div class="table-wrap">
                 <table class="table table--customers">
                   <thead>
-                    <tr><th>Subject</th><th>Account</th><th>Plan</th><th>Waiting</th><th>Priority</th><th>Assigned</th></tr>
+                    <tr><th>Subject</th><th>Account</th><th>Customer since</th><th>Waiting</th><th>Priority</th><th>Assigned</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td><span class="cell"><span class="cell__title">Orders not printing</span><span class="cell__meta">Printer stopped after update</span></span></td><td>Grillhuis Ankara</td><td>Scale</td><td><span class="when when--late"><b>31 h</b></span></td><td><span class="badge badge--danger">High</span></td><td>Serdar</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Wants API keys</span><span class="cell__meta">Connecting their POS</span></span></td><td>Green Bowl</td><td>Scale</td><td><span class="when when--late"><b>26 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Invoice address wrong</span><span class="cell__meta">VAT number changed</span></span></td><td>Sushi Lab</td><td>Pro</td><td><span class="when when--soon"><b>8 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Unassigned</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Can we pause for winter?</span><span class="cell__meta">Seasonal closure</span></span></td><td>Cafe Zeezicht</td><td>Pro</td><td><span class="when"><b>5 h</b></span></td><td><span class="badge badge--muted">Low</span></td><td>Unassigned</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Discount not applied</span><span class="cell__meta">Only on delivery orders</span></span></td><td>Trattoria Rossi</td><td>Pro</td><td><span class="when"><b>4 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Extra seat for new manager</span><span class="cell__meta">Upgrade question</span></span></td><td>Wok to Go</td><td>Starter</td><td><span class="when"><b>2 h</b></span></td><td><span class="badge badge--muted">Low</span></td><td>Unassigned</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Domain not connecting</span><span class="cell__meta">DNS record missing</span></span></td><td>De Broodzaak</td><td>Starter</td><td><span class="when"><b>1 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Orders not printing</span><span class="cell__meta">Printer stopped after update</span></span></td><td>Grillhuis Ankara</td><td>Jun 2024</td><td><span class="when when--late"><b>31 h</b></span></td><td><span class="badge badge--danger">High</span></td><td>Serdar</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Wants API keys</span><span class="cell__meta">Connecting their POS</span></span></td><td>Green Bowl</td><td>Nov 2023</td><td><span class="when when--late"><b>26 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Invoice address wrong</span><span class="cell__meta">VAT number changed</span></span></td><td>Sushi Lab</td><td>Jul 2024</td><td><span class="when when--soon"><b>8 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Unassigned</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Can we pause for winter?</span><span class="cell__meta">Seasonal closure</span></span></td><td>Cafe Zeezicht</td><td>Apr 2025</td><td><span class="when"><b>5 h</b></span></td><td><span class="badge badge--muted">Low</span></td><td>Unassigned</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Discount not applied</span><span class="cell__meta">Only on delivery orders</span></span></td><td>Trattoria Rossi</td><td>May 2025</td><td><span class="when"><b>4 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Second location on one account</span><span class="cell__meta">Asks what it would cost</span></span></td><td>Wok to Go</td><td>Oct 2025</td><td><span class="when"><b>2 h</b></span></td><td><span class="badge badge--muted">Low</span></td><td>Unassigned</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Domain not connecting</span><span class="cell__meta">DNS record missing</span></span></td><td>De Broodzaak</td><td>Jan 2026</td><td><span class="when"><b>1 h</b></span></td><td><span class="badge badge--pending">Normal</span></td><td>Serdar</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1689,8 +1582,8 @@
           <section class="view" data-view="referrals" hidden>
             <ul class="stats">
               <li class="stat"><p class="stat__label">Referred accounts</p><p class="stat__value">44</p><p class="stat__delta is-up">+9 this quarter</p></li>
-              <li class="stat"><p class="stat__label">Referral MRR</p><p class="stat__value">&euro; 3.740</p><p class="stat__delta is-up">20% of total</p></li>
-              <li class="stat"><p class="stat__label">Reward paid out</p><p class="stat__value">&euro; 1.150</p><p class="stat__delta">23 free months</p></li>
+              <li class="stat"><p class="stat__label">Referral MRR</p><p class="stat__value">&euro; 1.102</p><p class="stat__delta is-up">18% of total</p></li>
+              <li class="stat"><p class="stat__label">Reward paid out</p><p class="stat__value">&euro; 667</p><p class="stat__delta">23 free months</p></li>
               <li class="stat"><p class="stat__label">Churn of referred</p><p class="stat__value">1,1%</p><p class="stat__delta is-up">Half the average</p></li>
             </ul>
 
@@ -1729,18 +1622,18 @@
                     <tr><th>Account</th><th>Referred</th><th>Now paying</th><th>MRR brought in</th><th>Reward</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td><span class="cell"><span class="cell__title">Green Bowl</span><span class="cell__meta">Scale &middot; since Nov 2023</span></span></td><td>9</td><td>7</td><td>&euro; 743</td><td>7 free months</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Pizzeria Napoli</span><span class="cell__meta">Scale &middot; since Mar 2024</span></span></td><td>7</td><td>6</td><td>&euro; 594</td><td>6 free months</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Grillhuis Ankara</span><span class="cell__meta">Scale &middot; since Jun 2024</span></span></td><td>6</td><td>4</td><td>&euro; 416</td><td>4 free months</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Sushi Lab</span><span class="cell__meta">Pro &middot; since Jul 2024</span></span></td><td>5</td><td>3</td><td>&euro; 267</td><td>3 free months</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Tapas Sevilla</span><span class="cell__meta">Pro &middot; since Dec 2024</span></span></td><td>4</td><td>2</td><td>&euro; 178</td><td>2 free months</td></tr>
-                    <tr><td><span class="cell"><span class="cell__title">Noodle Bar 88</span><span class="cell__meta">Scale &middot; since Feb 2024</span></span></td><td>3</td><td>1</td><td>&euro; 89</td><td>1 free month</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Green Bowl</span><span class="cell__meta">Since Nov 2023</span></span></td><td>9</td><td>7</td><td>&euro; 203</td><td>7 free months</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Pizzeria Napoli</span><span class="cell__meta">Since Mar 2024</span></span></td><td>7</td><td>6</td><td>&euro; 174</td><td>6 free months</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Grillhuis Ankara</span><span class="cell__meta">Since Jun 2024</span></span></td><td>6</td><td>4</td><td>&euro; 116</td><td>4 free months</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Sushi Lab</span><span class="cell__meta">Since Jul 2024</span></span></td><td>5</td><td>3</td><td>&euro; 87</td><td>3 free months</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Tapas Sevilla</span><span class="cell__meta">Since Dec 2024</span></span></td><td>4</td><td>2</td><td>&euro; 58</td><td>2 free months</td></tr>
+                    <tr><td><span class="cell"><span class="cell__title">Noodle Bar 88</span><span class="cell__meta">Since Feb 2024</span></span></td><td>3</td><td>1</td><td>&euro; 29</td><td>1 free month</td></tr>
                   </tbody>
                 </table>
               </div>
             </div>
 
-            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Referred accounts churn at half the rate and cost &euro; 96 to acquire. Six accounts bring in a fifth of that channel &mdash; worth asking them what to build next.</p>
+            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Referred accounts churn at half the rate and cost &euro; 48 to acquire. Six accounts bring in a fifth of that channel &mdash; worth asking them what to build next.</p>
           </section>
 
           <!-- ---------- VIEW: generic fallback ---------- -->
@@ -1791,8 +1684,6 @@
             <svg class="icon" aria-hidden="true"><use href="#i-store"/></svg><span>Company</span><svg class="icon nav__chev" aria-hidden="true"><use href="#i-chevron-right"/></svg></a></li>
           <li><a class="nav__item" href="#" data-set="billing" data-title="Billing" data-icon="i-card">
             <svg class="icon" aria-hidden="true"><use href="#i-card"/></svg><span>Billing</span><svg class="icon nav__chev" aria-hidden="true"><use href="#i-chevron-right"/></svg></a></li>
-          <li><a class="nav__item" href="#" data-set="pricing" data-title="Pricing" data-icon="i-plan">
-            <svg class="icon" aria-hidden="true"><use href="#i-plan"/></svg><span>Pricing</span><svg class="icon nav__chev" aria-hidden="true"><use href="#i-chevron-right"/></svg></a></li>
           <li><a class="nav__item" href="#" data-set="apikeys" data-title="API keys" data-icon="i-code">
             <svg class="icon" aria-hidden="true"><use href="#i-code"/></svg><span>API keys</span><svg class="icon nav__chev" aria-hidden="true"><use href="#i-chevron-right"/></svg></a></li>
           <li><a class="nav__item" href="#" data-set="webhooks" data-title="Webhooks" data-icon="i-globe">
@@ -2036,7 +1927,7 @@
               </div>
               <div class="row row--static">
                 <svg class="icon row__icon" aria-hidden="true"><use href="#i-warning"/></svg>
-                <span class="row__text"><span class="row__title">A Scale account looks at risk</span><span class="row__meta">Health score under 50</span></span>
+                <span class="row__text"><span class="row__title">An account looks at risk</span><span class="row__meta">Health score under 50</span></span>
                 <span class="row__switch"><label class="switch"><input type="checkbox" checked /><span class="switch__track"></span></label></span>
               </div>
               <div class="row row--static">

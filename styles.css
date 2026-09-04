@@ -2271,31 +2271,28 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
    hieronder staat hoort bij de cijfers van het bedrijf zelf.
    ========================================================================== */
 
-/* Drie plannen, drie kleuren. Dezelfde volgorde als in de legenda: de
-   goedkoopste onderaan in een stapel, de duurste bovenop. */
+/* Eén prijs, dus één kleur voor de omzet. De tweede kleur is er alleen waar
+   twee series naast elkaar staan: betalend tegenover nog op proef. */
 :root {
-  --series-starter: #7fb3d0;
-  --series-pro:     #0172af;
-  --series-scale:   #08456a;
+  --series-mrr:   #0172af;
+  --series-paid:  #0172af;
+  --series-trial: #7fb3d0;
 
   /* Groei en verlies delen één paar door het hele dashboard heen. */
   --series-up:   #067a4e;
   --series-down: #c0342b;
-  --series-flat: #ce7514;
 }
 
-.legend__dot--starter { background: var(--series-starter); }
-.legend__dot--pro     { background: var(--series-pro); }
-.legend__dot--scale   { background: var(--series-scale); }
+.legend__dot--paid  { background: var(--series-paid); }
+.legend__dot--trial { background: var(--series-trial); }
 
-.cbar__seg--starter { background: var(--series-starter); }
-.cbar__seg--pro     { background: var(--series-pro); }
-.cbar__seg--scale   { background: var(--series-scale); }
+.cbar__seg--mrr   { background: var(--series-mrr); }
+.cbar__seg--paid  { background: var(--series-paid); }
+.cbar__seg--trial { background: var(--series-trial); }
 
 /* Bewegingen in de MRR: bij komt erbij, af gaat eraf. Kleur alleen zou dat
    niet mogen dragen, dus het bedrag ernaast houdt zijn plus of min. */
 .hbar__fill--new   { background: var(--series-up); }
-.hbar__fill--exp   { background: var(--series-flat); }
 .hbar__fill--con   { background: var(--series-down); opacity: .55; }
 .hbar__fill--churn { background: var(--series-down); }
 
@@ -2325,13 +2322,15 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 }
 .cohort--empty { background: none; color: var(--text-muted); }
 
-/* Plannen naast elkaar: één kaart per plan, met het aandeel in de MRR
-   eronder. Het middelste plan is het plan dat je wilt verkopen. */
+/* De prijskaart. Er is er maar één, dus hij staat naast de uitleg in plaats
+   van naast een duurder plan: de kaart houdt zijn breedte, de rest vult aan. */
 .plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  align-items: start;
 }
+.plans--single { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 20px; }
 .plan {
   display: flex; flex-direction: column;
   padding: 20px;
@@ -2366,5 +2365,5 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 .plan__sharetext { margin-top: 8px; font-size: var(--fs-sm); color: var(--text-muted); }
 
 @media (max-width: 900px) {
-  .plans { grid-template-columns: minmax(0, 1fr); }
+  .plans, .plans--single { grid-template-columns: minmax(0, 1fr); }
 }
