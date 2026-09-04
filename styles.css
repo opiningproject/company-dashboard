@@ -2434,34 +2434,28 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 }
 
 /* Drie standen naast elkaar, en tegelijk de knoppen waarmee je kiest welke
-   lijn eronder komt te staan. Geen vlak achter de actieve: die staat er
-   voluit, de andere twee treden terug — kleiner en wat doorzichtig. Dat leest
-   in één blik als "hier kijk je naar", zonder een tweede grijstint. */
+   lijn eronder komt te staan. Op een breed scherm staan ze alle drie even
+   groot naast elkaar en draagt de actieve hetzelfde grijs als een actieve tab;
+   op een telefoon gaat dat anders (zie §10). */
 .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; align-items: start; }
 .metric {
-  padding: 8px 12px 10px;
+  padding: 10px 12px 12px;
   border-radius: var(--r-md);
   text-align: left;
   transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease);
 }
+.metric:hover { background: var(--gray-50); }
+.metric.is-active { background: var(--gray-100); }
 .metric__label { display: block; font-size: var(--fs-sm); color: var(--text-muted); }
 .metric__row { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .metric__value {
-  font-weight: 600; letter-spacing: -.02em;
+  font-size: 21px; font-weight: 600; letter-spacing: -.02em;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   transition: font-size var(--dur) var(--ease);
 }
-
 .metric.is-active .metric__label { color: var(--text); }
-.metric.is-active .metric__value { font-size: 25px; }
-
-/* Teruggetreden, maar niet onleesbaar: 0,6 houdt de tekst nog boven de
-   contrastgrens op wit. */
-.metric:not(.is-active) { opacity: .6; }
-.metric:not(.is-active) .metric__value { font-size: 17px; }
-.metric:not(.is-active):hover { opacity: .85; background: var(--gray-50); }
 
 /* Eerstvolgende uitbetaling: leest als een knop, maar valt niets te bedienen,
    dus het blijft tekst in een omlijning. */
@@ -2502,6 +2496,17 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
      grootte en opzij te vegen dan drie geknepen bedragen naast elkaar. De rij
      blijft binnen de kaart en loopt dus gelijk met de grafiek eronder; de
      volgende tegel staat er half naast en wijst zo de weg. */
+  /* Op een telefoon is er geen ruimte om drie bedragen even groot te tonen,
+     en een grijs vlak valt daar bij daglicht toch weg. Daarom staat de
+     actieve voluit en treden de andere twee terug: kleiner en wat doorzichtig.
+     Even leesbaar, minder inkt. */
+  .metric:hover { background: none; }
+  .metric.is-active { background: none; }
+  .metric.is-active .metric__value { font-size: 25px; }
+  /* 0,6 houdt de tekst nog boven de contrastgrens op wit. */
+  .metric:not(.is-active) { opacity: .6; }
+  .metric:not(.is-active) .metric__value { font-size: 17px; }
+
   .metrics {
     display: flex;
     gap: 6px;
