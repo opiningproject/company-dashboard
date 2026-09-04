@@ -51,6 +51,8 @@
 
   --success: #067a4e;
   --danger:  #c0342b;
+  --success-soft: #e4f2ea;
+  --danger-soft:  #fbeae9;
   --warning-bg: #fdf6e3;
   --warning-fg: #8a6d1f;
 
@@ -2429,19 +2431,34 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 }
 
 /* Het bedrag van nu staat naast de titel van zijn eigen grafiek, niet in een
-   losse tegel erboven: zo hoort het cijfer bij de lijn waar het uit komt. */
-.card__now { flex: 0 0 auto; text-align: right; }
+   losse tegel erboven: zo hoort het cijfer bij de lijn waar het uit komt. De
+   stand van vorige maand en het verschil staan op dezelfde regel, rechts van
+   het bedrag: los van elkaar zeggen die twee weinig. */
+.card__now { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
 .card__now b {
-  display: block;
   font-size: 22px; font-weight: 600; letter-spacing: -.02em;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.card__now .stat__delta { display: block; margin-top: 2px; }
+.card__from { font-size: var(--fs-sm); color: var(--text-muted); white-space: nowrap; }
+
+/* Het verschil als pil, rechts van het bedrag. De pijl zegt hetzelfde als de
+   kleur, zodat kleur alleen nooit de hele boodschap draagt. */
+.delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px 3px 7px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm); font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.delta--up   { color: var(--success); background: var(--success-soft); }
+.delta--down { color: var(--danger);  background: var(--danger-soft); }
+.delta__icon { width: 14px; height: 14px; stroke-width: 2.4; }
 
 @media (max-width: 900px) {
-  /* De kop breekt hier af; het bedrag komt onder de titel te staan en lijnt
-     dan mee met de rest in plaats van tegen de rechterrand. */
-  .card__now { text-align: left; }
+  /* De kop breekt hier af; het bedrag komt onder de titel te staan, met de
+     stand van vorige maand en de pil er nog steeds naast. */
+  .card__now { flex-wrap: wrap; }
 }

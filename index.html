@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -336,7 +336,11 @@
                   <h2 class="card__title">Subscription revenue</h2>
                   <p class="card__sub">Last 12 months. One price, so the line is simply the account count &times; &euro; 29.</p>
                 </div>
-                <p class="card__now"><b>&euro; 6.264</b><span class="stat__delta is-up">+3,4% vs. last month</span></p>
+                <p class="card__now">
+                  <b>&euro; 6.264</b>
+                  <span class="card__from">from &euro; 6.061</span>
+                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>3,4%</span>
+                </p>
               </div>
 
               <div class="chart">
@@ -423,7 +427,11 @@
                   <h2 class="card__title">Revenue from orders</h2>
                   <p class="card__sub">Last 12 months. &euro; 0,20 per order processed through Opining.</p>
                 </div>
-                <p class="card__now"><b>&euro; 12.836</b><span class="stat__delta is-up">+9,1% vs. last month</span></p>
+                <p class="card__now">
+                  <b>&euro; 12.836</b>
+                  <span class="card__from">from &euro; 11.766</span>
+                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>9,1%</span>
+                </p>
               </div>
 
               <div class="chart">
@@ -2167,6 +2175,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
