@@ -1386,6 +1386,17 @@
     /* Wat er in het paneel staat zolang je nog niet op Apply hebt gedrukt. */
     var kies = { van: bereik.van, tot: bereik.tot, snel: "30d" };
     var toon1 = new Date(VANDAAG.getFullYear(), VANDAAG.getMonth() - 1, 1);
+    var mqSmal = window.matchMedia("(max-width: 900px)");
+
+    /* Waar de kalender op uitkomt na een keuze: de einddatum moet in beeld
+       staan. Op een telefoon is er één maand zichtbaar, dus dat is de maand
+       van die datum zelf; naast elkaar staan er twee, en dan hoort de
+       einddatum rechts, met de aanloop ernaast. */
+    function naarMaandVan(datum) {
+      toon1 = mqSmal.matches
+        ? new Date(datum.getFullYear(), datum.getMonth(), 1)
+        : new Date(datum.getFullYear(), datum.getMonth() - 1, 1);
+    }
 
     function knopTekst() {
       var p = SNEL[kies.snel];
@@ -1473,8 +1484,7 @@
       kies.van = r[0] < eersteDag ? eersteDag : r[0];
       kies.tot = r[1];
       kies.snel = sleutel;
-      /* De kalender springt naar het einde van het bereik: daar kijk je naar. */
-      toon1 = new Date(kies.tot.getFullYear(), kies.tot.getMonth() - 1, 1);
+      naarMaandVan(kies.tot);
       vulPaneel();
     }
 
@@ -1484,7 +1494,7 @@
       dpick.classList.toggle("is-open", open);
       if (open) {
         kies = { van: bereik.van, tot: bereik.tot, snel: kies.snel };
-        toon1 = new Date(bereik.tot.getFullYear(), bereik.tot.getMonth() - 1, 1);
+        naarMaandVan(bereik.tot);
         vulPaneel();
       }
     }
@@ -1526,6 +1536,14 @@
     });
 
     native.addEventListener("change", function () { zetSnel(native.value); });
+
+    /* Draaien van het toestel wisselt tussen één en twee kalenders; dan klopt
+       het beginpunt niet meer. */
+    mqSmal.addEventListener("change", function () {
+      if (paneel.hidden) return;
+      naarMaandVan(kies.tot || kies.van);
+      vulPaneel();
+    });
 
     document.addEventListener("click", function (e) {
       if (!paneel.hidden && !dpick.contains(e.target)) openPaneel(false);
