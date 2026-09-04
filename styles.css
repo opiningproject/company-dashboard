@@ -2413,9 +2413,11 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 
 .lpt .cbar__tip { bottom: calc(100% + 2px); }
 .lpt:hover .cbar__tip, .lpt:focus-visible .cbar__tip { opacity: 1; }
-/* Aan de randen zou de tooltip buiten de kaart vallen. */
-.lpt:first-child .cbar__tip { left: 0; transform: none; }
-.lpt:nth-last-child(-n+2) .cbar__tip { left: auto; right: 0; transform: none; }
+/* Aan de randen zou de tooltip buiten de kaart vallen — en alles wat buiten
+   de kaart uitsteekt maakt de pagina zijwaarts sleepbaar, ook als het zelf
+   onzichtbaar is. app.js §10 hangt deze klassen aan de buitenste punten. */
+.lpt--links .cbar__tip  { left: 0; transform: none; }
+.lpt--rechts .cbar__tip { left: auto; right: 0; transform: none; }
 
 .line__x {
   position: absolute; top: 100%; left: 0; right: 0;

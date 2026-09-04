@@ -1136,9 +1136,14 @@
     var stap = Math.ceil(n / 6);
 
     punten.forEach(function (p, i) {
+      /* Vlak bij de randen wordt de tooltip aan die kant vastgezet. Anders
+         steekt hij buiten de kaart uit, en dan kun je de pagina opzij slepen
+         over iets wat je niet eens ziet staan. */
+      var px = x(i);
       var li = document.createElement("li");
-      li.className = "lpt" + (i === n - 1 ? " lpt--last" : "");
-      li.style.setProperty("--x", x(i).toFixed(2) + "%");
+      li.className = "lpt" + (i === n - 1 ? " lpt--last" : "") +
+                     (px <= 12 ? " lpt--links" : "") + (px >= 88 ? " lpt--rechts" : "");
+      li.style.setProperty("--x", px.toFixed(2) + "%");
       li.style.setProperty("--y", y(p.waarde).toFixed(2) + "%");
       li.tabIndex = 0;
       li.innerHTML = '<span class="cbar__tip"><b>' + p.label + " &middot; &euro; " + getal(p.waarde) +
@@ -1151,9 +1156,23 @@
       as.appendChild(label);
     });
 
+    var kaart = lijn.closest(".card");
+
+    /* De schatting hierboven werkt op de plek van het punt, maar hoe breed een
+       tooltip wordt hangt van zijn tekst af. Even narekenen dus, zolang de
+       kaart zichtbaar is: wat er dan nog buiten valt, gaat alsnog tegen die
+       rand aan staan. */
+    var kr = kaart.getBoundingClientRect();
+    if (kr.width) {
+      pts.querySelectorAll(".lpt").forEach(function (li) {
+        var t = li.querySelector(".cbar__tip").getBoundingClientRect();
+        if (t.right > kr.right - 4) li.classList.add("lpt--rechts");
+        else if (t.left < kr.left + 4) li.classList.add("lpt--links");
+      });
+    }
+
     /* Dezelfde reeks nog eens, als tabel: een lijn laat de richting zien, de
        tabel de getallen. */
-    var kaart = lijn.closest(".card");
     var body = kaart.querySelector(".tableview tbody");
     if (body) {
       body.innerHTML = "";
