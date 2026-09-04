@@ -1,0 +1,2370 @@
+/* ==========================================================================
+   Opining — Dashboard design foundation
+   ---------------------------------------------------------------------------
+   1.  Tokens
+   2.  Reset & base
+   3.  Shell: topbar + body
+   4.  Sidebar & navigation
+   5.  Content & cards
+   6.  Buttons & form controls
+   7.  Settings overlay
+   8.  Save bar
+   9.  Responsive
+   ========================================================================== */
+
+/* ==========================================================================
+   1. TOKENS — pas hier aan, nergens anders
+   ========================================================================== */
+:root {
+  /* Brand — afgeleid van het logoblauw */
+  --accent:            #0172af;
+  --accent-hover:      #015c8c;
+  --accent-soft:       #e6f1f8;
+
+  /* Neutrals */
+  --gray-0:   #ffffff;
+  --gray-25:  #fcfcfd;
+  --gray-50:  #f7f8f9;
+  --gray-100: #f1f2f4;
+  --gray-150: #e9eaed;
+  --gray-200: #e2e4e8;
+  --gray-300: #d2d5db;
+  --gray-500: #767c87;
+  --gray-700: #414851;
+  --gray-900: #12161c;
+
+  /* Semantic */
+  /* Zelfde grijs als de settings-overlay: kaarten en topbar (--bg-surface)
+     steken daar wit tegen af. */
+  --bg-app:      var(--gray-50);
+  --bg-surface:  var(--gray-0);
+  --bg-hover:    var(--gray-100);
+  --bg-active:   var(--gray-100);
+  --bg-overlay:  var(--gray-50);
+
+  --text-strong: var(--gray-900);
+  --text:        var(--gray-700);
+  --text-muted:  var(--gray-500);
+
+  --border:        var(--gray-200);
+  --border-strong: var(--gray-300);
+
+  --success: #067a4e;
+  --danger:  #c0342b;
+  --warning-bg: #fdf6e3;
+  --warning-fg: #8a6d1f;
+
+  --r-sm:   8px;
+  --r-md:   10px;
+  --r-lg:   14px;
+  --r-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(18, 22, 28, .05);
+  --shadow-md: 0 6px 16px -4px rgba(18, 22, 28, .10), 0 2px 6px -2px rgba(18, 22, 28, .05);
+  --shadow-lg: 0 16px 40px -12px rgba(18, 22, 28, .18);
+
+  /* Layout */
+  --sidebar-w:   264px;
+  --drawer-w:    296px;
+  --topbar-h:    56px;
+  --content-max: 900px;
+  /* Bovenruimte van de contentkolom, om dezelfde reden als de onderruimte. */
+  --content-pad-t: 30px;
+  /* Onderruimte van de contentkolom. Sticky offsets rekenen vanaf de
+     binnenkant daarvan, dus een sticky voet heeft die waarde nodig om de
+     schermrand te halen. */
+  --content-pad-b: 64px;
+  --overlay-max: 1120px;
+  --set-nav-w:   290px;
+
+  --font: "Poppins", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 14.5px;
+  --fs-lg: 16px;
+
+  --ease: cubic-bezier(.32, .72, 0, 1);
+  --dur:  180ms;
+
+  --z-topbar:  50;
+  --z-sidebar: 40;
+  --z-scrim:   35;
+  --z-overlay: 45;
+  --z-toast:   60;
+}
+
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html, body { height: 100%; }
+/* Zonder eigen achtergrond op html neemt het canvas die van body over,
+   en iOS kleurt de statusbalk naar dat canvas — vandaar grijs. Wit op
+   html laat de balk aansluiten op de topbar; body houdt zijn eigen
+   grijs, dat toch de hele viewport vult. */
+html { background: var(--bg-surface); }
+
+body {
+  font-family: var(--font);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Author-styles met display:flex/grid winnen van de UA-regel voor [hidden].
+   Deze regel houdt het hidden-attribuut betrouwbaar als schakelaar. */
+[hidden] { display: none !important; }
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+input, select, textarea { font: inherit; color: inherit; }
+fieldset { border: 0; }
+legend { padding: 0; }
+
+.icon {
+  width: 20px; height: 20px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.72;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Knockout-kleur voor iconen die vormen over elkaar leggen (i-marketing).
+     Moet gelijk zijn aan de achtergrond waarop het icoon staat, niet wit. */
+  --icon-halo: var(--bg-surface);
+}
+.sprite { display: none; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+/* Containers die alleen programmatisch focus krijgen (drawer, dialoog) horen
+   nooit een ring te tonen; die is bedoeld voor waar je zelf naartoe navigeert. */
+.sidebar:focus, .sidebar:focus-visible,
+.overlay:focus, .overlay:focus-visible { outline: none; }
+
+.skip-link {
+  position: fixed; top: 8px; left: 8px; z-index: 100;
+  padding: 10px 16px;
+  background: var(--gray-900); color: #fff;
+  border-radius: var(--r-md); font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform var(--dur) var(--ease);
+}
+.skip-link:focus { transform: none; }
+
+/* ==========================================================================
+   3. SHELL — vaste header over de volle breedte, alles daaronder
+   ========================================================================== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.topbar {
+  position: relative;
+  z-index: var(--z-topbar);
+  display: flex; align-items: center; gap: 14px;
+  height: var(--topbar-h);
+  flex: 0 0 auto;
+  padding: 0 20px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+/* .icon-btn staat verderop en zet display:grid; daarom hier de klasse
+   meenemen in de selector, anders wint die latere regel. */
+.icon-btn.topbar__burger { display: none; }
+.topbar__actions { display: flex; align-items: center; gap: 4px; }
+/* Profielicoon staat op zichzelf in de kop en mag groter dan de 20px
+   van de navigatie-iconen. */
+.topbar__actions .icon { width: 24px; height: 24px; }
+
+.brand { display: flex; align-items: center; flex: 0 0 auto; }
+.brand__mark { width: 24px; height: 24px; color: var(--accent); }
+
+.search { position: relative; margin-inline: auto; width: 640px; }
+/* Savebar deelt de plek in het midden van de header met de zoekbalk. */
+[data-savebar="open"] .search { display: none; }
+.search__icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 46px 0 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--gray-50);
+  font-size: 16px;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.search input::placeholder { color: var(--text-muted); }
+.search input:hover { background: var(--gray-100); }
+.search input:focus {
+  outline: none;
+  background: var(--bg-surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.search input::-webkit-search-cancel-button { display: none; }
+.search__kbd {
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--font); font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+}
+
+/* ==========================================================================
+   4. SIDEBAR & NAVIGATION
+   ========================================================================== */
+.sidebar {
+  position: relative;
+  z-index: var(--z-sidebar);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+}
+.sidebar__foot { flex: 0 0 auto; padding: 8px 14px 16px; }
+
+.nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) transparent;
+}
+.nav::-webkit-scrollbar { width: 10px; }
+.nav::-webkit-scrollbar-thumb {
+  background: var(--gray-200);
+  border: 3px solid var(--bg-surface);
+  border-radius: var(--r-full);
+}
+.nav__list { display: flex; flex-direction: column; gap: 2px; }
+
+.nav__item {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text-strong);
+  text-align: left;
+  transition: background var(--dur) var(--ease);
+}
+.nav__item .icon { color: var(--text-muted); transition: color var(--dur) var(--ease); }
+.nav__item:hover { background: var(--bg-hover); }
+.nav__item:hover .icon { color: var(--text); --icon-halo: var(--bg-hover); }
+.nav__item.is-active { background: var(--bg-active); font-weight: 600; }
+.nav__item.is-active .icon { color: var(--accent); --icon-halo: var(--bg-active); }
+
+.nav__count {
+  margin-left: auto;
+  min-width: 24px;
+  padding: 2px 7px;
+  border-radius: var(--r-full);
+  background: var(--gray-150);
+  font-size: var(--fs-xs); font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-align: center;
+}
+.nav__item.is-active .nav__count { background: var(--gray-200); }
+
+/* ==========================================================================
+   5. CONTENT & CARDS
+   ========================================================================== */
+.content {
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--content-pad-t) 24px var(--content-pad-b);
+}
+.content__inner { max-width: var(--content-max); margin-inline: auto; }
+
+.page-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+/* Zelfde 20px als de sidebar, dus ook zonder stroke-correctie meteen 1.72px. */
+.page-head__icon { width: 20px; height: 20px; color: var(--text-strong); }
+.page-head h1, .page-head h2 { font-size: 18px; font-weight: 500; letter-spacing: -.015em; color: var(--text-strong); }
+
+.view { display: flex; flex-direction: column; gap: 20px; }
+
+.card {
+  padding: 22px 24px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+}
+.card__headrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.card__title { font-size: 18px; font-weight: 500; letter-spacing: -.01em; color: var(--text-strong); }
+.card__sub   { margin-top: 4px; font-size: var(--fs-md); color: var(--text-muted); }
+.card--empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 56px 24px; text-align: center; }
+.empty__icon { width: 30px; height: 30px; stroke-width: 1.147; color: var(--text-muted); margin-bottom: 4px; }
+
+.tasks { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font-size: var(--fs-md); color: var(--text); }
+.tasks__ring {
+  width: 18px; height: 18px; border-radius: var(--r-full);
+  background: conic-gradient(var(--accent) 0 20%, var(--gray-200) 0);
+  mask: radial-gradient(circle, transparent 42%, #000 44%);
+  -webkit-mask: radial-gradient(circle, transparent 42%, #000 44%);
+}
+.steps { margin-top: 18px; display: flex; flex-direction: column; gap: 2px; }
+.step { position: relative; display: flex; align-items: flex-start; gap: 14px; padding: 16px; border-radius: var(--r-md); transition: background var(--dur) var(--ease); }
+.step.is-open { background: var(--gray-50); }
+.step:not(.is-open):hover { background: var(--gray-25); }
+.step__dot { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 1px; border: 1.6px dashed var(--border-strong); border-radius: var(--r-full); }
+.step__dot--done { display: grid; place-items: center; border: 0; background: var(--accent); color: #fff; }
+.step__dot--done .icon { width: 12px; height: 12px; stroke-width: 3; }
+.step__title { padding: 0; text-align: left; font-size: var(--fs-md); font-weight: 500; color: var(--text-strong); }
+/* De titelknop rekt zijn klikvlak op tot de hele rij, zodat je overal kunt
+   klikken zonder de <li> zelf interactief te hoeven maken. */
+.step__title::after { content: ""; position: absolute; inset: 0; border-radius: var(--r-md); }
+.step__title:focus-visible { outline: none; }
+.step__title:focus-visible::after { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* Uitklappen via grid-rijen 0fr -> 1fr: dat animeert de echte hoogte, zonder
+   een max-height te moeten raden die bij langere inhoud afkapt. De binnenlaag
+   doet het clippen, want een grid-item knipt zijn eigen inhoud niet af. */
+.step__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms var(--ease);
+}
+.step.is-open .step__panel { grid-template-rows: 1fr; }
+.step__panel-inner {
+  overflow: hidden;
+  opacity: 0;
+  /* Dichtgeklapt is de knop nog 0px hoog maar wel focusbaar; visibility haalt
+     hem uit de tabvolgorde en wacht met omslaan tot het inklappen klaar is. */
+  visibility: hidden;
+  transition: opacity 240ms var(--ease), visibility 0s linear 240ms;
+}
+.step.is-open .step__panel-inner {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 240ms var(--ease), visibility 0s;
+}
+.step__meta  { margin-top: 4px; font-size: var(--fs-md); color: var(--text-muted); }
+/* Boven het klikvlak, anders vangt dat de knop af. */
+.step .btn { position: relative; z-index: 1; margin-top: 14px; }
+
+/* Stond als grijs vlak op een witte pagina; nu de pagina zelf grijs is heeft
+   hij een eigen vlak nodig, net als .card. Gedempte tekst houdt 'm secundair. */
+.note {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+.note .icon { color: var(--text-muted); }
+
+.rows { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.row { display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 16px; text-align: left; transition: background var(--dur) var(--ease); }
+.row + .row { border-top: 1px solid var(--border); }
+.row:hover { background: var(--gray-50); }
+.row__icon { color: var(--text-muted); }
+.row__text { display: flex; flex-direction: column; min-width: 0; }
+.row__title { font-size: var(--fs-md); font-weight: 500; color: var(--text-strong); }
+.row__meta  { font-size: var(--fs-sm); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row__caret { margin-left: auto; width: 18px; height: 18px; color: var(--text-muted); }
+
+.alert {
+  display: flex; align-items: center; gap: 10px;
+  margin: 16px 0 6px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--warning-bg);
+  color: var(--warning-fg);
+  /* Zelfde tekst als een dagnaam: dit is een mededeling, geen kleine
+     lettertjes. De kleur blijft van de soort melding. */
+  font-size: var(--fs-md); font-weight: 500;
+}
+/* Even groot als een pagina-icoon en in de kleur van de melding zelf, zodat
+   het teken bij de tekst hoort in plaats van ernaast te schreeuwen. */
+.alert .icon { width: 20px; height: 20px; stroke-width: 1.6; flex: 0 0 auto; }
+/* Staat de melding los in een kolom die zelf al ruimte tussen de blokken
+   houdt, dan hoeft hij geen eigen marge: die komt er bovenop. Binnen een
+   kaart blijft de marge staan, want daar scheidt hij niets anders. */
+.view > .alert { margin: 0; }
+
+/* ==========================================================================
+   6. BUTTONS & FORM CONTROLS
+   ========================================================================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 42px; padding: 0 20px;
+  border-radius: var(--r-md);
+  font-size: var(--fs-md); font-weight: 600;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn--primary { background: var(--accent); color: #fff; }
+.btn--primary:hover { background: var(--accent-hover); }
+.btn--ghost { border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-strong); }
+.btn--ghost:hover { background: var(--gray-50); }
+/* Compacte variant voor knoppen binnen tabelrijen en meldingen. */
+.btn--sm { height: 32px; padding: 0 12px; font-size: var(--fs-sm); }
+.btn--sm .icon { width: 16px; height: 16px; }
+/* Ghost-knop die als actie leest in plaats van als neutrale keuze. */
+.btn--accent { color: var(--accent); }
+
+.icon-btn {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  flex: 0 0 auto;
+  border-radius: var(--r-md);
+  color: var(--text-muted);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.icon-btn:hover { background: var(--bg-hover); color: var(--text-strong); }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field + .field, .field + .field-row, .field-row + .field { margin-top: 18px; }
+/* Een keuzelijst gevolgd door een veld heeft dezelfde tussenruimte nodig. */
+.choices + .field, .choices + .field-row { margin-top: 16px; }
+.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+/* De regel hierboven mag niet binnen een twee-koloms rij toeslaan, anders
+   zakt de rechterkolom een regel omlaag. */
+.field-row > .field + .field { margin-top: 0; }
+.card__title + .field, .card__title + .field-row { margin-top: 14px; }
+.label { font-size: var(--fs-sm); font-weight: 500; color: var(--text-strong); }
+.hint  { font-size: var(--fs-sm); color: var(--text-muted); }
+
+.input {
+  width: 100%;
+  height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  /* 16px, niet --fs-md: iOS zoomt de pagina in zodra een veld dat je aantikt
+     kleiner dan 16px tekst heeft. Geldt voor elk tekstveld, dus ook de
+     zoekbalk hieronder. */
+  font-size: 16px;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.input:hover { border-color: var(--gray-500); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+/* Een select rekt in Safari zijn container op tot de breedte van zijn
+   langste optie. Chrome doet dat niet, dus het valt daar niet op:
+   zonder deze twee regels liep de betaal-wizard op iOS buiten beeld. */
+select { min-width: 0; max-width: 100%; }
+
+select.input {
+  appearance: none;
+  padding-right: 38px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23767c87' stroke-width='1.8' stroke-linecap='round'><path d='m8 10 4-4 4 4M8 14l4 4 4-4'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.switch { display: inline-flex; align-items: center; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch__track { position: relative; width: 36px; height: 20px; border-radius: var(--r-full); background: var(--gray-300); transition: background var(--dur) var(--ease); }
+.switch__track::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: var(--r-full);
+  background: #fff; box-shadow: var(--shadow-sm);
+  transition: transform var(--dur) var(--ease);
+}
+.switch input:checked + .switch__track { background: var(--accent); }
+.switch input:checked + .switch__track::after { transform: translateX(16px); }
+.switch input:focus-visible + .switch__track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.choices { display: flex; flex-direction: column; gap: 2px; }
+.choice { display: flex; align-items: center; gap: 12px; padding: 9px 4px; font-size: var(--fs-md); color: var(--text-strong); cursor: pointer; }
+.choice input {
+  appearance: none;
+  width: 20px; height: 20px; flex: 0 0 auto;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--r-full);
+  transition: border-color var(--dur) var(--ease);
+}
+.choice input:hover { border-color: var(--gray-500); }
+.choice input:checked { border-color: var(--accent); border-width: 6px; }
+.choice input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ==========================================================================
+   7. SETTINGS OVERLAY
+   Ligt over sidebar én content, maar begint onder de vaste header.
+   ========================================================================== */
+.overlay {
+  position: fixed;
+  inset: var(--topbar-h) 0 0 0;
+  z-index: var(--z-overlay);
+  display: block;
+  overflow-y: auto;
+  /* Alleen omhoog en omlaag. Een brede tabel scrolt in zijn eigen vak; zou
+     de overlay ook zijwaarts mogen, dan schuift de hele pagina mee zodra er
+     ergens een pixel buiten de rand valt. */
+  overflow-x: hidden;
+  background: var(--bg-overlay);
+  animation: overlay-in 300ms var(--ease);
+}
+/* De overlay staat vastgezet onder de header, dus 100% van de eigen hoogte
+   parkeert 'm precies onder de onderrand van het scherm. */
+@keyframes overlay-in { from { transform: translateY(100%); } to { transform: none; } }
+
+/* Sluiten glijdt dezelfde weg terug. app.js §3 zet data-closing en wacht op
+   animationend voordat het hidden mag — anders knipt de overlay meteen weg. */
+.overlay[data-closing] { animation: overlay-out 260ms var(--ease) forwards; }
+@keyframes overlay-out { from { transform: none; } to { transform: translateY(100%); } }
+
+/* Sticky in plaats van absolute: de overlay is zelf de scroller, dus absoluut
+   zou meescrollen. Blijft in de flow staan (auto links duwt hem rechts) en de
+   negatieve ondermarge haalt zijn eigen hoogte er weer af, zodat de inhoud
+   niet omlaag schuift. */
+.overlay__close {
+  position: sticky;
+  top: 14px;
+  z-index: 2;
+  margin: 14px 18px -54px auto;
+  background: var(--gray-100);
+}
+.overlay__close:hover { background: var(--gray-150); }
+
+.overlay__inner {
+  display: grid;
+  grid-template-columns: var(--set-nav-w) minmax(0, 1fr);
+  gap: 26px;
+  max-width: var(--overlay-max);
+  margin-inline: auto;
+  padding: 24px 24px 96px;
+}
+
+.set-nav {
+  align-self: start;
+  position: sticky;
+  top: 24px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+.set-nav__head { display: none; }
+
+/* De winkelrij krijgt een eigen tint: hij benoemt wélke winkel je aan het
+   instellen bent en hoort daarmee niet bij de lijst eronder. De negatieve
+   marges trekken de band tot de randen van de kaart. */
+.shop {
+  display: flex; align-items: center; gap: 11px;
+  margin: -8px -8px 8px;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  border-radius: calc(var(--r-lg) - 1px) calc(var(--r-lg) - 1px) 0 0;
+  background: var(--gray-50);
+}
+.shop__mark {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; flex: 0 0 auto;
+  border-radius: var(--r-md);
+  background: var(--accent); color: #fff;
+  font-size: var(--fs-md); font-weight: 700;
+}
+.shop__text { display: flex; flex-direction: column; min-width: 0; }
+.shop__name { font-size: var(--fs-md); font-weight: 600; color: var(--text-strong); }
+.shop__domain { font-size: var(--fs-sm); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Settings-links staan ruimer dan de hoofdnav en dragen een chevron als
+   drill-in-hint. */
+.set-nav .nav__item { padding: 13px 12px; font-size: 15px; gap: 13px; }
+/* Op 20px, gelijk aan de rest: op 21px zou dezelfde stroke-width als 1,78px
+   uitkomen in plaats van 1,72px. */
+.set-nav .nav__item .icon { width: 20px; height: 20px; }
+/* Alleen zinvol op mobiel, waar de lijst naar een eigen scherm doorklikt.
+   Op desktop staat de inhoud er al naast, dus daar geen chevron. */
+.nav__chev { display: none; margin-left: auto; width: 19px; height: 19px; color: var(--border-strong); }
+.nav__item:hover .nav__chev { color: var(--text-muted); }
+.nav__item.is-active .nav__chev { color: var(--text-muted); }
+
+/* Ademruimte boven de titel van een instelling; de linkerkolom begint
+   hoger omdat de winkelrij daar zijn eigen band heeft. */
+.set-main { min-width: 0; padding-top: 22px; }
+.set-back { display: none; }
+
+/* ==========================================================================
+   8. SAVE BAR
+   ========================================================================== */
+/* Zit in de header op de plek van de zoekbalk, dus exact hetzelfde vak:
+   640 breed, 36 hoog. Zie ook [data-savebar] bij .search. */
+.savebar {
+  display: flex; align-items: center; gap: 12px;
+  margin-inline: auto;
+  width: 640px;
+  height: 36px;
+  /* Zichtbaar 4 rondom en 8 links; de 1px rand telt mee, dus staat hier 3 en 7.
+     Zo blijft 36 - 2 rand - 6 padding over: precies de 28 van de knoppen. */
+  padding: 3px 3px 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--gray-50);
+  animation: savebar-in 200ms var(--ease);
+}
+@keyframes savebar-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.savebar__text {
+  display: flex; align-items: center; gap: 8px;
+  min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: var(--fs-sm); color: var(--text);
+}
+/* 16px-grid met eigen lijndikte; de globale 1.72 is voor de 24px-set. */
+.savebar__text .icon { width: 16px; height: 16px; stroke-width: 1.2; color: var(--text-muted); }
+.savebar__actions { display: flex; gap: 4px; margin-left: auto; flex: 0 0 auto; }
+/* 36 balk min 2x4 padding laat exact 28 over; de radius loopt concentrisch
+   mee met de balk (10 buiten, 4 padding, dus 6 binnen) in plaats van rond. */
+.savebar .btn { height: 28px; padding: 0 12px; border-radius: calc(var(--r-md) - 4px); font-size: var(--fs-xs); }
+
+/* ==========================================================================
+   8b. MENU-SECTIE — uitklapbare sidebargroep + productenlijst
+   ========================================================================== */
+.nav__group { display: block; }
+/* De ouder blijft gemarkeerd zolang je op een van zijn subpagina's staat,
+   maar zonder het vlak van .is-active: dat hoort bij het gekozen item. */
+.nav__parent.is-section { font-weight: 600; }
+.nav__parent.is-section .icon:first-child { color: var(--accent); }
+
+.nav__sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms var(--ease); }
+.nav__group.is-open .nav__sub { grid-template-rows: 1fr; }
+.nav__sub-list {
+  overflow: hidden;
+  /* Dichtgeklapt zijn de links 0px hoog maar nog wel te tabben; visibility
+     haalt ze uit de tabvolgorde en slaat pas om als het inklappen klaar is. */
+  visibility: hidden;
+  transition: visibility 0s linear 220ms;
+}
+.nav__group.is-open .nav__sub-list { visibility: visible; transition: visibility 0s; }
+.nav__sub-list > li:first-child { margin-top: 2px; }
+/* Uitgelijnd op de tekst van de ouder: 12 padding + 20 icoon + 12 gap. */
+.nav__sub-item { padding-left: 44px; font-weight: 500; color: var(--text-muted); }
+.nav__sub-item.is-active { color: var(--text-strong); }
+
+.page-head__action { margin-left: auto; height: 36px; padding: 0 16px; font-size: var(--fs-md); }
+.page-head__action .icon { width: 18px; height: 18px; }
+
+/* Een paneel binnen een kaart die zelf al een titel draagt: de titel
+   hoort bij de kaart, de lijst krijgt daaronder een eigen kader. */
+.panel--inset { margin-top: 16px; }
+/* Wat na een genest paneel volgt, houdt dezelfde afstand. */
+.card__after { margin-top: 16px; }
+
+.panel {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+.panel__head { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.panel__filter { width: 36px; height: 36px; margin-left: auto; border: 1px solid var(--border); border-radius: var(--r-full); }
+
+
+/* Passen de tabs niet in de kop, dan laat een streepje eronder zien dat er
+   meer staat en hoe ver je bent — zonder de scrollbalk van het systeem, die
+   op iOS toch niet verschijnt. app.js §9 bouwt het vakje en tekent de duim. */
+.tabsbox { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tabscroll { height: 3px; border-radius: var(--r-full); background: var(--gray-100); }
+.tabscroll__thumb {
+  display: block; height: 100%;
+  border-radius: var(--r-full);
+  background: var(--gray-300);
+}
+.tabs { display: flex; align-items: center; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  border-radius: var(--r-md);
+  font-size: var(--fs-md); font-weight: 500;
+  color: var(--text-muted);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.tab:hover { background: var(--gray-50); color: var(--text); }
+.tab.is-active { background: var(--gray-100); color: var(--text-strong); }
+
+.group + .group { border-top: 1px solid var(--border); }
+.group__head {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--gray-50);
+  text-align: left;
+  transition: background var(--dur) var(--ease);
+}
+.group__head:hover { background: var(--gray-100); }
+.group__caret { width: 16px; height: 16px; color: var(--text-muted); transition: transform var(--dur) var(--ease); }
+.group.is-open .group__caret { transform: rotate(90deg); }
+.group__name { font-size: var(--fs-md); font-weight: 600; color: var(--text-strong); }
+.group__count { margin-left: auto; font-size: var(--fs-md); color: var(--text-muted); }
+
+/* Zelfde uitklaptruc als de setup-guide: grid-rijen animeren de echte hoogte. */
+.group__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms var(--ease); }
+.group.is-open .group__panel { grid-template-rows: 1fr; }
+.group__list { overflow: hidden; }
+.group__list > li { border-top: 1px solid var(--border); }
+
+.prod { display: flex; align-items: center; gap: 14px; padding: 10px 16px; transition: background var(--dur) var(--ease); }
+.prod:hover { background: var(--gray-25); }
+/* touch-action:none, anders scrollt de pagina bij het slepen op touch. */
+.prod__handle { cursor: grab; touch-action: none; }
+.prod__handle:active { cursor: grabbing; }
+/* Tijdens het slepen genegeerd door elementFromPoint, zodat de rij
+   eronder gevonden wordt in plaats van de rij zelf. */
+.prod.is-dragging { opacity: .55; background: var(--gray-50); pointer-events: none; }
+.prod__handle { display: grid; place-items: center; flex: 0 0 auto; color: var(--border-strong); cursor: grab; }
+.prod__thumb {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--gray-25);
+  color: var(--border-strong);
+}
+.prod__name { min-width: 0; font-size: var(--fs-md); color: var(--text-strong); }
+/* Vaste kolom, ook als er geen tip is: anders schuiven de badges per rij. */
+.prod__tip { display: grid; place-items: center; width: 28px; flex: 0 0 auto; margin-left: 24px; }
+.prod .badge { margin-left: auto; }
+.tip { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-sm); color: var(--warning-fg); }
+.tip:hover { background: var(--warning-bg); }
+.tip .icon { width: 18px; height: 18px; }
+
+.badge {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm); font-weight: 500;
+}
+.badge--active { background: #e3f5ec; color: var(--success); }
+.badge--draft  { background: #e4eefb; color: #1f5fa8; }
+
+/* ==========================================================================
+   8c. ONLINE STORE — sectienavigatie links, paneel rechts
+   ========================================================================== */
+.store { display: grid; grid-template-columns: 262px minmax(0, 1fr); gap: 24px; align-items: start; }
+.store__nav {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+}
+.store__nav .nav__item { padding: 11px 12px; }
+.store__main > .card + .card { margin-top: 16px; }
+
+/* Label links, bediening rechts — zoals in het ontwerp. */
+.srow { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 16px; align-items: start; padding: 14px 0; }
+.srow > .label { padding-top: 8px; }
+.srow + .srow { border-top: 1px solid var(--border); }
+.rule { height: 1px; margin: 18px 0; border: 0; background: var(--border); }
+.link { color: var(--text-strong); text-decoration: underline; text-underline-offset: 3px; }
+/* Downloadlink in een tabelrij: leest als link, niet als knop. */
+.link--invoice { color: var(--accent); font-weight: 500; }
+.link--invoice:hover { text-decoration-thickness: 2px; }
+
+.drop {
+  display: grid; place-items: center;
+  min-height: 108px;
+  padding: 16px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-md);
+}
+.drop--filled { border-style: solid; border-color: var(--border); }
+.drop__logo { font-weight: 700; letter-spacing: .04em; color: var(--text-strong); }
+
+.slider { display: flex; align-items: center; gap: 16px; padding-top: 4px; }
+.slider input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); }
+.stepper { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.stepper .input { width: 64px; text-align: center; }
+.stepper__unit { font-size: var(--fs-md); color: var(--text-muted); }
+
+.swatch { display: flex; align-items: center; gap: 10px; position: relative; }
+.swatch__chip { position: absolute; left: 12px; width: 16px; height: 16px; border-radius: 4px; background: var(--accent); }
+.swatch .input { padding-left: 38px; }
+
+.preview { padding: 24px; border-radius: var(--r-md); background: var(--gray-50); }
+.preview__inner {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  padding: 28px 20px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  text-align: center;
+}
+/* De knop draagt de merkkleur; app.js §3b zet 'm live mee. */
+#brand-preview-btn { background: var(--accent); color: #fff; }
+
+.langs { display: flex; gap: 8px; margin-bottom: 18px; }
+.lang {
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  font-size: var(--fs-md); font-weight: 500;
+  color: var(--text);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.lang:hover { background: var(--gray-50); }
+.lang.is-active { background: var(--gray-900); border-color: var(--gray-900); color: #fff; }
+
+.btn--soft { background: var(--gray-100); color: var(--text-strong); }
+.btn--soft:hover { background: var(--gray-150); }
+
+/* ==========================================================================
+   8d. BILLING — bedrag, voetstrip en facturentabel
+   ========================================================================== */
+/* Voor kaarten waarin een tabel of strip tot de rand doorloopt; de padding
+   verhuist dan naar .card__pad. */
+.card--flush { padding: 0; }
+.card__pad { padding: 18px 20px; }
+.card__foot {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--gray-50);
+  font-size: var(--fs-md); color: var(--text);
+}
+
+.amount { margin-top: 10px; font-size: 30px; font-weight: 600; letter-spacing: -.02em; color: var(--text-strong); }
+.amount__cur { font-size: var(--fs-md); font-weight: 500; color: var(--text-muted); }
+
+.addrow {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: var(--fs-md); font-weight: 500;
+  color: var(--text-strong);
+  transition: background var(--dur) var(--ease);
+}
+.addrow:hover { background: var(--gray-50); }
+.addrow .icon { color: var(--text-muted); }
+
+/* Smalle schermen: de tabel mag scrollen in plaats van de pagina te rekken. */
+/* position: relative houdt absoluut geplaatste kinderen (de sr-only labels in
+   de cellen) binnen het vak; anders duwen die de pagina zijwaarts open. */
+.table-wrap { position: relative; overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-md); }
+.table th {
+  background: var(--gray-50);
+  padding: 12px 20px;
+  text-align: left;
+  font-size: var(--fs-sm); font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.table td { padding: 14px 20px; border-top: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+.table tbody tr { transition: background var(--dur) var(--ease); }
+.table tbody tr:hover { background: var(--gray-25); }
+
+.badge--muted { background: var(--gray-100); color: var(--text-muted); }
+
+/* ==========================================================================
+   8e. ZOEKPANEEL — opent onder de header bij het aantikken van de zoekbalk
+   ========================================================================== */
+/* Het paneel begint op de bovenrand van de zoekbalk en loopt dus achter de
+   topbar langs; daarom moet het eroverheen (topbar is 50) en het zoekveld
+   daar weer bovenop, zodat dat het bovenste rijtje van het paneel lijkt.
+   De scrim dimt alles, ook de header. */
+.search-scrim {
+  position: fixed; inset: 0;
+  z-index: 51;
+  background: rgba(18, 22, 28, .38);
+  animation: fade-in 160ms var(--ease);
+}
+/* left, top, width en padding-top komen uit app.js §7: die meet de zoekbalk,
+   zodat paneel en veld exact op elkaar liggen op elk schermformaat. */
+.searchpanel {
+  position: fixed;
+  z-index: 52;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+  transform-origin: top center;
+  animation: searchpanel-in 180ms var(--ease);
+}
+/* Het verhuisde veld vult de bovenrand; de vaste 640px en het centreren uit
+   de header gelden hier niet meer. */
+.searchpanel__slot .search { width: auto; margin-inline: 0; }
+.searchpanel__body { padding: 12px 14px 26px; }
+/* Uitvouwen vanaf de bovenrand; geen verschuiving, anders loopt het paneel
+   weg onder het veld dat er bovenop ligt. */
+@keyframes searchpanel-in {
+  from { opacity: 0; transform: scaleY(.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  background: var(--gray-100);
+  font-size: var(--fs-md); font-weight: 500;
+  color: var(--text-strong);
+  transition: background var(--dur) var(--ease);
+}
+.chip:hover { background: var(--gray-150); }
+.chip.is-active { background: var(--gray-900); color: #fff; }
+
+.searchpanel__empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 16px 30px; }
+.searchpanel__empty .icon { width: 24px; height: 24px; color: var(--text-muted); }
+.searchpanel__empty p { font-size: var(--fs-md); font-weight: 500; color: var(--text-muted); }
+
+/* ==========================================================================
+   9. TOAST
+   Zwevende bevestiging onderaan; app.js §6 vult de tekst en ruimt hem op.
+   ========================================================================== */
+.toast {
+  position: fixed;
+  left: 50%; bottom: 24px;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  display: flex; align-items: center; gap: 8px;
+  max-width: min(420px, calc(100vw - 32px));
+  /* Zelfde opzet als de savebar: 4 rondom, wat meer links, knop concentrisch. */
+  padding: 4px 4px 4px 14px;
+  border-radius: var(--r-md);
+  background: var(--gray-900);
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 200ms var(--ease);
+}
+/* transform is één property, dus het centreren moet in beide keyframes mee. */
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.toast__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-md); font-weight: 500; }
+.toast__close {
+  display: grid; place-items: center;
+  width: 28px; height: 28px; flex: 0 0 auto;
+  border-radius: calc(var(--r-md) - 4px);
+  color: rgba(255, 255, 255, .7);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.toast__close:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+.toast__close .icon { width: 16px; height: 16px; }
+/* ==========================================================================
+   8f. ORDERS
+   ========================================================================== */
+
+/* Paginabediening naast de titel (select + hoofdactie). */
+/* Titelregel vouwt om zodra de bediening niet meer naast de titel past. */
+.page-head { flex-wrap: wrap; row-gap: 12px; }
+.page-head__tools { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.page-head__tools .input { width: auto; min-width: 168px; height: 36px; }
+.page-head__tools .icon { width: 16px; height: 16px; }
+
+/* Melding met gekleurde kop en een actie eronder. Kop en romp zitten in
+   dezelfde kaart, zodat de rand om het geheel loopt. */
+.notice {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+.notice__bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 22px;
+  font-size: var(--fs-lg); font-weight: 500;
+  color: #fff;
+}
+.notice--danger .notice__bar { background: var(--danger); }
+.notice__body { padding: 16px 22px 18px; }
+
+/* Aantal naast een tab-label; blijft ondergeschikt aan de naam. */
+.tab__count { margin-left: 6px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.tab.is-active .tab__count { color: var(--text); }
+
+/* Zoeken en filteren zitten in één glyph, dus één knop rechts in de
+   panel-kop. Het icoon is 31x13, dus breder dan hoog: vandaar een
+   eigen maatklasse in plaats van de vierkante 20 van .icon. */
+/* Zoekstand van een paneel: de kop wisselt om, de tabelkop eronder
+   blijft staan zodat duidelijk is dat je in dezelfde lijst zoekt.
+   Geen hidden-attribuut: de klasse op de kop bepaalt wat er staat. */
+.psearch { display: none; flex-direction: column; gap: 12px; width: 100%; }
+.panel__head.is-searching { flex-direction: column; align-items: stretch; padding: 14px; }
+.panel__head.is-searching .tabsbox,
+.panel__head.is-searching .panel__tool { display: none; }
+.panel__head.is-searching .psearch { display: flex; }
+
+.psearch__top { display: flex; align-items: center; gap: 18px; }
+.psearch__field { position: relative; flex: 1 1 auto; min-width: 0; }
+.psearch__icon {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.psearch__field input {
+  width: 100%; height: 44px;
+  padding: 0 14px 0 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-size: 16px;   /* onder 16 zoomt iOS in bij focus */
+  background: var(--bg-surface);
+}
+.psearch__field input::-webkit-search-cancel-button { display: none; }
+.psearch__field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+/* Afbreken leest als tekst, niet als tweede knop naast Add filter. */
+.psearch__cancel { flex: 0 0 auto; font-size: var(--fs-md); font-weight: 600; color: var(--text-strong); }
+.psearch__cancel:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Filterrij: de meegekomen tab-chip, eventuele extra filters, en de
+   knop die er meer bij zet. */
+.psearch__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.psearch__filter { flex: 0 0 auto; }
+
+/* Een actief filter. Het kruisje eromheen hoort bij de chip, niet
+   ernaast, zodat het samen als één ding leest. */
+.fchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 8px 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm); font-weight: 500;
+  color: var(--text-strong);
+  background: var(--bg-surface);
+}
+.fchip__x { display: grid; place-items: center; width: 20px; height: 20px; border-radius: var(--r-sm); color: var(--text-muted); }
+.fchip__x:hover { background: var(--bg-hover); color: var(--text-strong); }
+
+/* Toegevoegd filter: klapt zijn waarden uit in plaats van meteen te
+   verdwijnen, want de naam alleen zegt nog niet waarop je filtert. */
+.fchip--drop { position: relative; padding: 0; }
+.fchip__label {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 100%; padding: 0 10px 0 12px;
+  font: inherit; color: inherit;
+}
+.fchip__caret { width: 14px; height: 14px; color: var(--text-muted); }
+.fchip__label[aria-expanded="true"] .fchip__caret { transform: rotate(180deg); }
+.fchip__menu {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  z-index: 20;
+  min-width: 170px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.fchip__menu[hidden] { display: none; }
+.fopt { display: flex; align-items: center; gap: 10px; padding: 6px 4px; font-size: var(--fs-md); font-weight: 400; color: var(--text-strong); cursor: pointer; }
+.fopt input {
+  appearance: none;
+  width: 18px; height: 18px; flex: 0 0 auto;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--r-sm);
+}
+.fopt input:checked {
+  border-color: var(--accent);
+  background: var(--accent) url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27><path d=%27m5 12.5 4.5 4.5L19 7%27/></svg>") center / 12px no-repeat;
+}
+.fchip__clear { margin-top: 4px; align-self: flex-start; padding: 4px; font-size: var(--fs-sm); color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Alles wissen staat naast de knoppen, niet ertussen. */
+.fclear { margin-left: 4px; font-size: var(--fs-sm); font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.fclear[hidden] { display: none; }
+.fchip button:hover { background: var(--bg-hover); color: var(--text-strong); }
+.fchip .icon { width: 14px; height: 14px; }
+
+.fadd { position: relative; flex: 0 0 auto; }
+.fmenu {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  z-index: 20;
+  min-width: 168px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column;
+}
+.fmenu[hidden] { display: none; }
+.fmenu__item {
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+.fmenu__item:hover { background: var(--bg-hover); }
+
+/* Accountmenu in de header. */
+.umenu { position: relative; }
+.umenu__list {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  z-index: 60;
+  min-width: 232px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column;
+}
+.umenu__list[hidden] { display: none; }
+.umenu__head { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 12px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+.umenu__name { font-size: var(--fs-md); font-weight: 600; color: var(--text-strong); }
+.umenu__mail { font-size: var(--fs-sm); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; }
+.umenu__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+.umenu__item:hover { background: var(--bg-hover); }
+.umenu__item .icon { width: 18px; height: 18px; color: var(--text-muted); }
+/* Uitloggen is de enige onomkeerbare actie hier. */
+.umenu__item--out, .umenu__item--out .icon { color: var(--danger); }
+.umenu__item--out:hover { background: #fdf1f0; }
+
+/* Statusfilter: één compacte knop met een uitklapbare lijst, in plaats
+   van een rij tabs. Het vinkje zegt wat er aanstaat. */
+.sfilter { position: relative; flex: 0 0 auto; }
+.sfilter__btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 32px; padding: 0 6px 0 8px;
+  /* Geen rand: de knop is een keuze in de kop, geen los element. */
+  border-radius: var(--r-sm);
+  font-size: var(--fs-md); font-weight: 600;
+  color: var(--text-strong);
+}
+.sfilter__btn:hover { background: var(--bg-hover); }
+/* Kleine glyph op een 24-grid: zonder extra lijndikte valt hij weg. */
+.sfilter__caret { width: 18px; height: 18px; stroke-width: 2.2; color: var(--text-muted); }
+.sfilter__menu {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  z-index: 20;
+  min-width: 210px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column;
+}
+.sfilter__menu[hidden] { display: none; }
+.sfilter__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+.sfilter__item:hover { background: var(--bg-hover); }
+/* Het vinkje houdt zijn ruimte, anders verspringen de labels. */
+.sfilter__check { width: 16px; height: 16px; visibility: hidden; }
+.sfilter__item.is-selected { font-weight: 600; }
+.sfilter__item.is-selected .sfilter__check { visibility: visible; }
+
+/* Op desktop kiest ons eigen menu; het echte <select> staat dan uit. Zie
+   app.js §11 en de mobiele regels onderaan. */
+.sfilter__native, .codes__native { display: none; }
+
+/* Sorteren staat naast de zoek-en-filterknop: eerst waarop, daaronder in
+   welke richting. Het menu hangt rechts uit, want de knop staat rechts. */
+.sort { position: relative; flex: 0 0 auto; margin-left: 8px; }
+/* Zelfde vorm als de zoek-en-filterknop ernaast, maar zonder de klasse
+   panel__tool: die schakelt de zoekstand in. */
+.sort__btn { width: auto; height: 34px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--r-md); }
+.sort__menu {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  z-index: 20;
+  min-width: 210px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column;
+}
+.sort__menu[hidden] { display: none; }
+.sort__head { padding: 4px 10px 8px; font-size: var(--fs-sm); color: var(--text-muted); }
+.sort__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+.sort__item:hover { background: var(--bg-hover); }
+.sort__item .icon { width: 17px; height: 17px; color: var(--text-muted); }
+/* Waarop je sorteert leest als een keuzerondje; de richting is er maar één
+   van twee en krijgt daarom een gevuld vlak in plaats van een bolletje. */
+.sort__dot {
+  width: 16px; height: 16px; flex: 0 0 auto;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--r-full);
+}
+.sort__item.is-selected .sort__dot { border-color: var(--text-strong); border-width: 5px; }
+.sort__item[data-sort="dir"].is-selected { background: var(--bg-active); font-weight: 500; }
+.sort__item[data-sort="dir"].is-selected .icon { color: var(--text-strong); }
+.sort__sep { height: 1px; margin: 6px 4px; background: var(--border); }
+
+.panel__tool {
+  width: auto; height: 34px;
+  margin-left: auto;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.icon--wide { width: 26px; height: 11px; }
+
+/* Tweeregelige cel: titel met een toelichting eronder. */
+.cell { display: flex; flex-direction: column; gap: 2px; }
+.cell__title { font-weight: 500; color: var(--text-strong); }
+.cell__meta { font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* Betaalmethode in een lijst: een tegeltje met het merkkortje ervoor. Een
+   echte logo-set komt van de betaalprovider; tot die tijd draagt het kortje
+   de herkenning. */
+.pm { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.pm__mark {
+  display: grid; place-items: center;
+  width: 34px; height: 24px; flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--bg-surface);
+  font-size: 10px; font-weight: 700; letter-spacing: .02em;
+  color: var(--text-muted);
+}
+.pm__name { font-weight: 500; color: var(--text-strong); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* De naam draagt de rij; de fee en de schakelaar blijven zo smal mogelijk,
+   zodat er op een telefoon zo min mogelijk te schuiven valt. */
+.table--methods td:first-child { width: 100%; }
+.table--methods th:last-child, .table--methods td:last-child { text-align: right; }
+
+/* Tijdkolom. Het getal draagt de nadruk, de eenheid blijft rustig. */
+.when { display: flex; align-items: center; gap: 8px; color: var(--text); }
+.when b { font-weight: 600; color: var(--text-strong); }
+/* Dag of datum vóór de tijd: ondergeschikt, want de tijd is de waarde
+   waar je op leest. */
+.when__day { margin-right: 8px; color: var(--text-muted); }
+.when .icon { width: 18px; height: 18px; }
+.when--late { color: var(--danger); }
+.when--late b { color: var(--danger); font-weight: 600; }
+.when--soon, .when--soon b { color: #9c4d16; }
+/* Badge onder de tijd, niet ernaast. */
+.when + .badge { display: inline-block; margin-top: 6px; }
+
+/* Bedrag met status erboven, ordernummer eronder — beide rechts uitgelijnd. */
+.pay { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.pay__line { display: flex; align-items: center; gap: 10px; }
+.pay__amount { color: var(--text); font-variant-numeric: tabular-nums; }
+
+.rowact { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.rowact .icon-btn { width: 32px; height: 32px; }
+/* Bij Orders staat de statusknop links in de kolom; de menuknop blijft
+   wel tegen de rechterrand. */
+.table--orders .rowact { justify-content: flex-start; }
+.table--orders .rowact .icon-btn { margin-left: auto; }
+
+.badge--pending { background: #fbe7d4; color: #9c4d16; }
+.badge--sched   { background: #f1e8fa; color: #6b3fa8; }
+
+/* Voet van een paneel: zelfde inspringing als de tabelcellen. */
+/* De pagina scrollt, niet de lijst. De kolomkoppen blijven in zicht en de
+   paginering hangt onderaan tot het eind van de lijst.
+
+   Let op: een wrapper met overflow-x:auto is ook verticaal een
+   scrollport (clip wordt daar door de spec hidden), en dan kan sticky
+   de contentkolom niet meer bereiken. Daarom staat de horizontale
+   scroll alleen aan waar de tabel echt te breed is: op mobiel. Het
+   paneel zelf klipt met clip in plaats van hidden, want hidden zou
+   dezelfde val opleveren. */
+.panel--scroll { overflow: clip; }
+/* Sticky op een th werkt in Chrome niet bij border-collapse: collapse; met
+   separate + border-spacing 0 blijft de opmaak gelijk. De rijscheiding zit
+   toch al op de cellen. */
+.panel--scroll .table { border-collapse: separate; border-spacing: 0; }
+.panel--scroll .table-wrap { overflow: visible; }
+.panel--scroll thead th {
+  /* Zelfde correctie als bij de voet: de offset rekent vanaf de
+     binnenkant van de contentkolom, dus de padding eraf om de kop
+     tegen de header aan te leggen. */
+  position: sticky; top: calc(-1 * var(--content-pad-t)); z-index: 1;
+  background: var(--gray-50);
+}
+.panel--scroll .panel__foot {
+  /* Boven de bevroren kolom (2) en de sticky kop (3), anders schildert
+     de tabel dwars door de voet heen. */
+  position: sticky; bottom: calc(-1 * var(--content-pad-b)); z-index: 4;
+  background: var(--bg-surface);
+}
+
+/* Voet van een paneel: zelfde inspringing als de tabelcellen. */
+.panel__foot { display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-top: 1px solid var(--border); }
+
+/* Paginering. De actieve richting krijgt accentkleur, de doodlopende
+   kant blijft zichtbaar maar uitgeschakeld. */
+.pager__btn { width: 38px; height: 38px; border: 1px solid var(--border); border-radius: var(--r-md); color: var(--accent); }
+.pager__btn:disabled { color: var(--gray-300); cursor: default; }
+.pager__btn:disabled:hover { background: none; }
+.pager__btn .icon { width: 17px; height: 17px; }
+.pager__count { margin-left: 6px; font-size: var(--fs-md); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.pager__count b { font-weight: 500; color: var(--text-strong); }
+
+.ta-right { text-align: right; }
+
+/* Rijen zijn hoog genoeg voor twee regels; vandaar iets meer lucht dan de
+   standaardtabel. */
+.table--orders td, .table--archive td, .table--customers td { padding-top: 12px; padding-bottom: 12px; vertical-align: middle; }
+.table--orders th:first-child, .table--orders td:first-child,
+.table--archive th:first-child, .table--archive td:first-child,
+.table--customers th:first-child, .table--customers td:first-child { padding-left: 22px; }
+.table--orders th:last-child, .table--orders td:last-child,
+.table--archive th:last-child, .table--archive td:last-child,
+.table--customers th:last-child, .table--customers td:last-child { padding-right: 22px; }
+
+/* Bevroren eerste kolom: de bestemming blijft staan terwijl de rest
+   zijwaarts schuift, anders weet je bij kolom vier niet meer welke
+   bestelling je leest. De hoekcel plakt in beide richtingen. */
+.table--orders th:first-child,
+.table--archive th:first-child,
+.table--archive td:first-child,
+.table--customers th:first-child,
+.table--customers td:first-child,
+.table--orders td:first-child {
+  position: sticky; left: 0; z-index: 2;
+  background: var(--bg-surface);
+}
+.panel--scroll .table--orders thead th:first-child,
+.panel--scroll .table--archive thead th:first-child,
+.panel--scroll .table--customers thead th:first-child { z-index: 3; background: var(--gray-50); }
+/* De rand verschijnt pas als er daadwerkelijk iets achter wegschuift. */
+.table-wrap.is-scrolled .table--orders th:first-child,
+.table-wrap.is-scrolled .table--archive th:first-child,
+.table-wrap.is-scrolled .table--archive td:first-child,
+.table-wrap.is-scrolled .table--customers th:first-child,
+.table-wrap.is-scrolled .table--customers td:first-child,
+.table-wrap.is-scrolled .table--orders td:first-child {
+  border-right: 1px solid var(--border);
+  box-shadow: 6px 0 8px -6px rgba(18, 22, 28, .16);
+}
+/* ==========================================================================
+   8g. LOYALTY
+   ========================================================================== */
+
+/* Vaste, niet-instelbare regel. Bruin i.p.v. rood: dit is geen fout maar een
+   grens van het systeem. */
+.notice--locked .notice__bar { background: #8a6410; }
+.notice__close {
+  margin-left: auto;
+  width: 32px; height: 32px;
+  color: rgba(255, 255, 255, .8);
+}
+.notice__close:hover { background: rgba(255, 255, 255, .16); color: #fff; }
+.notice__close .icon { width: 17px; height: 17px; }
+.notice__body b { font-weight: 600; color: var(--text-strong); }
+
+/* Keuzelijst met een waarde vóór het label. Vaste kolombreedte, anders
+   staan de omschrijvingen niet onder elkaar. */
+.choices--valued .choice { gap: 14px; }
+.choice__value {
+  flex: 0 0 auto;
+  min-width: 34px;
+  font-weight: 500;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.hint--spaced { margin-top: 18px; }
+
+/* Vier gelijke vakken in één omrand blok; de randen ertussen zijn gedeeld. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.tile { padding: 14px 12px; text-align: center; }
+.tile + .tile { border-left: 1px solid var(--border); }
+.tile__value { font-size: var(--fs-lg); font-weight: 600; color: var(--text-strong); }
+.tile__meta {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 4px;
+  font-size: var(--fs-md); color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.tile__coin { width: 15px; height: 15px; color: var(--accent); }
+
+/* Statusaanduiding naast de paginatitel — leest als label, niet als knop. */
+.chip--info {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px 8px 12px;
+  color: var(--text);
+}
+.chip--info .icon { width: 17px; height: 17px; color: var(--text-muted); }
+
+/* ==========================================================================
+   8h. OPENING HOURS
+   ========================================================================== */
+
+/* Neutrale toelichting; de gele .alert is voor waarschuwingen. */
+.alert--info { background: var(--accent-soft); color: #14567f; }
+
+/* Kop van een inklapbare kaartsectie: een grijze balk bovenin de kaart met
+   de titel en een chevron. De lijst eronder heeft geen eigen bovenlijn meer
+   nodig; de onderrand van de balk is die lijn. */
+.cardhead {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  border-radius: calc(var(--r-lg) - 1px) calc(var(--r-lg) - 1px) 0 0;
+  background: var(--gray-50);
+  text-align: left;
+}
+.cardhead:hover { background: var(--gray-100); }
+/* Dicht: geen lijn en weer rond aan alle kanten, want er staat niets onder. */
+.cardhead[aria-expanded="false"] { border-bottom: 0; border-radius: calc(var(--r-lg) - 1px); }
+.cardhead__chev {
+  color: var(--text-muted);
+  transition: transform var(--dur) var(--ease);
+}
+/* Omlaag als de sectie dicht is, omhoog zodra hij open staat. */
+.cardhead[aria-expanded="true"] .cardhead__chev { transform: rotate(180deg); }
+
+.hours { border-top: 0; }
+
+/* Dag, schakelaar en diensten in vaste kolommen, zodat alle tijdvelden
+   onder elkaar uitlijnen ongeacht de lengte van de dagnaam. */
+.hrow {
+  display: grid;
+  grid-template-columns: 128px 36px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  padding: 14px 20px;
+}
+.hrow + .hrow { border-top: 1px solid var(--border); }
+.hrow__day { padding-top: 11px; font-size: var(--fs-md); font-weight: 500; color: var(--text-strong); }
+.hrow .switch { margin-top: 10px; }
+
+.shifts { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.shift { display: flex; align-items: center; gap: 12px; }
+.shift__dash { color: var(--text-muted); }
+
+/* Tijdvelden: smal, gecentreerd, zonder de klokknop van de browser — die
+   past niet in het ontwerp. Tikken opent op mobiel nog steeds de kiezer. */
+.time {
+  width: 118px;
+  height: 40px;
+  padding: 0 10px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.time::-webkit-calendar-picker-indicator { display: none; }
+.time::-webkit-inner-spin-button { display: none; }
+
+.tfield { position: relative; display: inline-flex; }
+
+/* Een fout tijdveld: rode rand en een lichte tint, met de tijd gewoon in het
+   midden. Het waarschuwingsteken zat eerst ín het veld en duwde het cijfer
+   scheef, terwijl het niet vertelde wát er mis was. Dat staat nu onder de
+   dienst, waar de zin past. */
+.time--error {
+  border-color: var(--danger);
+  background: #fdf3f2;
+  color: var(--danger);
+}
+.time--error:focus { border-color: var(--danger); box-shadow: 0 0 0 3px #fbeae9; }
+
+.shift__error {
+  display: flex; align-items: center; gap: 8px;
+  font-size: var(--fs-sm);
+  color: var(--danger);
+}
+.shift__error .icon { width: 16px; height: 16px; }
+
+/* Samenvatting en chevron horen bij de mobiele accordeon; op desktop staat
+   elke dag altijd open, dus daar bestaan ze niet. */
+.hrow__sum, .hrow__more { display: none; }
+
+.shift__del { width: 32px; height: 32px; color: var(--text-muted); }
+.shift__del .icon { width: 19px; height: 19px; }
+
+/* Staat rechts uitgelijnd op de laatste dienstregel. */
+.shift__add {
+  white-space: nowrap;
+  margin-left: auto;
+  padding: 6px 4px;
+  font-size: var(--fs-md); font-weight: 500;
+  color: var(--accent);
+}
+.shift__add:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Op desktop is het een tekstlink; het plusje is de mobiele vorm. */
+.shift__add .icon { display: none; }
+
+.closed {
+  display: flex; align-items: center; gap: 9px;
+  padding-top: 11px;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+.closed .icon { width: 17px; height: 17px; }
+
+.hours + .card__pad .addrow { margin-top: 0; }
+
+/* ==========================================================================
+   8i. DELIVERY ZONES / PAYMENTS / DOMAIN
+   ========================================================================== */
+
+/* Eén postcode met een teller erachter. De hele reeks uitschrijven maakte er
+   een tweede regel van, en zo'n rij lees je toch niet uit — het aantal zegt
+   genoeg, de rest staat achter de rij. */
+.codes { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--text); }
+.codes__more {
+  padding: 1px 7px;
+  border-radius: var(--r-full);
+  background: var(--gray-100);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition: background var(--dur) var(--ease);
+}
+.codes__more:hover, .codes__more[aria-expanded="true"] { background: var(--gray-200); color: var(--text-strong); }
+
+/* De volledige reeks postcodes bij de teller. Staat los in de body en is
+   position: fixed, want binnen de tabel zou hij worden afgeknipt door het
+   scrollvak. app.js §10 zet hem op zijn plek. */
+.codepop {
+  position: fixed; z-index: var(--z-toast);
+  display: flex; flex-wrap: wrap; gap: 6px;
+  max-width: 260px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+}
+.codepop span {
+  padding: 2px 9px;
+  border-radius: var(--r-full);
+  background: var(--gray-100);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bezorgkosten: het tarief en de drempel waarboven het vervalt, op één regel. */
+.fee { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.fee__from { color: var(--text-muted); }
+
+/* De sluitknop zweeft rechtsboven over de inhoud heen. Alleen zolang de
+   kolom binnen bereik van de knop ligt, staat hij bovenop de kop en moet
+   die ruimte vrijhouden. Is het scherm breder, dan staat hij náást de kolom
+   en mag de kop tot de rand doorlopen, in lijn met het paneel eronder. De
+   grens ligt boven de rekensom (1120 + 68), want de mediaquery telt de
+   scrollbalk van de overlay zelf niet mee. Onder 900px staat de knop op de
+   terugbalk en is de kop sowieso vrij. */
+@media (min-width: 901px) and (max-width: 1259px) {
+  .set-main .page-head { padding-right: 48px; }
+}
+
+/* Kruimelpad in de settings-kop: gedimd pagina-icoon dat terugleidt,
+   met een chevron naar de naam van de subpagina. */
+.crumb { display: flex; align-items: center; gap: 10px; padding: 2px; border-radius: var(--r-sm); }
+.crumb .page-head__icon { color: var(--text-muted); transition: color var(--dur) var(--ease); }
+.crumb:hover .page-head__icon { color: var(--text-strong); }
+.crumb__sep { width: 15px; height: 15px; color: var(--border-strong); }
+
+/* Vijf kolommen in de smallere settings-kolom: iets krappere celruimte,
+   en de minimum-tekst mag afbreken in plaats van de tabel op te rekken. */
+.table--zones th, .table--zones td { padding-left: 14px; padding-right: 14px; }
+.table--zones td:nth-child(3) { min-width: 96px; }
+.table--zones td { padding-top: 14px; padding-bottom: 14px; vertical-align: middle; }
+.table--zones td:first-child { width: 1%; }
+.table--zones td:nth-child(3) { color: var(--text); }
+
+.table--domains td { padding-top: 14px; padding-bottom: 14px; }
+.dom { display: inline-flex; align-items: center; gap: 14px; color: var(--text-strong); }
+.dom__icon { color: var(--text-muted); }
+
+/* Wervende kaart: tekst links, illustratie rechts. De illustratie is
+   decoratief en verdwijnt als eerste bij weinig ruimte. */
+.promo { display: flex; align-items: center; gap: 32px; }
+.promo__body { flex: 1 1 auto; min-width: 0; }
+.promo__art { flex: 0 0 auto; width: 200px; height: 150px; }
+
+.feats { display: flex; flex-direction: column; gap: 14px; margin: 22px 0 26px; }
+.feat { display: flex; align-items: center; gap: 16px; font-size: var(--fs-md); color: var(--text-strong); }
+.feat .icon { color: var(--text-muted); }
+
+/* Rij zonder eigen actie: geen hover, bediening rechts. */
+.row--static { cursor: default; }
+.row--static:hover { background: none; }
+.row__switch { margin-left: auto; }
+
+/* ==========================================================================
+   8j. CUSTOMERS / DELIVERERS / FINANCE
+   ========================================================================== */
+
+/* Kengetallenrij boven een lijst. Vier is de bovengrens: daarboven leest
+   het als een dashboard in plaats van als context bij de tabel. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.stat {
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+}
+.stat__label { font-size: var(--fs-sm); color: var(--text-muted); }
+.stat__value {
+  margin-top: 6px;
+  font-size: 22px; font-weight: 600; letter-spacing: -.02em;
+  /* Een bedrag hoort nooit tussen het euroteken en het getal te breken. */
+  white-space: nowrap;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+.stat__delta { margin-top: 4px; font-size: var(--fs-sm); color: var(--text-muted); }
+.stat__delta.is-up   { color: var(--success); }
+.stat__delta.is-down { color: var(--danger); }
+
+/* Persoon in een tabelrij: initialen, naam en een contactregel. */
+.person { display: flex; align-items: center; gap: 12px; }
+.person__avatar {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; flex: 0 0 auto;
+  border-radius: var(--r-full);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--fs-sm); font-weight: 600;
+  letter-spacing: .02em;
+}
+.person__text { display: flex; flex-direction: column; min-width: 0; }
+.person__name { font-weight: 500; color: var(--text-strong); }
+.person__meta { font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* Saldo bovenaan Finance: beschikbaar bedrag draagt de nadruk, onderweg
+   staat ernaast als context, de uitbetaalknop rechts. */
+.balance { display: flex; align-items: center; gap: 40px; }
+.balance__main { flex: 0 0 auto; }
+.balance__action { margin-left: auto; }
+
+.badge--danger { background: #fbeae9; color: var(--danger); }
+
+/* Tabellen met deze klasse worden op mobiel een lijst; zie §10. De
+   data-label op een cel wordt daar het opschrift. */
+.table--stack td { padding-top: 12px; padding-bottom: 12px; vertical-align: middle; }
+.table--stack td:first-child { color: var(--text-strong); }
+
+/* ==========================================================================
+   8k. STAPPENFORMULIER
+   ========================================================================== */
+
+/* Ondertitel onder een paginatitel; alleen in gebruik waar de titel alleen
+   niet genoeg uitleg geeft. */
+.page-head__text { min-width: 0; }
+.page-head__lead { margin-top: 2px; font-size: var(--fs-md); color: var(--text-muted); }
+
+.wiz { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+.wiz__head { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.wiz__count { flex: 0 0 auto; font-size: var(--fs-md); color: var(--text-muted); }
+.wiz__count b { font-weight: 600; color: var(--text-strong); }
+
+/* De balk vult de rest van de regel; de vulling groeit mee met de stap. */
+.wiz__track {
+  flex: 1 1 auto;
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--gray-200);
+  overflow: hidden;
+}
+.wiz__track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 260ms var(--ease);
+}
+
+.wiz__foot { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; min-width: 0; }
+
+/* Keuze met een omschrijving en soms een eigen veld eronder. De bolletjes
+   staan bovenaan uitgelijnd in plaats van gecentreerd. */
+.choices--rich { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.choices--rich > legend { margin-bottom: 14px; }
+.choice--rich { align-items: flex-start; gap: 14px; padding: 10px 4px; min-width: 0; }
+.choice--rich input { margin-top: 2px; }
+.choice__body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.choice__title { font-weight: 500; color: var(--text-strong); }
+.choice__desc { font-size: var(--fs-md); color: var(--text-muted); }
+.choice__control { margin-top: 10px; max-width: 100%; }
+.choice__control:disabled { background: var(--gray-50); color: var(--text-muted); cursor: not-allowed; }
+
+/* ==========================================================================
+   8l. NOTIFICATIONS / POLICIES / LANGUAGE
+   ========================================================================== */
+
+/* Rode actie voor iets onomkeerbaars. Ghost-vorm: de knop hoort op te vallen
+   door zijn kleur, niet door zijn gewicht. */
+.btn--danger { border: 1px solid var(--danger); background: var(--bg-surface); color: var(--danger); }
+.btn--danger:hover { background: #fdf1f0; }
+.card__action { margin-top: 18px; }
+
+/* Statuslabel in een invoerveld, rechts uitgelijnd. */
+.tfield--badge { display: flex; align-items: center; width: 100%; }
+.tfield--badge .input { padding-right: 108px; }
+.tfield__badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+
+/* Link die een knop is: zelfde uiterlijk, maar wel bedienbaar met toetsenbord
+   en niet aanklikbaar als navigatie. */
+.link--btn { font: inherit; color: var(--text-strong); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Kerngegevens naast een rij, vóór de chevron. */
+.facts { display: flex; align-items: center; gap: 20px; margin-left: auto; }
+.fact { display: flex; align-items: center; gap: 8px; font-size: var(--fs-md); color: var(--text); }
+.fact .icon { width: 17px; height: 17px; color: var(--text-muted); }
+
+/* Voetregel van een kaart: rustiger vlak, losgetrokken van de inhoud. */
+/* Sluitknop in een note-balk. */
+.note__close { margin-left: auto; width: 30px; height: 30px; }
+.note__close .icon { width: 16px; height: 16px; }
+
+.card__foot--plain { padding: 0 2px; background: none; border: 0; color: var(--text-muted); font-size: var(--fs-md); }
+
+/* Select zonder kader, voor gebruik binnen een tabelcel. */
+.input--bare {
+  width: auto; height: 32px;
+  padding-left: 0; padding-right: 24px;
+  border-color: transparent;
+  background-color: transparent;
+  background-position: right 2px center;
+  color: var(--text);
+}
+.input--bare:hover { border-color: var(--border-strong); padding-left: 10px; background-position: right 8px center; }
+
+/* Rij met een badge vlak voor de chevron. */
+.row > .badge { margin-left: auto; }
+.row > .badge + .row__caret { margin-left: 14px; }
+/* Een losse link achteraan de rij, bijvoorbeeld om het adres te wijzigen. */
+.row__link { flex: 0 0 auto; margin-left: 14px; }
+
+/* ==========================================================================
+   8k. MARKETING-FORMULIEREN
+   ========================================================================== */
+
+/* Voet van een aanmaakscherm: bevestigen rechts, weggooien links ernaast. */
+/* Lijsten met veel kolommen: krappere celruimte, en de omschrijvende
+   kolommen mogen afbreken zodat de tabel binnen de kaart blijft. */
+.table--list th, .table--list td { padding-left: 10px; padding-right: 10px; }
+.table--list th:first-child, .table--list td:first-child { padding-left: 20px; }
+.table--list th:last-child,  .table--list td:last-child  { padding-right: 20px; }
+.table--list td:nth-child(3) { white-space: normal; }
+.table--list .cell__title { white-space: normal; }
+
+.formfoot { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+
+/* Veld met een knop ernaast (code genereren). */
+/* Invoerveld met een teken erin: valuta ervoor, eenheid erachter. */
+/* Oude prijs doorgestreept naast de nieuwe: laat in één blik zien wat
+   de korting doet. */
+.wasnow { white-space: nowrap; }
+.wasnow s { color: var(--text-muted); text-decoration-thickness: 1px; }
+.pricepreview { display: flex; align-items: center; gap: 10px; height: 44px; font-size: var(--fs-lg); }
+.pricepreview s { font-size: var(--fs-md); color: var(--text-muted); }
+.pricepreview b { font-weight: 600; color: var(--text-strong); }
+
+/* Dagkiezer: zeven vakjes op een rij, uit als de planning ze niet vraagt. */
+.days { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.days > .label { flex: 0 0 100%; margin-bottom: 2px; }
+.day { position: relative; }
+.day input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.day span {
+  display: grid; place-items: center;
+  min-width: 52px; height: 36px; padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm); color: var(--text);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.day input:hover + span { background: var(--gray-50); }
+.day input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.day input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.days:disabled { opacity: .5; }
+.days:disabled .day input { cursor: default; }
+
+.affix { position: relative; display: flex; align-items: center; }
+.affix__sym { position: absolute; font-size: var(--fs-md); color: var(--text-muted); pointer-events: none; }
+.affix--pre  .affix__sym { left: 13px; }
+.affix--pre  .input { padding-left: 32px; }
+.affix--post .affix__sym { right: 13px; }
+.affix--post .input { padding-right: 32px; }
+
+.withbtn { display: flex; align-items: center; gap: 10px; }
+.withbtn .input { min-width: 0; }
+
+/* Selectievakje op één regel, zonder de radio-opmaak van .choice. */
+.choice--plain { margin-top: 14px; padding: 0; }
+.choice--plain input {
+  appearance: none;
+  width: 20px; height: 20px; flex: 0 0 auto;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.choice--plain input:checked {
+  border-color: var(--accent);
+  background: var(--accent)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='m5 12.5 4.5 4.5L19 7'/></svg>") center / 13px no-repeat;
+}
+.choice--plain input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Codes lezen beter in een vaste breedte. */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .01em; }
+
+textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: vertical; }
+
+/* ==========================================================================
+   8l. ANALYTICS — grafieken
+   Twee series, gevalideerd tegen de CVD- en contrastdrempels:
+   #0172af / #ce7514 haalt ΔE 22,6 (protan) en beide boven 3:1 op wit.
+   ========================================================================== */
+:root {
+  --series-delivery: #0172af;
+  --series-takeaway: #ce7514;
+}
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+
+/* Legenda hoort er altijd bij vanaf twee series; kleur alleen is geen
+   identificatie. */
+.legend { display: flex; align-items: center; gap: 18px; flex: 0 0 auto; }
+.legend__item { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--text); }
+.legend__dot { width: 10px; height: 10px; flex: 0 0 auto; border-radius: 3px; }
+.legend__dot--del  { background: var(--series-delivery); }
+.legend__dot--take { background: var(--series-takeaway); }
+
+.chart { margin-top: 22px; padding-left: 52px; }
+.chart__plot { position: relative; height: 236px; }
+
+/* Raster blijft terugtredend: dunne lijnen, gedempt label. */
+.chart__grid { position: absolute; inset: 0 0 24px 0; }
+.chart__grid span { position: absolute; left: 0; right: 0; border-top: 1px solid var(--border); }
+.chart__grid span::before {
+  content: attr(data-v);
+  position: absolute; right: calc(100% + 10px); top: -8px;
+  font-size: var(--fs-xs); color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.chart__bars { position: relative; z-index: 1; display: flex; align-items: flex-end; gap: 7px; height: 100%; }
+.cbar { position: relative; flex: 1 1 0; height: 100%; display: flex; flex-direction: column; min-width: 0; }
+.cbar__stack {
+  /* column-reverse: de eerste serie uit de legenda staat onderaan. */
+  display: flex; flex-direction: column-reverse; justify-content: flex-start;
+  height: calc(100% - 24px);
+  /* 2px lucht tussen de segmenten, zodat de deling zichtbaar blijft. */
+  gap: 2px;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+.cbar__seg--del  { background: var(--series-delivery); }
+.cbar__seg--take { background: var(--series-takeaway); }
+.cbar__x { height: 24px; display: grid; place-items: center; font-size: var(--fs-xs); color: var(--text-muted); }
+.cbar--closed .cbar__stack { border-bottom: 2px solid var(--border-strong); }
+
+.cbar:hover .cbar__stack, .cbar:focus-visible .cbar__stack { filter: brightness(1.08); }
+.cbar:focus-visible { outline: none; }
+.cbar:focus-visible .cbar__x { color: var(--text-strong); font-weight: 600; }
+
+/* Tooltip: benoemt de dag en beide series, want de hoogte alleen zegt niets
+   over de precieze bedragen. */
+.cbar__tip {
+  position: absolute; bottom: calc(100% - 18px); left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--gray-900); color: #fff;
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur) var(--ease);
+}
+.cbar__tip span { display: flex; align-items: center; gap: 8px; }
+.cbar:hover .cbar__tip, .cbar:focus-visible .cbar__tip { opacity: 1; }
+/* Aan de randen zou de tooltip buiten de kaart vallen. */
+.cbar:first-child .cbar__tip  { left: 0; transform: none; }
+.cbar:nth-last-child(-n+3) .cbar__tip { left: auto; right: 0; transform: none; }
+
+.tableview { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 6px; }
+.tableview summary {
+  padding: 10px 2px;
+  font-size: var(--fs-sm); font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+}
+.tableview .table th, .tableview .table td { padding-left: 0; }
+
+/* Horizontale staven: één serie, dus één tint en een label per staaf. */
+.hbars { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.hbar { display: grid; grid-template-columns: 96px minmax(0, 1fr) 46px; align-items: center; gap: 12px; }
+.hbar__name { font-size: var(--fs-md); color: var(--text-strong); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hbar__track { height: 10px; border-radius: var(--r-full); background: var(--gray-100); }
+.hbar__fill { display: block; height: 100%; border-radius: var(--r-full); background: var(--series-delivery); }
+.hbar__val { font-size: var(--fs-sm); color: var(--text-muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+
+/* ==========================================================================
+   10. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1080px) {
+  :root { --sidebar-w: 240px; --set-nav-w: 250px; }
+  /* 640px past hier nog; onder 900px nemen de mobiele regels het over. */
+}
+
+/* Tablet & mobiel: sidebar wordt een smalle drawer onder de header, zodat
+   je hem met een tik naast de drawer weer wegklikt. */
+@media (max-width: 900px) {
+  /* Hier is de tabel breder dan het scherm; de sticky kop levert dat in. */
+  .panel--scroll .table-wrap { overflow-x: auto; }
+  /* Lijstpaginas onder marketing: koppen weg, rij wordt een blok met
+     de naam boven en de kerncijfers eronder. */
+  .table--list, .table--list tbody, .table--list tr, .table--list td { display: block; width: 100%; }
+  .table--list thead { display: none; }
+  .table--list tr { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 14px 16px; border-top: 1px solid var(--border); }
+  .table--list td { width: auto; padding: 0; border: 0; white-space: normal; font-size: var(--fs-sm); color: var(--text-muted); }
+  .table--list td:first-child { flex: 1 1 100%; font-size: var(--fs-md); }
+  .table--list td:last-child { margin-left: auto; }
+  /* Analytics: twee kaarten naast elkaar past niet meer. */
+  .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .chart { padding-left: 44px; }
+  .chart__plot { height: 190px; }
+  .chart__bars { gap: 4px; }
+  .hbar { grid-template-columns: 84px minmax(0, 1fr) 42px; gap: 10px; }
+  /* Legenda onder de titel in plaats van ernaast. */
+  .card__headrow { flex-wrap: wrap; }
+  /* Kerngegevens onder de titel in plaats van ernaast. */
+  .row:has(.facts) { flex-wrap: wrap; }
+  .facts { width: 100%; margin-left: 0; gap: 14px; flex-wrap: wrap; }
+  .card__action { width: 100%; }
+  /* Op smalle schermen vullen de wizardknoppen de regel. */
+  .wiz__foot .btn { flex: 1 1 auto; }
+  .wiz__head { gap: 12px; }
+  /* Kengetallen twee bij twee. */
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Op deze breedte is 22px nog te groot voor de langere bedragen. */
+  .stat__value { font-size: 19px; }
+
+  /* Saldo onder elkaar; de scheidingslijn wordt een bovenrand. */
+  .balance { flex-direction: column; align-items: stretch; gap: 18px; }
+  .balance__action { margin-left: 0; }
+
+  /* Generieke tabelstapeling: kop weg, elke rij een blok. Cellen met
+     data-label krijgen dat opschrift ervoor, anders verliest een los
+     getal als 24 of 19 min zijn betekenis. */
+  .table--stack, .table--stack tbody, .table--stack tr, .table--stack td { display: block; width: 100%; }
+  .table--stack thead { display: none; }
+  .table--stack tr { position: relative; padding: 14px 16px; border-top: 1px solid var(--border); }
+  .table--stack td { width: auto; padding: 0; border: 0; white-space: normal; }
+  .table--stack td + td { margin-top: 8px; }
+  .table--stack td[data-label] { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); }
+  .table--stack td[data-label]::before { content: attr(data-label); color: var(--text-muted); }
+  /* Bij een actiecel is het opschrift ruis: de link benoemt zichzelf al. */
+  .table--stack td[data-label="Action"]::before { content: none; }
+  /* Menuknop terug naar de bovenhoek van het blok. */
+  .table--stack td:last-child { position: absolute; top: 12px; right: 12px; width: auto; margin-top: 0; }
+  .table--stack tr { padding-right: 56px; }
+  /* Illustratie is decoratief: die gaat als eerste weg. */
+  .promo__art { display: none; }
+  /* Kiezen doet de telefoon zelf: een echt <select> ligt onzichtbaar over de
+     knop, zodat de systeemkiezer opengaat in plaats van ons eigen menu. De
+     knop eronder blijft gewoon zichtbaar en houdt zijn opmaak. */
+  .sfilter__native, .codes__native {
+    display: block;
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    -webkit-appearance: none; appearance: none;
+    border: 0; background: none;
+  }
+  .codes__wrap { position: relative; display: inline-flex; }
+  /* Een tik moet raak zijn: de teller krijgt de maat van de badge ernaast. */
+  .codes__more { padding: 3px 10px; font-weight: 500; }
+  /* Domeinen: koppen weg, rijen worden blokken. Zones blijven een tabel die
+     zijwaarts schuift, want daar staan vier kolommen naast elkaar die je met
+     elkaar wilt vergelijken. */
+  .table--domains, .table--domains tbody, .table--domains tr, .table--domains td { display: block; width: 100%; }
+  .table--domains thead { display: none; }
+  .table--domains tr { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 14px 16px; border-top: 1px solid var(--border); }
+  /* De panel-kop tekent al een lijn; zonder de tabelkop ertussen legt de
+     eerste rij daar een tweede overheen, wat als één dikke rand leest. */
+  .table--list tbody tr:first-child,
+  .table--stack tbody tr:first-child,
+  .table--domains tbody tr:first-child { border-top: 0; }
+
+  .table--domains td { width: auto; padding: 0; border: 0; white-space: normal; }
+  .table--domains td:nth-child(3) { margin-left: auto; }
+  .table--domains td:first-child { flex: 1 1 auto; min-width: 0; }
+  .dom { gap: 10px; }
+  /* Openingstijden op mobiel: de kaart is het kader, met de grijze kop erop
+     en haarlijnen tussen de dagen. Elke dag staat standaard dicht met zijn
+     tijden op de regel, zodat je langs zeven regels scrolt en alleen
+     openklapt wat je wilt wijzigen. De schakelaar staat rechts, vlak voor de
+     chevron, zodat aan- en uitzetten en openklappen naast elkaar liggen. */
+  .cardhead { padding: 12px 16px; }
+  .hours + .card__pad { padding: 14px 16px 16px; }
+  .hrow {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 10px 8px;
+    padding: 12px 16px;
+  }
+  /* Dicht staan dagnaam en tijden onder elkaar; de twee knoppen ernaast
+     strekken over allebei de regels, zodat ze op de middenas blijven. */
+  .hrow--shut { row-gap: 2px; }
+  /* De hele regel is de knop; alleen binnen de diensten is dat niet zo. */
+  .hrow { cursor: pointer; }
+  .hrow .shifts, .hrow .closed { cursor: auto; }
+  .hrow__day { padding-top: 0; align-self: center; grid-column: 1; grid-row: 1; }
+  .hrow .switch { margin-top: 0; align-self: center; grid-column: 2; grid-row: 1; }
+  .hrow__more { grid-column: 3; grid-row: 1; }
+  .hrow--shut .switch, .hrow--shut .hrow__more { grid-row: 1 / span 2; }
+  /* De tijden bij een dichte dag: eronder, in dezelfde maat als de dagnaam.
+     Staat de dag open, dan staan de velden er zelf en zwijgt hij. */
+  .hrow--shut .hrow__sum {
+    display: block; grid-column: 1; grid-row: 2;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-size: var(--fs-md); color: var(--text-muted);
+  }
+  .hrow__more {
+    display: grid; place-items: center;
+    width: 28px; height: 28px; margin-right: -6px;
+    border-radius: var(--r-md);
+    color: var(--text-muted);
+    transition: transform var(--dur) var(--ease);
+  }
+  .hrow__more .icon { width: 18px; height: 18px; }
+  /* Omlaag als de dag dicht is, omhoog zodra hij openstaat: de pijl wijst
+     naar wat de klik doet. */
+  .hrow:not(.hrow--shut) .hrow__more { transform: rotate(180deg); }
+  /* Dicht: alleen de kop blijft staan. De samenvatting neemt het over. */
+  .hrow--shut .shifts, .hrow--shut .closed { display: none; }
+  .shifts, .closed { grid-column: 1 / -1; }
+  .closed { padding-top: 0; }
+  /* Plus en min horen naast elkaar op dezelfde regel als de tijden, in
+     dezelfde maat. Daarvoor moeten de velden smaller: twee knoppen erbij
+     passen anders niet binnen de dagkaart. */
+  .shift { flex-wrap: wrap; gap: 6px; }
+  .time { width: 92px; }
+  .shift__del, .shift__add {
+    display: grid; place-items: center;
+    width: 30px; height: 30px;
+    margin-left: 0; padding: 0;
+    border-radius: var(--r-full);
+  }
+  .shift__del .icon, .shift__add .icon { display: block; width: 20px; height: 20px; }
+  .shift__add > span { display: none; }
+  .shift__add:hover, .shift__del:hover { text-decoration: none; background: var(--gray-100); }
+  /* Vier tegels naast elkaar worden te smal op mobiel. */
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile:nth-child(odd) { border-left: 0; }
+  .tile:nth-child(n+3) { border-top: 1px solid var(--border); }
+  .cell__title { overflow-wrap: anywhere; }
+
+  .panel__foot { padding: 14px 16px; }
+  .body { grid-template-columns: minmax(0, 1fr); }
+
+  .topbar { padding: 0 12px; gap: 10px; }
+  .icon-btn.topbar__burger { display: grid; }
+  .brand { display: none; }
+  .search { margin-left: 0; width: auto; flex: 1 1 auto; }
+
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h);
+    bottom: 0;
+    left: 0;
+    width: var(--drawer-w);
+    max-width: 82vw;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-102%);
+    transition: transform 240ms var(--ease);
+  }
+  [data-drawer="open"] .sidebar { transform: none; }
+
+  /* Met de settings-overlay open moet de drawer eroverheen kunnen schuiven.
+     Alleen hier: op desktop hoort de sidebar juist ónder de overlay te blijven. */
+  [data-settings="open"] .sidebar { z-index: calc(var(--z-overlay) + 2); }
+  [data-settings="open"] .scrim   { z-index: calc(var(--z-overlay) + 1); }
+
+  .scrim {
+    position: fixed;
+    inset: var(--topbar-h) 0 0 0;
+    z-index: var(--z-scrim);
+    background: rgba(18, 22, 28, .38);
+    animation: fade-in 200ms var(--ease);
+  }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Online Store: nav boven het paneel, en labels boven hun bediening. */
+  .store { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .srow { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 12px 0; }
+  .srow > .label { padding-top: 0; }
+
+  .content { --content-pad-t: 22px; --content-pad-b: 48px; padding: var(--content-pad-t) 16px var(--content-pad-b); }
+  .card { padding: 18px 16px 20px; }
+  /* Een flush kaart heeft zijn ruimte binnenin staan; de regel hierboven zou
+     die verdubbelen. */
+  .card--flush { padding: 0; }
+  .field-row { grid-template-columns: minmax(0, 1fr); }
+
+  /* ---- Settings-overlay wordt een sheet met twee niveaus ---- */
+  .overlay__inner { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0; max-width: none; }
+
+  .set-nav {
+    position: static;
+    padding: 0 16px 16px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  /* Titelsecties krijgen exact de page-head-behandeling van de gewone
+     pagina's: icoon + titel op de paginaondergrond, geen aparte balk. */
+  /* Zelfde behandeling als de terugregel op een specifieke pagina: de
+     kop blijft staan, met het kruisje erop. De set-nav heeft 8px zijpad,
+     vandaar de negatieve marges om de randen te halen. */
+  .set-nav__head {
+    position: sticky; top: 0; z-index: 2;
+    display: flex; align-items: center; gap: 12px;
+    min-height: 56px;
+    width: calc(100% + 32px);
+    margin: 0 -16px 8px;
+    padding: 0 56px 0 16px;
+    background: var(--bg-overlay);
+  }
+  .set-nav__gear { width: 24px; height: 24px; color: var(--text-strong); }
+  .set-nav__title { font-size: 18px; font-weight: 500; letter-spacing: -.015em; color: var(--text-strong); }
+
+  /* De rij zit vast op de lijst, zoals op desktop: de bovenrand van de
+     kaart eronder is meteen de scheidingslijn. */
+  .shop {
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-bottom: 0;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+  .nav__chev { display: block; }
+
+  /* De tabs in één wit vlak, zoals de .rows-lijsten elders: geen losse pillen
+     maar rijen met haarlijnen ertussen. overflow houdt hover en is-active
+     binnen de ronding. */
+  .set-nav .nav__list {
+    border: 1px solid var(--border);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    background: var(--bg-surface);
+    overflow: hidden;
+  }
+  .set-nav .nav__item { border-radius: 0; }
+
+  /* Boven de balk en op dezelfde middenas: 8 + halve knop = halve balk. */
+  .overlay__close { top: 8px; right: 16px; z-index: 3; margin: 14px 16px -48px auto; }
+
+  /* Niveau 1: de lijst. Niveau 2: de pagina met terug-knop. */
+  [data-settings-view="list"] .set-main { display: none; }
+  [data-settings-view="page"] .set-nav  { display: none; }
+
+  .set-main { padding: 16px 16px 96px; }
+  /* Terug is een gewone tekstlink boven de titel, geen balk. */
+  /* De hele regel blijft staan, niet alleen het kruisje: terug naar
+     Settings moet bereikbaar blijven hoe ver je ook doorscrollt. De
+     negatieve marges trekken de balk tot de randen van de overlay. */
+  .set-back {
+    position: sticky; top: 0; z-index: 2;
+    display: flex; align-items: center; gap: 4px;
+    min-height: 56px;
+    width: calc(100% + 32px);
+    margin: -16px -16px 8px;
+    padding: 0 56px 0 16px;
+    background: var(--bg-overlay);
+    font-size: var(--fs-md); font-weight: 500;
+    color: var(--text-muted);
+  }
+  .set-back:hover { color: var(--text-strong); }
+  .set-back .icon { width: 18px; height: 18px; }
+  .set-main .page-head { margin-bottom: 16px; }
+
+  /* Zelfde balk en knopmaten als op desktop; alleen de vaste 640px vervalt,
+     want die ruimte is er niet. De tekst mag inkorten voor de knoppen. */
+  .savebar { width: auto; flex: 1 1 auto; margin-inline: 0; min-width: 0; }
+  .savebar__text { min-width: 0; overflow: hidden; white-space: nowrap; }
+  .savebar__actions { margin-left: auto; flex: 0 0 auto; }
+}
+
+@media (max-width: 560px) {
+  /* Alleen een blok mét keuzeveld heeft een eigen regel nodig; een losse
+     knop past prima naast de titel en hoort daar ook te blijven staan. */
+  .page-head__tools:has(select) { width: 100%; margin-left: 0; }
+  .page-head__tools .input { flex: 1 1 auto; min-width: 0; }
+  .search__kbd { display: none; }
+  /* Titels zijn nu overal 18px; de verkleining hier bestond alleen om de
+     oude 21px op smalle schermen te temperen. */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   11. COMPANY — onderdelen die alleen dit dashboard kent
+   De rest van dit bestand is gedeeld met het klantendashboard; alles wat
+   hieronder staat hoort bij de cijfers van het bedrijf zelf.
+   ========================================================================== */
+
+/* Drie plannen, drie kleuren. Dezelfde volgorde als in de legenda: de
+   goedkoopste onderaan in een stapel, de duurste bovenop. */
+:root {
+  --series-starter: #7fb3d0;
+  --series-pro:     #0172af;
+  --series-scale:   #08456a;
+
+  /* Groei en verlies delen één paar door het hele dashboard heen. */
+  --series-up:   #067a4e;
+  --series-down: #c0342b;
+  --series-flat: #ce7514;
+}
+
+.legend__dot--starter { background: var(--series-starter); }
+.legend__dot--pro     { background: var(--series-pro); }
+.legend__dot--scale   { background: var(--series-scale); }
+
+.cbar__seg--starter { background: var(--series-starter); }
+.cbar__seg--pro     { background: var(--series-pro); }
+.cbar__seg--scale   { background: var(--series-scale); }
+
+/* Bewegingen in de MRR: bij komt erbij, af gaat eraf. Kleur alleen zou dat
+   niet mogen dragen, dus het bedrag ernaast houdt zijn plus of min. */
+.hbar__fill--new   { background: var(--series-up); }
+.hbar__fill--exp   { background: var(--series-flat); }
+.hbar__fill--con   { background: var(--series-down); opacity: .55; }
+.hbar__fill--churn { background: var(--series-down); }
+
+/* Gezondheidsscore: het cijfer is de boodschap, het bolletje maakt het in
+   één oogopslag te scannen. Nooit alleen de kleur. */
+.health {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+.health__dot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: var(--r-full); }
+.health__dot--good { background: var(--success); }
+.health__dot--warn { background: var(--warning-fg); }
+.health__dot--bad  { background: var(--danger); }
+
+/* Cohorttabel: het percentage blijft leesbaar, de vulling geeft de richting.
+   --v is het aandeel (0-1); de kleur wordt daar rechtstreeks uit gemengd. */
+.table--cohort td, .table--cohort th { text-align: center; }
+.table--cohort td:first-child, .table--cohort th:first-child { text-align: left; }
+.cohort {
+  display: inline-block; min-width: 56px;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--accent) calc(var(--v, 0) * 26%), var(--gray-50));
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+.cohort--empty { background: none; color: var(--text-muted); }
+
+/* Plannen naast elkaar: één kaart per plan, met het aandeel in de MRR
+   eronder. Het middelste plan is het plan dat je wilt verkopen. */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.plan {
+  display: flex; flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+}
+/* Het aanbevolen plan krijgt de accentrand, niet een andere achtergrond:
+   dat houdt de drie kaarten leesbaar naast elkaar. */
+.plan--main { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.plan__name {
+  display: flex; align-items: center; gap: 8px;
+  font-size: var(--fs-lg); font-weight: 600;
+  color: var(--text-strong);
+}
+.plan__price { margin-top: 10px; color: var(--text-muted); font-size: var(--fs-sm); }
+.plan__price b {
+  display: block;
+  font-size: 26px; font-weight: 600; letter-spacing: -.02em;
+  color: var(--text-strong);
+}
+.plan__meta { margin-top: 2px; font-size: var(--fs-sm); color: var(--text-muted); }
+.plan .feats { margin-top: 16px; }
+/* De balk zakt naar de onderrand, zodat drie kaarten met ongelijke lijstjes
+   toch op dezelfde hoogte eindigen. */
+.plan__share {
+  display: block; height: 8px; margin-top: auto;
+  border-radius: var(--r-full);
+  background: var(--gray-100);
+}
+.plan__share-fill { display: block; height: 100%; border-radius: var(--r-full); background: var(--accent); }
+.plan__sharetext { margin-top: 8px; font-size: var(--fs-sm); color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .plans { grid-template-columns: minmax(0, 1fr); }
+}
