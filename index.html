@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=2" />
 </head>
 <body>
 
@@ -359,15 +359,15 @@
                        coordinaten staan in procenten (0-100 in beide richtingen),
                        zodat de SVG met het vak meeschaalt. -->
                   <div class="line">
-                    <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
                         <linearGradient id="mrr-fill" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="var(--series-mrr)" stop-opacity=".16" />
-                          <stop offset="100%" stop-color="var(--series-mrr)" stop-opacity="0" />
+                          <stop offset="0%" stop-color="#0172af" stop-opacity=".16" />
+                          <stop offset="100%" stop-color="#0172af" stop-opacity="0" />
                         </linearGradient>
                       </defs>
-                      <path class="line__area" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51 L100,100 L0,100 Z" />
-                      <path class="line__stroke" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51" />
+                      <path class="line__area" fill="url(#mrr-fill)" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51 L100,100 L0,100 Z" />
+                      <path class="line__stroke" fill="none" stroke="#0172af" stroke-width="2" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51" />
                     </svg>
 
                     <!-- De punten liggen als losse elementen over de lijn: dat
@@ -2091,6 +2091,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=1"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
