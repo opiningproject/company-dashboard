@@ -1152,7 +1152,7 @@
 
   /* ---- Tekenen ------------------------------------------------------------
      punten: [{label, kort, waarde, sub}] van links naar rechts. */
-  function teken(lijn, punten, kolom) {
+  function teken(lijn, punten) {
     var n = punten.length;
     if (!n) return;
 
@@ -1221,20 +1221,6 @@
       });
     }
 
-    /* Dezelfde reeks nog eens, als tabel: een lijn laat de richting zien, de
-       tabel de getallen. */
-    var kop2 = kaart.querySelector(".tableview thead th:nth-child(2)");
-    if (kop2) kop2.textContent = kolom;
-    var body = kaart.querySelector(".tableview tbody");
-    if (body) {
-      body.innerHTML = "";
-      punten.forEach(function (p) {
-        var tr = document.createElement("tr");
-        tr.innerHTML = "<td>" + p.label + "</td><td>" + p.sub + "</td><td>&euro; " + getal(p.waarde) + "</td>";
-        body.appendChild(tr);
-      });
-    }
-
   }
 
   /* ---- Bediening ---------------------------------------------------------- */
@@ -1295,8 +1281,7 @@
         knop.setAttribute("aria-pressed", String(actief));
       });
 
-      var kolom = soort === "mrr" ? "Accounts billed" : (soort === "fee" ? "Orders" : "Accounts and orders");
-      teken(lijn, punten, kolom);
+      teken(lijn, punten);
     }
 
     /* De keuzelijst in de paginakop wordt uit de reeks gevuld, zodat je nooit
