@@ -11,7 +11,8 @@
      7. Zoekpaneel                → <html data-search>
      8. Paginering                → <table data-page>
      9. Tabstreep                 → scrollindicator onder .tabs
-     10. Toetsenbord
+     10. Periodekiezer          → hoeveel maanden de grafiek toont
+     11. Toetsenbord
    In een SPA vervang je §2 en §3 door de router; de rest blijft 1-op-1.
    ========================================================================== */
 (function () {
@@ -1057,7 +1058,92 @@
     teken();
   });
   /* ========================================================================
-     10. TOETSENBORD
+     10. PERIODEKIEZER — hoeveel maanden laat de grafiek zien
+     De reeks staat als JSON op het .line-element; de tabs erboven snijden er
+     de laatste n maanden uit. De lijn, de punten, de aslabels en het bedrag
+     in de kop worden daaruit opnieuw opgebouwd. De y-as blijft staan: een
+     vaste schaal maakt de twee grafieken onderling vergelijkbaar, en een
+     kortere periode hoort niet ineens steiler te lijken.
+     ======================================================================== */
+  function getal(n) {
+    /* 6264 wordt 6.264 — dezelfde notatie als de rest van het dashboard. */
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function tekenLijn(lijn, maanden) {
+    var reeks = JSON.parse(lijn.dataset.series);
+    var max   = Number(lijn.dataset.max);
+    var punten = reeks.slice(-maanden);
+    var n = punten.length;
+
+    var x = function (i) { return n < 2 ? 0 : i * 100 / (n - 1); };
+    var y = function (v) { return 100 - v / max * 100; };
+
+    var d = punten.map(function (p, i) {
+      return (i ? "L" : "M") + x(i).toFixed(2) + "," + y(p[1]).toFixed(2);
+    }).join(" ");
+
+    lijn.querySelector(".line__stroke").setAttribute("d", d);
+    lijn.querySelector(".line__area").setAttribute("d", d + " L100,100 L0,100 Z");
+
+    /* Punten en labels opnieuw opbouwen; de laatste blijft altijd zichtbaar. */
+    var eenheid = lijn.dataset.unit;
+    var pts = lijn.querySelector(".line__pts");
+    var as  = lijn.querySelector(".line__x");
+    pts.innerHTML = "";
+    as.innerHTML = "";
+
+    punten.forEach(function (p, i) {
+      var li = document.createElement("li");
+      li.className = "lpt" + (i === n - 1 ? " lpt--last" : "");
+      li.style.setProperty("--x", x(i).toFixed(2) + "%");
+      li.style.setProperty("--y", y(p[1]).toFixed(2) + "%");
+      li.tabIndex = 0;
+      li.innerHTML = '<span class="cbar__tip"><b>' + p[0] + " &middot; &euro; " + getal(p[1]) +
+                     "</b><span>" + getal(p[2]) + " " + eenheid + "</span></span>";
+      pts.appendChild(li);
+
+      var label = document.createElement("li");
+      label.textContent = p[0];
+      as.appendChild(label);
+    });
+
+    /* De kop hoort bij wat je ziet: het verschil loopt over de getoonde
+       periode, en het bedrag ervoor is het beginpunt daarvan. */
+    var kaart = lijn.closest(".card");
+    var eerste = punten[0][1];
+    var laatste = punten[n - 1][1];
+    var pct = eerste ? (laatste / eerste - 1) * 100 : 0;
+    var omhoog = pct >= 0;
+
+    kaart.querySelector(".card__now b").innerHTML = "&euro; " + getal(laatste);
+    kaart.querySelector(".card__from").innerHTML = "from &euro; " + getal(eerste);
+
+    var pil = kaart.querySelector(".delta");
+    pil.className = "delta " + (omhoog ? "delta--up" : "delta--down");
+    pil.innerHTML = '<svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-' +
+                    (omhoog ? "up" : "down") + '"/></svg>' +
+                    Math.abs(pct).toFixed(1).replace(".", ",") + "%";
+  }
+
+  document.querySelectorAll(".line[data-series]").forEach(function (lijn) {
+    var kaart = lijn.closest(".card");
+    var tabs = kaart.querySelector(".tabs--card");
+    if (!tabs) return;
+
+    tabs.addEventListener("click", function (e) {
+      var tab = e.target.closest(".tab[data-months]");
+      if (tab) tekenLijn(lijn, Number(tab.dataset.months));
+    });
+
+    /* Bij het laden meteen tekenen vanuit de reeks: de d-attributen in de HTML
+       zijn er alleen voor als dit script niet draait. */
+    var actief = tabs.querySelector(".tab.is-active") || tabs.querySelector(".tab");
+    tekenLijn(lijn, Number(actief.dataset.months));
+  });
+
+  /* ========================================================================
+     11. TOETSENBORD
      ======================================================================== */
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {

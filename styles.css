@@ -2426,8 +2426,9 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 
 @media (max-width: 900px) {
   /* Twaalf maandnamen naast elkaar passen niet; om de maand is genoeg om te
-     zien welke kant de lijn op loopt. */
-  .line__x li:nth-child(even) { visibility: hidden; }
+     zien welke kant de lijn op loopt. Alleen bij een lange reeks: bij drie
+     maanden zou dit juist de middelste weghalen. */
+  .line__x:has(> li:nth-child(7)) li:nth-child(even) { visibility: hidden; }
 }
 
 /* Het bedrag van nu staat naast de titel van zijn eigen grafiek, niet in een
@@ -2462,3 +2463,7 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
      stand van vorige maand en de pil er nog steeds naast. */
   .card__now { flex-wrap: wrap; }
 }
+
+/* Periodekiezer boven een grafiek: dezelfde tabs als boven een lijst, alleen
+   met wat lucht eromheen omdat er hier geen paneelkop omheen zit. */
+.tabs--card { margin: 14px 0 -4px; }

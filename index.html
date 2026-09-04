@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
 
@@ -332,15 +332,21 @@
           <section class="view" data-view="dashboard">
             <div class="card">
               <div class="card__headrow">
-                <div>
-                  <h2 class="card__title">Subscription revenue</h2>
-                  <p class="card__sub">Last 12 months. One price, so the line is simply the account count &times; &euro; 29.</p>
-                </div>
+                <h2 class="card__title">Subscription revenue</h2>
                 <p class="card__now">
                   <b>&euro; 6.264</b>
-                  <span class="card__from">from &euro; 6.061</span>
-                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>3,4%</span>
+                  <span class="card__from">from &euro; 3.828</span>
+                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>63,6%</span>
                 </p>
+              </div>
+
+              <!-- Periodekiezer: dezelfde tabs als boven een lijst, maar hier
+                   bepalen ze hoeveel maanden de grafiek laat zien. app.js §10
+                   tekent de lijn opnieuw en rekent het verschil erbij uit. -->
+              <div class="tabs tabs--card">
+                <button class="tab" type="button" data-months="3">3 months</button>
+                <button class="tab" type="button" data-months="6">6 months</button>
+                <button class="tab is-active" type="button" data-months="12">12 months</button>
               </div>
 
               <div class="chart">
@@ -356,7 +362,8 @@
                        punten leest de richting beter dan de losse hoogtes. De
                        coordinaten staan in procenten (0-100 in beide richtingen),
                        zodat de SVG met het vak meeschaalt. -->
-                  <div class="line">
+                  <div class="line" data-max="7000" data-unit="accounts"
+                       data-series='[["Oct",3828,132],["Nov",4089,141],["Dec",4292,148],["Jan",4611,159],["Feb",4814,166],["Mar",5075,175],["Apr",5278,182],["May",5510,190],["Jun",5684,196],["Jul",5858,202],["Aug",6061,209],["Sep",6264,216]]'>
                     <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
                         <linearGradient id="mrr-fill" x1="0" y1="0" x2="0" y2="1">
@@ -423,15 +430,18 @@
                  want twee gradients met dezelfde id vullen elkaars vlak. -->
             <div class="card">
               <div class="card__headrow">
-                <div>
-                  <h2 class="card__title">Revenue from orders</h2>
-                  <p class="card__sub">Last 12 months. &euro; 0,20 per order processed through Opining.</p>
-                </div>
+                <h2 class="card__title">Revenue from orders</h2>
                 <p class="card__now">
                   <b>&euro; 12.836</b>
-                  <span class="card__from">from &euro; 11.766</span>
-                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>9,1%</span>
+                  <span class="card__from">from &euro; 7.392</span>
+                  <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>73,6%</span>
                 </p>
+              </div>
+
+              <div class="tabs tabs--card">
+                <button class="tab" type="button" data-months="3">3 months</button>
+                <button class="tab" type="button" data-months="6">6 months</button>
+                <button class="tab is-active" type="button" data-months="12">12 months</button>
               </div>
 
               <div class="chart">
@@ -443,7 +453,8 @@
                     <span data-v="&euro; 0" style="bottom:0"></span>
                   </div>
 
-                  <div class="line">
+                  <div class="line" data-max="14000" data-unit="orders"
+                       data-series='[["Oct",7392,36960],["Nov",8236,41180],["Dec",9324,46620],["Jan",9064,45320],["Feb",9296,46480],["Mar",10010,50050],["Apr",10374,51870],["May",10640,53200],["Jun",10584,52920],["Jul",10504,52520],["Aug",11766,58830],["Sep",12836,64180]]'>
                     <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
                         <linearGradient id="orders-fill" x1="0" y1="0" x2="0" y2="1">
@@ -2175,6 +2186,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
