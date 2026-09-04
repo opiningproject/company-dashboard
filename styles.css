@@ -2637,3 +2637,16 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
   /* De periode staat linksonder, naast de knoppen. */
   .dpick__foot { padding-bottom: 4px; }
 }
+
+/* De getoonde periode, onder de as. Gecentreerd en gedempt: het is een
+   onderschrift bij de lijn, geen tweede titel. */
+.chart__range {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 14px;
+  font-size: var(--fs-sm); color: var(--text-muted);
+}
+.chart__dot {
+  width: 8px; height: 8px; flex: 0 0 auto;
+  border-radius: var(--r-full);
+  background: var(--series-mrr);
+}

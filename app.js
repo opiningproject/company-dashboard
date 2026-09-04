@@ -1224,13 +1224,16 @@
     function punten(van, tot) {
       var uit = [], perMaand = Math.round((tot - van) / DAG) > 62;
       var lopend = null;
+      /* Loopt het bereik over een maandgrens, dan zegt "4" onder de as niets;
+         dan hoort de maand erbij. */
+      var meerMaanden = van.getMonth() !== tot.getMonth() || van.getFullYear() !== tot.getFullYear();
 
       for (var d = new Date(van); d <= tot; d = plusDagen(d, 1)) {
         var c = dagCijfers(d);
         if (!perMaand) {
           uit.push({
             label: d.getDate() + " " + MAANDKORT[d.getMonth()],
-            kort: String(d.getDate()),
+            kort: meerMaanden ? d.getDate() + " " + MAANDKORT[d.getMonth()] : String(d.getDate()),
             waarde: bedrag(c),
             accounts: c.accounts, orders: c.orders
           });
@@ -1363,6 +1366,9 @@
 
       teken(punten(bereik.van, bereik.tot));
       dpick.querySelector(".dpick__label").textContent = knopTekst();
+      /* Onder de as staat welke dagen je ziet — de knop bovenaan zegt vaak
+         alleen "Last 30 days", en dan weet je nog niet wélke dertig. */
+      kaart.querySelector(".chart__period").textContent = bereikTekst(bereik.van, bereik.tot);
     }
 
     tabs.addEventListener("click", function (e) {
