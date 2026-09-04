@@ -2433,16 +2433,45 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
   .line__x:has(> li:nth-child(7)) li:nth-child(even) { visibility: hidden; }
 }
 
-/* Het bedrag staat onder de tabs, niet in een losse tegel erboven: het hoort
-   bij de lijn eronder en verandert mee met de gekozen maand en tab. Het
-   verschil staat er rechts naast, op dezelfde regel. */
-.card__now { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
-.card__now b {
-  font-size: 22px; font-weight: 600; letter-spacing: -.02em;
+/* Drie standen naast elkaar, en tegelijk de knoppen waarmee je kiest welke
+   lijn eronder komt te staan. De actieve draagt hetzelfde grijs als een
+   actieve tab, zodat het patroon herkenbaar blijft. */
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.metric {
+  padding: 10px 12px 12px;
+  border-radius: var(--r-md);
+  text-align: left;
+  transition: background var(--dur) var(--ease);
+}
+.metric:hover { background: var(--gray-50); }
+.metric.is-active { background: var(--gray-100); }
+.metric__label { display: block; font-size: var(--fs-sm); color: var(--text-muted); }
+.metric__row { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.metric__value {
+  font-size: 21px; font-weight: 600; letter-spacing: -.02em;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+.metric.is-active .metric__label { color: var(--text); }
+
+/* Eerstvolgende uitbetaling: leest als een knop, maar valt niets te bedienen,
+   dus het blijft tekst in een omlijning. */
+.payout {
+  margin-left: auto;
+  padding: 0 14px;
+  height: 36px;
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border); border-radius: var(--r-full);
+  background: var(--bg-surface);
+  font-size: var(--fs-sm); color: var(--text-muted);
+  white-space: nowrap;
+}
+.payout b { font-weight: 600; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+
+/* Op het dashboard staat geen titel; de kop is daar één regel bediening. */
+.page-head--kaal #page-icon, .page-head--kaal #page-title { display: none; }
+.page-head__tools--breed { flex: 1 1 auto; margin-left: 0; }
 
 /* Het verschil als pil, rechts van het bedrag. De pijl zegt hetzelfde als de
    kleur, zodat kleur alleen nooit de hele boodschap draagt. */
@@ -2461,10 +2490,16 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
 @media (max-width: 900px) {
   /* De kop breekt hier af; het bedrag komt onder de titel te staan, met de
      stand van vorige maand en de pil er nog steeds naast. */
-  .card__now { flex-wrap: wrap; }
+  /* Drie tegels op een telefoonbreedte: het bedrag krimpt mee en het verschil
+     zakt eronder in plaats van ernaast. */
+  .metrics { gap: 2px; }
+  .metric { padding: 8px 8px 10px; }
+  .metric__value { font-size: 16px; }
+  .metric__row { gap: 4px; }
+  .delta { padding: 2px 7px 2px 5px; font-size: var(--fs-xs); }
+  .delta__icon { width: 12px; height: 12px; }
+  .payout { margin-left: auto; }
 }
 
-/* Periodekiezer boven een grafiek: dezelfde tabs als boven een lijst, alleen
-   met wat lucht eromheen omdat er hier geen paneelkop omheen zit. */
-.tabs--card { margin: 0 0 2px; }
+
 

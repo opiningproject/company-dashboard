@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=11" />
 </head>
 <body>
 
@@ -268,12 +268,15 @@
 
             <!-- Paginagebonden bediening op de titelregel; app.js toont het
                  blok waarvan data-tools gelijk is aan de actieve pagina. -->
-            <!-- De periode geldt voor de hele pagina en staat daarom op de
-                 titelregel, niet in de kaart. app.js §10 vult hem met de
-                 maanden waar cijfers voor zijn. -->
-            <div class="page-head__tools" data-tools="dashboard" hidden>
+            <!-- Het dashboard draagt geen titel: de periode links en de
+                 eerstvolgende uitbetaling rechts zeggen meer dan het woord
+                 "Dashboard" boven het scherm waar je toch al staat. app.js §2
+                 verbergt de titel op deze pagina, §10 vult de keuzelijst met
+                 de maanden waar cijfers voor zijn. -->
+            <div class="page-head__tools page-head__tools--breed" data-tools="dashboard" hidden>
               <label class="sr-only" for="dash-range">Period</label>
               <select class="input" id="dash-range"></select>
+              <p class="payout">Next payout <b>&euro; 2.030</b></p>
             </div>
             <div class="page-head__tools" data-tools="analytics" hidden>
               <label class="sr-only" for="ana-range">Date range</label>
@@ -332,16 +335,23 @@
                  je ziet. De maand kies je bovenaan de pagina, want die geldt
                  voor de hele kaart en niet per lijn. -->
             <div class="card">
-              <div class="tabs tabs--card">
-                <button class="tab is-active" type="button" data-metric="mrr">MRR</button>
-                <button class="tab" type="button" data-metric="fee">Fee</button>
-                <button class="tab" type="button" data-metric="total">Total</button>
+              <!-- Elke tab draagt zijn eigen stand: je ziet de drie bedragen
+                   naast elkaar en kiest met dezelfde beweging welke lijn er
+                   onder komt te staan. app.js §10 vult ze. -->
+              <div class="metrics">
+                <button class="metric is-active" type="button" data-metric="mrr" aria-pressed="true">
+                  <span class="metric__label">MRR</span>
+                  <span class="metric__row"><span class="metric__value">&euro; 6.264</span><span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>3,3%</span></span>
+                </button>
+                <button class="metric" type="button" data-metric="fee" aria-pressed="false">
+                  <span class="metric__label">Fee</span>
+                  <span class="metric__row"><span class="metric__value">&euro; 12.836</span><span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>9,1%</span></span>
+                </button>
+                <button class="metric" type="button" data-metric="total" aria-pressed="false">
+                  <span class="metric__label">Total</span>
+                  <span class="metric__row"><span class="metric__value">&euro; 19.100</span><span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>7,1%</span></span>
+                </button>
               </div>
-
-              <p class="card__now">
-                <b>&euro; 6.264</b>
-                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>3,3%</span>
-              </p>
 
               <div class="chart">
                 <div class="chart__plot">
@@ -2060,6 +2070,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>

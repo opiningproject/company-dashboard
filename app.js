@@ -89,9 +89,15 @@
     item.setAttribute("aria-current", "page");
   }
 
+  /* Het dashboard draagt geen titel: daar staat de periodekiezer op die regel.
+     Een klasse op de kop in plaats van losse hidden-attributen, zodat de CSS
+     bepaalt wat er dan wél of niet staat. */
+  var pageHead = document.querySelector(".page-head");
+
   function showPage(page, title, icon) {
     pageTitle.textContent = title;
     swapIcon(pageIcon, icon);
+    pageHead.classList.toggle("page-head--kaal", page === "dashboard");
     /* Een gewone paginawissel verlaat altijd een eventueel aanmaakscherm. */
     pageCrumb.hidden = true;
     pageIcon.removeAttribute("hidden");
@@ -634,7 +640,10 @@
 
   /* De beginpagina staat al in de HTML en gaat dus niet door showPage heen;
      de bediening in de paginakop moet daar alsnog bij worden gezet. */
-  if (lastPageItem) syncPageAction(lastPageItem.dataset.page);
+  if (lastPageItem) {
+    syncPageAction(lastPageItem.dataset.page);
+    pageHead.classList.toggle("page-head--kaal", lastPageItem.dataset.page === "dashboard");
+  }
 
   /* ========================================================================
      3. SETTINGS-OVERLAY
@@ -1142,9 +1151,8 @@
   }
 
   /* ---- Tekenen ------------------------------------------------------------
-     punten: [{label, kort, waarde, sub}] van links naar rechts.
-     kop:    {bedrag, pct} voor de regel boven de grafiek. */
-  function teken(lijn, punten, kop, kolom) {
+     punten: [{label, kort, waarde, sub}] van links naar rechts. */
+  function teken(lijn, punten, kolom) {
     var n = punten.length;
     if (!n) return;
 
@@ -1227,21 +1235,13 @@
       });
     }
 
-    kaart.querySelector(".card__now b").innerHTML = "&euro; " + getal(kop.bedrag);
-
-    var pil = kaart.querySelector(".delta");
-    var omhoog = kop.pct >= 0;
-    pil.className = "delta " + (omhoog ? "delta--up" : "delta--down");
-    pil.innerHTML = '<svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-' +
-                    (omhoog ? "up" : "down") + '"/></svg>' +
-                    Math.abs(kop.pct).toFixed(1).replace(".", ",") + "%";
   }
 
   /* ---- Bediening ---------------------------------------------------------- */
   document.querySelectorAll(".line[data-series]").forEach(function (lijn) {
     var reeks = JSON.parse(lijn.dataset.series);
     var kaart = lijn.closest(".card");
-    var tabs  = kaart.querySelector(".tabs--card");
+    var tabs  = kaart.querySelector(".metrics");
     var keuze = document.getElementById("dash-range");
     if (!tabs || !keuze) return;
 
@@ -1274,11 +1274,29 @@
         return { label: (i + 1) + " " + MAANDKORT[mnd - 1], kort: String(i + 1), waarde: waarde, sub: sub };
       });
 
-      var nu = totaal(rij, soort);
-      var vorige = reeks[maand - 1] ? totaal(reeks[maand - 1], soort) : 0;
-      var kolom = soort === "mrr" ? "Accounts billed" : (soort === "fee" ? "Orders" : "Accounts and orders");
+      /* Alle drie de tabs bijwerken, niet alleen de actieve: ze staan naast
+         elkaar en horen alle drie bij dezelfde maand. */
+      tabs.querySelectorAll(".metric").forEach(function (knop) {
+        var m = knop.dataset.metric;
+        var nu = totaal(rij, m);
+        var vorige = reeks[maand - 1] ? totaal(reeks[maand - 1], m) : 0;
+        var pct = vorige ? (nu / vorige - 1) * 100 : 0;
+        var omhoog = pct >= 0;
 
-      teken(lijn, punten, { bedrag: nu, pct: vorige ? (nu / vorige - 1) * 100 : 0 }, kolom);
+        knop.querySelector(".metric__value").innerHTML = "&euro; " + getal(nu);
+        var pil = knop.querySelector(".delta");
+        pil.className = "delta " + (omhoog ? "delta--up" : "delta--down");
+        pil.innerHTML = '<svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-' +
+                        (omhoog ? "up" : "down") + '"/></svg>' +
+                        Math.abs(pct).toFixed(1).replace(".", ",") + "%";
+
+        var actief = m === soort;
+        knop.classList.toggle("is-active", actief);
+        knop.setAttribute("aria-pressed", String(actief));
+      });
+
+      var kolom = soort === "mrr" ? "Accounts billed" : (soort === "fee" ? "Orders" : "Accounts and orders");
+      teken(lijn, punten, kolom);
     }
 
     /* De keuzelijst in de paginakop wordt uit de reeks gevuld, zodat je nooit
@@ -1313,9 +1331,9 @@
     });
 
     tabs.addEventListener("click", function (e) {
-      var tab = e.target.closest(".tab[data-metric]");
-      if (!tab) return;
-      soort = tab.dataset.metric;
+      var knop = e.target.closest(".metric[data-metric]");
+      if (!knop) return;
+      soort = knop.dataset.metric;
       toon();
     });
 
