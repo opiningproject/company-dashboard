@@ -2433,11 +2433,10 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
   .line__x:has(> li:nth-child(7)) li:nth-child(even) { visibility: hidden; }
 }
 
-/* Het bedrag staat onder de periodekiezer, niet in een losse tegel erboven:
-   het hoort bij de lijn eronder en verandert mee met de gekozen periode. Het
+/* Het bedrag staat onder de tabs, niet in een losse tegel erboven: het hoort
+   bij de lijn eronder en verandert mee met de gekozen maand en tab. Het
    verschil staat er rechts naast, op dezelfde regel. */
-.card__label { margin-top: 16px; font-size: var(--fs-sm); color: var(--text-muted); }
-.card__now { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+.card__now { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
 .card__now b {
   font-size: 22px; font-weight: 600; letter-spacing: -.02em;
   color: var(--text-strong);
@@ -2469,8 +2468,3 @@ textarea.input { height: auto; padding: 12px 13px; line-height: 1.5; resize: ver
    met wat lucht eromheen omdat er hier geen paneelkop omheen zit. */
 .tabs--card { margin: 0 0 2px; }
 
-/* Maandkiezer achter "Other". Twee gewone keuzelijsten: op een telefoon opent
-   het toestel daar zijn eigen wieltjes voor, wat prettiger kiest dan een
-   nagebouwde kalender. */
-.mpick { display: flex; gap: 8px; margin-top: 10px; }
-.mpick .input { width: auto; min-width: 132px; height: 40px; }

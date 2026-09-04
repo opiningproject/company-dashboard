@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Opining — Company</title>
   <!-- ?v bumpen bij elke wijziging: Safari houdt styles.css anders dagen vast. -->
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
 
@@ -268,14 +268,12 @@
 
             <!-- Paginagebonden bediening op de titelregel; app.js toont het
                  blok waarvan data-tools gelijk is aan de actieve pagina. -->
+            <!-- De periode geldt voor de hele pagina en staat daarom op de
+                 titelregel, niet in de kaart. app.js §10 vult hem met de
+                 maanden waar cijfers voor zijn. -->
             <div class="page-head__tools" data-tools="dashboard" hidden>
-              <label class="sr-only" for="dash-range">Date range</label>
-              <select class="input" id="dash-range">
-                <option>This month</option>
-                <option>Last 30 days</option>
-                <option>This quarter</option>
-                <option>Year to date</option>
-              </select>
+              <label class="sr-only" for="dash-range">Period</label>
+              <select class="input" id="dash-range"></select>
             </div>
             <div class="page-head__tools" data-tools="analytics" hidden>
               <label class="sr-only" for="ana-range">Date range</label>
@@ -330,47 +328,37 @@
                draait, daarna wat er vandaag aandacht vraagt.
                ==================================================== -->
           <section class="view" data-view="dashboard">
+            <!-- Eén grafiek voor beide inkomstenstromen: de tabs kiezen welke
+                 je ziet. De maand kies je bovenaan de pagina, want die geldt
+                 voor de hele kaart en niet per lijn. -->
             <div class="card">
-              <!-- Een abonnement wordt afgeschreven op de dag dat het begon,
-                   dus deze grafiek toont dagen binnen één maand; de tabs kiezen
-                   wélke maand. Achter "Other" komen twee keuzelijsten tevoorschijn
-                   in plaats van een eigen kalender: op een telefoon opent dat de
-                   wieltjes van het toestel zelf, en die kiezen prettiger dan wat
-                   wij ervoor in de plaats zouden bouwen. -->
               <div class="tabs tabs--card">
-                <button class="tab is-active" type="button" data-month="0">This month</button>
-                <button class="tab" type="button" data-month="1">Last month</button>
-                <button class="tab" type="button" data-month="other">Other</button>
+                <button class="tab is-active" type="button" data-metric="mrr">MRR</button>
+                <button class="tab" type="button" data-metric="fee">Fee</button>
+                <button class="tab" type="button" data-metric="total">Total</button>
               </div>
 
-              <div class="mpick" hidden>
-                <label class="sr-only" for="mrr-month">Month</label>
-                <select class="input" id="mrr-month"></select>
-                <label class="sr-only" for="mrr-year">Year</label>
-                <select class="input" id="mrr-year"></select>
-              </div>
-
-              <p class="card__label">Subscription revenue</p>
               <p class="card__now">
                 <b>&euro; 6.264</b>
-                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>63,6%</span>
+                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>3,3%</span>
               </p>
 
               <div class="chart">
                 <div class="chart__plot">
                   <div class="chart__grid" aria-hidden="true">
-                    <span data-v="&euro; 7k" style="bottom:100%"></span>
-                    <span data-v="&euro; 4,7k" style="bottom:66.7%"></span>
-                    <span data-v="&euro; 2,3k" style="bottom:33.3%"></span>
+                    <span data-v="&euro; 600" style="bottom:100%"></span>
+                    <span data-v="&euro; 400" style="bottom:66.7%"></span>
+                    <span data-v="&euro; 200" style="bottom:33.3%"></span>
                     <span data-v="&euro; 0" style="bottom:0"></span>
                   </div>
 
-                  <!-- Eén reeks, dus een lijn in plaats van staven: bij twaalf
-                       punten leest de richting beter dan de losse hoogtes. De
-                       coordinaten staan in procenten (0-100 in beide richtingen),
-                       zodat de SVG met het vak meeschaalt. -->
-                  <div class="line" data-mode="days" data-max="auto" data-price="29" data-unit="accounts"
-                       data-series='[["2024-10",64],["2024-11",69],["2024-12",74],["2025-01",80],["2025-02",85],["2025-03",90],["2025-04",96],["2025-05",102],["2025-06",108],["2025-07",113],["2025-08",119],["2025-09",125],["2025-10",132],["2025-11",141],["2025-12",148],["2026-01",159],["2026-02",166],["2026-03",175],["2026-04",182],["2026-05",190],["2026-06",196],["2026-07",202],["2026-08",209],["2026-09",216]]'>
+                  <!-- Eén reeks per maand: het aantal betalende accounts en het
+                       aantal bestellingen. Daar komen alle drie de lijnen uit,
+                       dag voor dag. De coordinaten in de SVG staan in procenten
+                       (0-100 in beide richtingen), zodat hij met het vak
+                       meeschaalt; app.js §10 vult ze in. -->
+                  <div class="line" data-price="29" data-fee="0.2"
+                       data-series='[["2024-10",64,17280],["2024-11",69,18975],["2024-12",74,22200],["2025-01",80,22400],["2025-02",85,23375],["2025-03",90,25200],["2025-04",96,26880],["2025-05",102,28050],["2025-06",108,28620],["2025-07",113,29380],["2025-08",119,31535],["2025-09",125,34375],["2025-10",132,36960],["2025-11",141,41180],["2025-12",148,46620],["2026-01",159,45320],["2026-02",166,46480],["2026-03",175,50050],["2026-04",182,51870],["2026-05",190,53200],["2026-06",196,52920],["2026-07",202,52520],["2026-08",209,58830],["2026-09",216,64180]]'>
                     <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                       <defs>
                         <linearGradient id="mrr-fill" x1="0" y1="0" x2="0" y2="1">
@@ -378,32 +366,12 @@
                           <stop offset="100%" stop-color="#0172af" stop-opacity="0" />
                         </linearGradient>
                       </defs>
-                      <path class="line__area" fill="url(#mrr-fill)" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51 L100,100 L0,100 Z" />
-                      <path class="line__stroke" fill="none" stroke="#0172af" stroke-width="2" d="M0,45.31 L9.09,41.59 L18.18,38.69 L27.27,34.13 L36.36,31.23 L45.45,27.5 L54.55,24.6 L63.64,21.29 L72.73,18.8 L81.82,16.31 L90.91,13.41 L100,10.51" />
+                      <path class="line__area" fill="url(#mrr-fill)" d="M0,100 L100,100 Z" />
+                      <path class="line__stroke" fill="none" stroke="#0172af" stroke-width="2" d="M0,100 L100,100" />
                     </svg>
 
-                    <!-- De punten liggen als losse elementen over de lijn: dat
-                         houdt ze rond terwijl de SVG uitgerekt wordt, en geeft
-                         elk punt een eigen tooltip en tabstop. -->
-                    <ol class="line__pts">
-                      <li class="lpt" style="--x:0%;--y:45.31%" tabindex="0"><span class="cbar__tip"><b>Oct &middot; &euro; 3.828</b><span>132 accounts</span></span></li>
-                      <li class="lpt" style="--x:9.09%;--y:41.59%" tabindex="0"><span class="cbar__tip"><b>Nov &middot; &euro; 4.089</b><span>141 accounts</span></span></li>
-                      <li class="lpt" style="--x:18.18%;--y:38.69%" tabindex="0"><span class="cbar__tip"><b>Dec &middot; &euro; 4.292</b><span>148 accounts</span></span></li>
-                      <li class="lpt" style="--x:27.27%;--y:34.13%" tabindex="0"><span class="cbar__tip"><b>Jan &middot; &euro; 4.611</b><span>159 accounts</span></span></li>
-                      <li class="lpt" style="--x:36.36%;--y:31.23%" tabindex="0"><span class="cbar__tip"><b>Feb &middot; &euro; 4.814</b><span>166 accounts</span></span></li>
-                      <li class="lpt" style="--x:45.45%;--y:27.5%" tabindex="0"><span class="cbar__tip"><b>Mar &middot; &euro; 5.075</b><span>175 accounts</span></span></li>
-                      <li class="lpt" style="--x:54.55%;--y:24.6%" tabindex="0"><span class="cbar__tip"><b>Apr &middot; &euro; 5.278</b><span>182 accounts</span></span></li>
-                      <li class="lpt" style="--x:63.64%;--y:21.29%" tabindex="0"><span class="cbar__tip"><b>May &middot; &euro; 5.510</b><span>190 accounts</span></span></li>
-                      <li class="lpt" style="--x:72.73%;--y:18.8%" tabindex="0"><span class="cbar__tip"><b>Jun &middot; &euro; 5.684</b><span>196 accounts</span></span></li>
-                      <li class="lpt" style="--x:81.82%;--y:16.31%" tabindex="0"><span class="cbar__tip"><b>Jul &middot; &euro; 5.858</b><span>202 accounts</span></span></li>
-                      <li class="lpt" style="--x:90.91%;--y:13.41%" tabindex="0"><span class="cbar__tip"><b>Aug &middot; &euro; 6.061</b><span>209 accounts</span></span></li>
-                      <li class="lpt lpt--last" style="--x:100%;--y:10.51%" tabindex="0"><span class="cbar__tip"><b>Sep &middot; &euro; 6.264</b><span>216 accounts</span></span></li>
-                    </ol>
-
-                    <ol class="line__x" aria-hidden="true">
-                      <li>Oct</li><li>Nov</li><li>Dec</li><li>Jan</li><li>Feb</li><li>Mar</li>
-                      <li>Apr</li><li>May</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li>
-                    </ol>
+                    <ol class="line__pts"></ol>
+                    <ol class="line__x" aria-hidden="true"></ol>
                   </div>
                 </div>
               </div>
@@ -412,86 +380,14 @@
                 <summary>Show as table</summary>
                 <div class="table-wrap">
                   <table class="table">
-                    <thead><tr><th>Day</th><th>Accounts billed</th><th>Revenue</th></tr></thead>
+                    <thead><tr><th>Day</th><th>Volume</th><th>Revenue</th></tr></thead>
                     <tbody></tbody>
                   </table>
                 </div>
               </details>
             </div>
 
-            <!-- Tweede inkomstenstroom: &euro; 0,20 per bestelling. Zelfde opzet als
-                 hierboven, eigen schaal (tot &euro; 14k) en een eigen verloop-id,
-                 want twee gradients met dezelfde id vullen elkaars vlak. -->
-            <div class="card">
-              <div class="tabs tabs--card">
-                <button class="tab" type="button" data-months="3">3 months</button>
-                <button class="tab" type="button" data-months="6">6 months</button>
-                <button class="tab is-active" type="button" data-months="12">12 months</button>
-              </div>
-
-              <p class="card__label">Revenue from orders</p>
-              <p class="card__now">
-                <b>&euro; 12.836</b>
-                <span class="delta delta--up"><svg class="icon delta__icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>73,6%</span>
-              </p>
-
-              <div class="chart">
-                <div class="chart__plot">
-                  <div class="chart__grid" aria-hidden="true">
-                    <span data-v="&euro; 14k" style="bottom:100%"></span>
-                    <span data-v="&euro; 9,3k" style="bottom:66.7%"></span>
-                    <span data-v="&euro; 4,7k" style="bottom:33.3%"></span>
-                    <span data-v="&euro; 0" style="bottom:0"></span>
-                  </div>
-
-                  <div class="line" data-mode="months" data-max="14000" data-unit="orders"
-                       data-series='[["Oct",7392,36960],["Nov",8236,41180],["Dec",9324,46620],["Jan",9064,45320],["Feb",9296,46480],["Mar",10010,50050],["Apr",10374,51870],["May",10640,53200],["Jun",10584,52920],["Jul",10504,52520],["Aug",11766,58830],["Sep",12836,64180]]'>
-                    <svg class="line__svg" viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
-                      <defs>
-                        <linearGradient id="orders-fill" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="#0172af" stop-opacity=".16" />
-                          <stop offset="100%" stop-color="#0172af" stop-opacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <path class="line__area" fill="url(#orders-fill)" d="M0,47.2 L9.09,41.17 L18.18,33.4 L27.27,35.26 L36.36,33.6 L45.45,28.5 L54.55,25.9 L63.64,24 L72.73,24.4 L81.82,24.97 L90.91,15.96 L100,8.31 L100,100 L0,100 Z" />
-                      <path class="line__stroke" fill="none" stroke="#0172af" stroke-width="2" d="M0,47.2 L9.09,41.17 L18.18,33.4 L27.27,35.26 L36.36,33.6 L45.45,28.5 L54.55,25.9 L63.64,24 L72.73,24.4 L81.82,24.97 L90.91,15.96 L100,8.31" />
-                    </svg>
-
-                    <ol class="line__pts">
-                      <li class="lpt" style="--x:0%;--y:47.2%" tabindex="0"><span class="cbar__tip"><b>Oct &middot; &euro; 7.392</b><span>36.960 orders</span></span></li>
-                      <li class="lpt" style="--x:9.09%;--y:41.17%" tabindex="0"><span class="cbar__tip"><b>Nov &middot; &euro; 8.236</b><span>41.180 orders</span></span></li>
-                      <li class="lpt" style="--x:18.18%;--y:33.4%" tabindex="0"><span class="cbar__tip"><b>Dec &middot; &euro; 9.324</b><span>46.620 orders</span></span></li>
-                      <li class="lpt" style="--x:27.27%;--y:35.26%" tabindex="0"><span class="cbar__tip"><b>Jan &middot; &euro; 9.064</b><span>45.320 orders</span></span></li>
-                      <li class="lpt" style="--x:36.36%;--y:33.6%" tabindex="0"><span class="cbar__tip"><b>Feb &middot; &euro; 9.296</b><span>46.480 orders</span></span></li>
-                      <li class="lpt" style="--x:45.45%;--y:28.5%" tabindex="0"><span class="cbar__tip"><b>Mar &middot; &euro; 10.010</b><span>50.050 orders</span></span></li>
-                      <li class="lpt" style="--x:54.55%;--y:25.9%" tabindex="0"><span class="cbar__tip"><b>Apr &middot; &euro; 10.374</b><span>51.870 orders</span></span></li>
-                      <li class="lpt" style="--x:63.64%;--y:24%" tabindex="0"><span class="cbar__tip"><b>May &middot; &euro; 10.640</b><span>53.200 orders</span></span></li>
-                      <li class="lpt" style="--x:72.73%;--y:24.4%" tabindex="0"><span class="cbar__tip"><b>Jun &middot; &euro; 10.584</b><span>52.920 orders</span></span></li>
-                      <li class="lpt" style="--x:81.82%;--y:24.97%" tabindex="0"><span class="cbar__tip"><b>Jul &middot; &euro; 10.504</b><span>52.520 orders</span></span></li>
-                      <li class="lpt" style="--x:90.91%;--y:15.96%" tabindex="0"><span class="cbar__tip"><b>Aug &middot; &euro; 11.766</b><span>58.830 orders</span></span></li>
-                      <li class="lpt lpt--last" style="--x:100%;--y:8.31%" tabindex="0"><span class="cbar__tip"><b>Sep &middot; &euro; 12.836</b><span>64.180 orders</span></span></li>
-                    </ol>
-
-                    <ol class="line__x" aria-hidden="true">
-                      <li>Oct</li><li>Nov</li><li>Dec</li><li>Jan</li><li>Feb</li><li>Mar</li>
-                      <li>Apr</li><li>May</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-
-              <details class="tableview">
-                <summary>Show as table</summary>
-                <div class="table-wrap">
-                  <table class="table">
-                    <thead><tr><th>Month</th><th>Orders</th><th>Revenue</th></tr></thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
-              </details>
-            </div>
-
-            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Together <b>&euro; 19.100</b> this month. Two thirds of it comes from orders, and that part grows with how busy your customers are &mdash; not with how many you have.</p>
+            <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg>Two thirds of your revenue comes from the fee per order. That part grows with how busy your customers are &mdash; the subscription part only grows when you add a customer.</p>
 
             <div class="card">
               <p class="tasks"><span class="tasks__ring" aria-hidden="true"></span>2 of 5 tasks completed</p>
@@ -2164,6 +2060,6 @@
     </button>
   </div>
 
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
